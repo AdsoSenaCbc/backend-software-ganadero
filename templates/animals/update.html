@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Editar Animal - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Editar Animal</h2>
+<form method="POST" action="{{ url_for('animal.update', id=animal.id_animal) }}">
+    <input type="hidden" name="id_animal" value="{{ animal.id_animal }}">
+    <label for="identificador_unico">Identificador Único:</label>
+    <input type="text" id="identificador_unico" name="identificador_unico" value="{{ animal.identificador_unico }}" required>
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ animal.nombre }}">
+
+    <label for="id_hacienda">Hacienda:</label>
+    <input type="number" id="id_hacienda" name="id_hacienda" value="{{ animal.id_hacienda }}" required>
+
+    <label for="id_raza">Raza:</label>
+    <input type="number" id="id_raza" name="id_raza" value="{{ animal.id_raza }}" required>
+
+    <label for="id_sexo">Sexo:</label>
+    <input type="number" id="id_sexo" name="id_sexo" value="{{ animal.id_sexo }}" required>
+
+    <label for="id_especie">Especie:</label>
+    <input type="number" id="id_especie" name="id_especie" value="{{ animal.id_especie }}" required>
+
+    <label for="id_estado">Estado:</label>
+    <input type="number" id="id_estado" name="id_estado" value="{{ animal.id_estado }}" required>
+
+    <label for="id_etapa">Etapa:</label>
+    <input type="number" id="id_etapa" name="id_etapa" value="{{ animal.id_etapa }}" required>
+
+    <label for="peso">Peso (kg):</label>
+    <input type="number" step="0.01" id="peso" name="peso" value="{{ animal.peso }}">
+
+    <label for="observaciones">Observaciones:</label>
+    <textarea id="observaciones" name="observaciones">{{ animal.observaciones }}</textarea>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('animal.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

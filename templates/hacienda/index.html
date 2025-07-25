@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Lista de Haciendas - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Haciendas</h2>
+    <a href="{{ url_for('hacienda.create') }}" class="btn">Agregar Hacienda</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Ubicación</th>
+                <th>Departamento</th>
+                <th>Municipio</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hacienda in haciendas %}
+            <tr>
+                <td>{{ hacienda.id_hacienda }}</td>
+                <td>{{ hacienda.nombre }}</td>
+                <td>{{ hacienda.tel_contacto }}</td>
+                <td>{{ hacienda.ubicacion }}</td>
+                <td>{{ hacienda.id_departamento }}</td>
+                <td>{{ hacienda.id_municipio }}</td>
+                <td>{{ hacienda.id_usuario }}</td>
+                <td>
+                    <a href="{{ url_for('hacienda.update', id=hacienda.id_hacienda) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('hacienda.delete', id=hacienda.id_hacienda) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

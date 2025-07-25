@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Editar Hacienda - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Editar Hacienda</h2>
+<form method="POST" action="{{ url_for('hacienda.update', id=hacienda.id_hacienda) }}">
+    <input type="hidden" name="id_hacienda" value="{{ hacienda.id_hacienda }}">
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ hacienda.nombre }}" required>
+
+    <label for="tel_contacto">Teléfono de Contacto:</label>
+    <input type="text" id="tel_contacto" name="tel_contacto" value="{{ hacienda.tel_contacto }}">
+
+    <label for="ubicacion">Ubicación:</label>
+    <textarea id="ubicacion" name="ubicacion" rows="2">{{ hacienda.ubicacion }}</textarea>
+
+    <label for="descripcion">Descripción:</label>
+    <textarea id="descripcion" name="descripcion" rows="3">{{ hacienda.descripcion }}</textarea>
+
+    <label for="id_departamento">Departamento:</label>
+    <input type="number" id="id_departamento" name="id_departamento" value="{{ hacienda.id_departamento }}" required>
+
+    <label for="id_municipio">Municipio:</label>
+    <input type="number" id="id_municipio" name="id_municipio" value="{{ hacienda.id_municipio }}" required>
+
+    <label for="id_usuario">Usuario Responsable:</label>
+    <input type="number" id="id_usuario" name="id_usuario" value="{{ hacienda.id_usuario }}" required>
+
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('hacienda.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

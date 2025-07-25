@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Crear Hacienda - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Nueva Hacienda</h2>
+    <form method="POST" action="{{ url_for('hacienda.create') }}">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre de la hacienda" required>
+        </div>
+        <div class="form-group">
+            <label for="tel_contacto">Teléfono de Contacto</label>
+            <input type="text" id="tel_contacto" name="tel_contacto" placeholder="Ej: +57 3001234567">
+        </div>
+        <div class="form-group">
+            <label for="ubicacion">Ubicación</label>
+            <textarea id="ubicacion" name="ubicacion" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_departamento">Departamento</label>
+            <input type="number" id="id_departamento" name="id_departamento" required>
+        </div>
+        <div class="form-group">
+            <label for="id_municipio">Municipio</label>
+            <input type="number" id="id_municipio" name="id_municipio" required>
+        </div>
+        <div class="form-group">
+            <label for="id_usuario">Usuario Responsable</label>
+            <input type="number" id="id_usuario" name="id_usuario" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('hacienda.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

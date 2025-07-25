@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Hacienda - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Hacienda</h2>
+<p>¿Estás seguro de que deseas eliminar la hacienda con ID {{ hacienda.id_hacienda }}?</p>
+<form method="POST" action="{{ url_for('hacienda.delete', id=hacienda.id_hacienda) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('hacienda.index') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Lista de Animales - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Animales</h2>
+    <a href="{{ url_for('animal.create') }}" class="btn">Agregar Animal</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Identificador Único</th>
+                <th>Nombre</th>
+                <th>Peso (kg)</th>
+                <th>Raza</th>
+                <th>Sexo</th>
+                <th>Especie</th>
+                <th>Estado</th>
+                <th>Hacienda</th>
+                <th>Etapa</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for animal in animals %}
+            <tr>
+                <td>{{ animal.id_animal }}</td>
+                <td>{{ animal.identificador_unico }}</td>
+                <td>{{ animal.nombre }}</td>
+                <td>{{ animal.peso }}</td>
+                <td>{{ animal.id_raza }}</td>
+                <td>{{ animal.id_sexo }}</td>
+                <td>{{ animal.id_especie }}</td>
+                <td>{{ animal.id_estado }}</td>
+                <td>{{ animal.id_hacienda }}</td>
+                <td>{{ animal.id_etapa }}</td>
+                <td>
+                    <a href="{{ url_for('animal.update', id=animal.id_animal) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('animal.delete', id=animal.id_animal) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+            
+{% endblock %}
