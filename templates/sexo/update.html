@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Editar Género - Sistema Ganadero{% endblock %}
+{% block content %}
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+</style>
+<div class="form-container">
+    <h2>Editar Género</h2>
+    <form method="POST" action="{{ url_for('sexo.update', id=sexo.id_sexo) }}">
+        <div class="form-group">
+            <label for="id_sexo">ID del Género</label>
+            <input type="text" id="id_sexo" name="id_sexo" value="{{ sexo.id_sexo }}" required>
+        </div>
+        <div class="form-group">
+            <label for="nombre">Nombre del Género</label>
+            <input type="text" id="nombre" name="nombre" value="{{ sexo.nombre }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{{ url_for('sexo.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Raza - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Eliminar Raza</h2>
+    <p>¿Estás seguro de que deseas eliminar la raza con ID {{ raza.id_raza }}?</p>
+    <p><strong>Nombre:</strong> {{ raza.nombre }}</p>
+    
+    <form method="POST" action="{{ url_for('raza.delete', id=raza.id_raza) }}">
+        <button type="submit" class="btn delete">Confirmar Eliminación</button>
+        <a href="{{ url_for('raza.index') }}" class="btn">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

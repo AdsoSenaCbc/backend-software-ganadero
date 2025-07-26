@@ -1,31 +1,35 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
+from flask_login import login_required
 from app import db
 from app.models.raza import Raza
 from app.utils.jwt_utils import token_required
 
 raza_bp = Blueprint('raza', __name__)
 
-@raza_bp.route('/', methods=['GET'])
+# --------------------------
+# API JSON ENDPOINTS
+# --------------------------
+@raza_bp.route('/api', methods=['GET'])
 @token_required
-def get_razas():
+def get_razas_api():
     razas = Raza.query.all()
     return jsonify([{
         "id_raza": r.id_raza,
         "nombre": r.nombre
     } for r in razas])
 
-@raza_bp.route('/<int:id>', methods=['GET'])
+@raza_bp.route('/api/<int:id>', methods=['GET'])
 @token_required
-def get_raza(id):
-    raza = Raza.query.get_or_404(id)
+def get_raza_api(id):
+    r = Raza.query.get_or_404(id)
     return jsonify({
-        "id_raza": raza.id_raza,
-        "nombre": raza.nombre
+        "id_raza": r.id_raza,
+        "nombre": r.nombre
     })
 
-@raza_bp.route('/', methods=['POST'])
+@raza_bp.route('/api', methods=['POST'])
 @token_required
-def create_raza():
+def create_raza_api():
     data = request.get_json()
     new_raza = Raza(
         nombre=data.get('nombre')
@@ -34,19 +38,67 @@ def create_raza():
     db.session.commit()
     return jsonify({"message": "Raza created", "id": new_raza.id_raza}), 201
 
-@raza_bp.route('/<int:id>', methods=['PUT'])
+@raza_bp.route('/api/<int:id>', methods=['PUT'])
 @token_required
-def update_raza(id):
+def update_raza_api(id):
     raza = Raza.query.get_or_404(id)
     data = request.get_json()
     raza.nombre = data.get('nombre', raza.nombre)
     db.session.commit()
     return jsonify({"message": "Raza updated"})
 
-@raza_bp.route('/<int:id>', methods=['DELETE'])
+@raza_bp.route('/api/<int:id>', methods=['DELETE'])
 @token_required
-def delete_raza(id):
+def delete_raza_api(id):
     raza = Raza.query.get_or_404(id)
     db.session.delete(raza)
     db.session.commit()
     return jsonify({"message": "Raza deleted"})
+
+# --------------------------
+# WEB ROUTES
+# --------------------------
+@raza_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    razas = Raza.query.all()
+    return render_template('raza/index.html', razas=razas)
+
+@raza_bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    if request.method == 'POST':
+        data = request.form
+        new_raza = Raza(
+            id_raza=data.get('id_raza'),
+            nombre=data.get('nombre')
+        )
+        db.session.add(new_raza)
+        db.session.commit()
+        flash('Raza creada exitosamente.', 'success')
+        return redirect(url_for('raza.index'))
+    return render_template('raza/create.html')
+
+@raza_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def update(id):
+    raza = Raza.query.get_or_404(id)
+    if request.method == 'POST':
+        data = request.form
+        raza.id_raza = data.get('id_raza', raza.id_raza)
+        raza.nombre = data.get('nombre', raza.nombre)
+        db.session.commit()
+        flash('Raza actualizada exitosamente.', 'success')
+        return redirect(url_for('raza.index'))
+    return render_template('raza/update.html', raza=raza)
+
+@raza_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    raza = Raza.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(raza)
+        db.session.commit()
+        flash('Raza eliminada exitosamente.', 'success')
+        return redirect(url_for('raza.index'))
+    return render_template('raza/delete.html', raza=raza)

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Lista de Razas - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Razas</h2>
+    <a href="{{ url_for('raza.create') }}" class="btn">Agregar Raza</a>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for raza in razas %}
+            <tr>
+                <td>{{ raza.id_raza }}</td>
+                <td>{{ raza.nombre }}</td>
+                <td>
+                    <a href="{{ url_for('raza.update', id=raza.id_raza) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('raza.delete', id=raza.id_raza) }}" class="btn delete" 
+                       onclick="return confirm('¿Está seguro de que desea eliminar esta raza?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

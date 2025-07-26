@@ -1,52 +1,78 @@
-from flask import Blueprint, request, jsonify
-from app import db
-from app.models.sexo import Sexo
+from flask import Blueprint, request, render_template, redirect, url_for, flash, jsonify
+from flask_login import login_required
 from app.utils.jwt_utils import token_required
+from app.models.sexo import Sexo
+from app import db
 
 sexo_bp = Blueprint('sexo', __name__)
 
-@sexo_bp.route('/', methods=['GET'])
+# --------------------------
+# API JSON ENDPOINTS
+# --------------------------
+@sexo_bp.route('/api', methods=['GET'])
 @token_required
-def get_sexos():
+def get_sexos_api():
     sexos = Sexo.query.all()
-    return jsonify([{
-        "id_sexo": s.id_sexo,
-        "nombre": s.nombre
-    } for s in sexos])
+    return jsonify([
+        {
+            "id_sexo": s.id_sexo,
+            "nombre": s.nombre,
+        } for s in sexos
+    ])
 
-@sexo_bp.route('/<int:id>', methods=['GET'])
+@sexo_bp.route('/api/<int:id>', methods=['GET'])
 @token_required
-def get_sexo(id):
-    sexo = Sexo.query.get_or_404(id)
+def get_sexo_api(id):
+    s = Sexo.query.get_or_404(id)
     return jsonify({
-        "id_sexo": sexo.id_sexo,
-        "nombre": sexo.nombre
+        "id_sexo": s.id_sexo,
+        "nombre": s.nombre,
     })
 
-@sexo_bp.route('/', methods=['POST'])
-@token_required
-def create_sexo():
-    data = request.get_json()
-    new_sexo = Sexo(
-        nombre=data.get('nombre')
-    )
-    db.session.add(new_sexo)
-    db.session.commit()
-    return jsonify({"message": "Sexo created", "id": new_sexo.id_sexo}), 201
+# --------------------------
+# WEB ROUTES
+# --------------------------
+@sexo_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    sexos = Sexo.query.all()
+    return render_template('sexo/index.html', sexos=sexos)
 
-@sexo_bp.route('/<int:id>', methods=['PUT'])
-@token_required
-def update_sexo(id):
-    sexo = Sexo.query.get_or_404(id)
-    data = request.get_json()
-    sexo.nombre = data.get('nombre', sexo.nombre)
-    db.session.commit()
-    return jsonify({"message": "Sexo updated"})
+@sexo_bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    if request.method == 'POST':
+        data = request.form
+        new_sexo = Sexo(
+            id_sexo=data.get('id_sexo'),
+            nombre=data.get('nombre')
+        )
+        db.session.add(new_sexo)
+        db.session.commit()
+        flash('Sexo creado exitosamente.', 'success')
+        return redirect(url_for('sexo.index'))
+    return render_template('sexo/create.html')
 
-@sexo_bp.route('/<int:id>', methods=['DELETE'])
-@token_required
-def delete_sexo(id):
+@sexo_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def update(id):
     sexo = Sexo.query.get_or_404(id)
-    db.session.delete(sexo)
-    db.session.commit()
-    return jsonify({"message": "Sexo deleted"})
+    if request.method == 'POST':
+        data = request.form
+        sexo.id_sexo = data.get('id_sexo', sexo.id_sexo)
+        sexo.nombre = data.get('nombre', sexo.nombre)
+        db.session.commit()
+        flash('Sexo actualizado exitosamente.', 'success')
+        return redirect(url_for('sexo.index'))
+    return render_template('sexo/update.html', sexo=sexo)
+
+@sexo_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    sexo = Sexo.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(sexo)
+        db.session.commit()
+        flash('Sexo eliminado exitosamente.', 'success')
+        return redirect(url_for('sexo.index'))
+    return render_template('sexo/delete.html', sexo=sexo)

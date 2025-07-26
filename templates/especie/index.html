@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Lista de Especies - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Especies</h2>
+    <a href="{{ url_for('especie.create') }}" class="btn">Agregar Especie</a>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for especie in especies %}
+            <tr>
+                <td>{{ especie.id_especie }}</td>
+                <td>{{ especie.nombre }}</td>
+                <td>
+                    <a href="{{ url_for('especie.update', id=especie.id_especie) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('especie.delete', id=especie.id_especie) }}" class="btn delete" 
+                       onclick="return confirm('¿Está seguro de que desea eliminar esta especie?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

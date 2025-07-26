@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Género - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Eliminar Género</h2>
+    <p>¿Estás seguro de que deseas eliminar el género con ID {{ sexo.id_sexo }}?</p>
+    <p><strong>Nombre:</strong> {{ sexo.nombre }}</p>
+    
+    <form method="POST" action="{{ url_for('sexo.delete', id=sexo.id_sexo) }}">
+        <button type="submit" class="btn delete">Confirmar Eliminación</button>
+        <a href="{{ url_for('sexo.index') }}" class="btn">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Lista de Géneros - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Géneros</h2>
+    <a href="{{ url_for('sexo.create') }}" class="btn">Agregar Género</a>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sexo in sexos %}
+            <tr>
+                <td>{{ sexo.id_sexo }}</td>
+                <td>{{ sexo.nombre }}</td>
+                <td>
+                    <a href="{{ url_for('sexo.update', id=sexo.id_sexo) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('sexo.delete', id=sexo.id_sexo) }}" class="btn delete" 
+                       onclick="return confirm('¿Está seguro de que desea eliminar este género?')">Eliminar</a>
+                </td>
+            </tr>
+            {% else %}
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
