@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Lista de Eventos de Animales - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Eventos</h2>
+    <a href="{{ url_for('evento_animal.create_evento') }}" class="btn">Agregar Evento</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID Animal</th>
+                <th>ID Evento</th>
+                <th>ID Tipo Evento</th>
+                <th>Fecha</th>
+                <th>Valor</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in eventos %}
+            <tr>
+                <td>{{ e.id_animal }}</td>
+                <td>{{ e.id_evento }}</td>
+                <td>{{ e.id_tipo_evento }}</td>
+                <td>{{ e.fecha_evento.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ e.valor }}</td>
+                <td>{{ e.observaciones }}</td>
+                <td>
+                    <a href="{{ url_for('evento_animal.update_evento', id_animal=e.id_animal, id_evento=e.id_evento) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('evento_animal.delete_evento', id_animal=e.id_animal, id_evento=e.id_evento) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

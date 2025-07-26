@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Editar Departamento - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Editar Departamento</h2>
+<form method="POST" action="{{ url_for('departamento.update_departamento', id=departamento.id_departamento) }}">
+    <input type="hidden" name="id_departamento" value="{{ departamento.id_departamento }}">
+    <div class="form-group">
+        <label for="nombre_departamento">Nombre del Departamento</label>
+        <input type="text" id="nombre_departamento" name="nombre_departamento" value="{{ departamento.nombre_departamento }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('departamento.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Lista de Estados de Animal - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Estados</h2>
+    <a href="{{ url_for('estado_animal.create_estado') }}" class="btn">Agregar Estado</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for estado in estados %}
+            <tr>
+                <td>{{ estado.id_estado }}</td>
+                <td>{{ estado.nombre_estado }}</td>
+                <td>
+                    <a href="{{ url_for('estado_animal.update_estado', id=estado.id_estado) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('estado_animal.delete_estado', id=estado.id_estado) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

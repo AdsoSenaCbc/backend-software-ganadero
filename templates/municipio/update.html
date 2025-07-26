@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Editar Municipio - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Editar Municipio</h2>
+<form method="POST" action="{{ url_for('municipio.update_municipio', id=municipio.id_municipio) }}">
+    <input type="hidden" name="id_municipio" value="{{ municipio.id_municipio }}">
+    <div class="form-group">
+        <label for="nombre_municipio">Nombre del Municipio</label>
+        <input type="text" id="nombre_municipio" name="nombre_municipio" value="{{ municipio.nombre_municipio }}" required>
+    </div>
+    <div class="form-group">
+        <label for="id_departamento">ID Departamento</label>
+        <input type="number" id="id_departamento" name="id_departamento" value="{{ municipio.id_departamento }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('municipio.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

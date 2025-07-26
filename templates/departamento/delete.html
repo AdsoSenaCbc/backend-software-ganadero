@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Departamento - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Departamento</h2>
+<p>¿Estás seguro de que deseas eliminar el departamento con ID {{ departamento.id_departamento }}?</p>
+<form method="POST" action="{{ url_for('departamento.delete_departamento', id=departamento.id_departamento) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('departamento.index') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Crear Departamento - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Nuevo Departamento</h2>
+    <form method="POST" action="{{ url_for('departamento.create_departamento') }}">
+        <div class="form-group">
+            <label for="nombre_departamento">Nombre del Departamento</label>
+            <input type="text" id="nombre_departamento" name="nombre_departamento" placeholder="Nombre" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('departamento.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

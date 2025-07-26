@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Municipio - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Municipio</h2>
+<p>¿Estás seguro de que deseas eliminar el municipio con ID {{ municipio.id_municipio }}?</p>
+<form method="POST" action="{{ url_for('municipio.delete_municipio', id=municipio.id_municipio) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('municipio.index') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

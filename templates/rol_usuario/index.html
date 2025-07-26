@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Lista de Roles - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Roles</h2>
+    <a href="{{ url_for('rol_usuario.create_rol') }}" class="btn">Agregar Rol</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rol in roles %}
+            <tr>
+                <td>{{ rol.id_rol }}</td>
+                <td>{{ rol.nombre_rol }}</td>
+                <td>
+                    <a href="{{ url_for('rol_usuario.update_rol', id=rol.id_rol) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('rol_usuario.delete_rol', id=rol.id_rol) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

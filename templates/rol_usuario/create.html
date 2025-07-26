@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Crear Rol - Sistema Ganadero{% endblock %}
+{% block content %}
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+</style>
+<div class="form-container">
+    <h2>Crear Nuevo Rol</h2>
+    <form method="POST" action="{{ url_for('rol_usuario.create_rol') }}">
+        <div class="form-group">
+            <label for="nombre_rol">Nombre del Rol</label>
+            <input type="text" id="nombre_rol" name="nombre_rol" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('rol_usuario.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

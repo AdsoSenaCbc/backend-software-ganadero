@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Crear Municipio - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Nuevo Municipio</h2>
+    <form method="POST" action="{{ url_for('municipio.create_municipio') }}">
+        <div class="form-group">
+            <label for="nombre_municipio">Nombre del Municipio</label>
+            <input type="text" id="nombre_municipio" name="nombre_municipio" placeholder="Nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="id_departamento">ID Departamento</label>
+            <input type="number" id="id_departamento" name="id_departamento" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('municipio.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

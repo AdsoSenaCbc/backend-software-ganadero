@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Usuario - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Usuario</h2>
+<p>¿Estás seguro de que deseas eliminar el usuario con ID {{ user.id_usuario }}?</p>
+<form method="POST" action="{{ url_for('user.delete_user_form', id=user.id_usuario) }}">
+  <button type="submit" class="btn delete">Confirmar Eliminación</button>
+  <a href="{{ url_for('user.index') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

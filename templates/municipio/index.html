@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Lista de Municipios - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Municipios</h2>
+    <a href="{{ url_for('municipio.create_municipio') }}" class="btn">Agregar Municipio</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>ID Departamento</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for municipio in municipios %}
+            <tr>
+                <td>{{ municipio.id_municipio }}</td>
+                <td>{{ municipio.nombre_municipio }}</td>
+                <td>{{ municipio.id_departamento }}</td>
+                <td>
+                    <a href="{{ url_for('municipio.update_municipio', id=municipio.id_municipio) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('municipio.delete_municipio', id=municipio.id_municipio) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

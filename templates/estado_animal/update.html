@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Editar Estado de Animal - Sistema Ganadero{% endblock %}
+{% block content %}
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  appearance: textfield; /* Standard */
+  -moz-appearance: textfield;
+}
+</style>
+<h2>Editar Estado</h2>
+<form method="POST" action="{{ url_for('estado_animal.update_estado', id=estado.id_estado) }}">
+    <div class="form-group">
+        <label for="nombre_estado">Nombre del Estado</label>
+        <input type="text" id="nombre_estado" name="nombre_estado" value="{{ estado.nombre_estado }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('estado_animal.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

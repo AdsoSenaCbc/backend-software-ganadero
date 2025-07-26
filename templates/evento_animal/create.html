@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Crear Evento de Animal - Sistema Ganadero{% endblock %}
+{% block content %}
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+</style>
+<div class="form-container">
+    <h2>Crear Nuevo Evento</h2>
+    <form method="POST" action="{{ url_for('evento_animal.create_evento') }}">
+        <div class="form-group">
+            <label for="id_animal">ID Animal</label>
+            <input type="number" id="id_animal" name="id_animal" required>
+        </div>
+        <div class="form-group">
+            <label for="id_evento">ID Evento</label>
+            <input type="number" id="id_evento" name="id_evento" required>
+        </div>
+        <div class="form-group">
+            <label for="id_tipo_evento">ID Tipo Evento</label>
+            <input type="number" id="id_tipo_evento" name="id_tipo_evento" required>
+        </div>
+        <div class="form-group">
+            <label for="valor">Valor (opcional)</label>
+            <input type="number" step="0.01" id="valor" name="valor">
+        </div>
+        <div class="form-group">
+            <label for="fecha_evento">Fecha del Evento</label>
+            <input type="datetime-local" id="fecha_evento" name="fecha_evento" required>
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" name="observaciones"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('evento_animal.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

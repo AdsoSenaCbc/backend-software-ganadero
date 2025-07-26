@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Editar Rol - Sistema Ganadero{% endblock %}
+{% block content %}
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+</style>
+<h2>Editar Rol</h2>
+<form method="POST" action="{{ url_for('rol_usuario.update_rol', id=rol.id_rol) }}">
+    <div class="form-group">
+        <label for="nombre_rol">Nombre del Rol</label>
+        <input type="text" id="nombre_rol" name="nombre_rol" value="{{ rol.nombre_rol }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('rol_usuario.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}
