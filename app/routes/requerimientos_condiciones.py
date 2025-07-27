@@ -1,9 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from app import db
 from app.models.requerimientos_condiciones import RequerimientosCondiciones
+from app.models.requerimientos_nutricionales import RequerimientosNutricionales
+from app.models.condiciones_especiales import CondicionesEspeciales
 from app.utils.jwt_utils import token_required
 
-requerimientos_condiciones_bp = Blueprint('requerimientos_condiciones', __name__)
+requerimientos_condiciones_bp = Blueprint('requerimientos_condiciones', __name__, url_prefix='/requerimientos-condiciones')
 
 @requerimientos_condiciones_bp.route('/', methods=['GET'])
 @token_required
@@ -48,4 +51,27 @@ def delete_requerimiento_condicion(id_requerimiento, id_condicion):
     relacion = RequerimientosCondiciones.query.get_or_404((id_requerimiento, id_condicion))
     db.session.delete(relacion)
     db.session.commit()
-    return jsonify({"message": "Requerimiento condicion deleted"})
+    return jsonify({"message": "Relación eliminada"})
+
+# ==============================================
+# RUTAS WEB
+# ==============================================
+
+@requerimientos_condiciones_bp.route('/web', methods=['GET'])
+@requerimientos_condiciones_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    relaciones = db.session.query(
+        RequerimientosCondiciones,
+        RequerimientosNutricionales,
+        CondicionesEspeciales.nombre.label('nombre_condicion')
+    ).join(
+        RequerimientosNutricionales,
+        RequerimientosCondiciones.id_requerimiento == RequerimientosNutricionales.id_requerimiento
+    ).join(
+        CondicionesEspeciales,
+        RequerimientosCondiciones.id_condicion == CondicionesEspeciales.id_condicion
+    ).all()
+    
+    return render_template('requerimientos_condiciones/index.html', 
+                         relaciones=relaciones)

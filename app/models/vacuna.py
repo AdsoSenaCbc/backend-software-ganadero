@@ -5,7 +5,6 @@ class Vacuna(db.Model):
 
     id_vacuna = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    tipo = db.Column(db.String(50), nullable=True)
     descripcion = db.Column(db.Text, nullable=True)
     dosis_recomendada = db.Column(db.DECIMAL(6, 2), nullable=True)
 

@@ -1,11 +1,21 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from app import db
 from app.models.materia_prima import MateriaPrima
 from app.utils.jwt_utils import token_required
 
-materia_prima_bp = Blueprint('materia_prima', __name__)
+materia_prima_bp = Blueprint('materia_prima', __name__, url_prefix='/materia-prima')
 
-@materia_prima_bp.route('/', methods=['GET'])
+# Web Routes
+@materia_prima_bp.route('/')
+@materia_prima_bp.route('/index')
+@login_required
+def index():
+    materias = MateriaPrima.query.order_by(MateriaPrima.nombre).all()
+    return render_template('materia_prima/index.html', materias=materias)
+
+# API Routes
+@materia_prima_bp.route('/api', methods=['GET'])
 @token_required
 def get_materias_primas():
     materias = MateriaPrima.query.all()

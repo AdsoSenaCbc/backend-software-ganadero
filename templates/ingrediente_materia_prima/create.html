@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}Nueva Relación Ingrediente-Materia Prima - Sistema Ganadero{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Nueva Relación Ingrediente-Materia Prima</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('ingrediente_materia_prima.create_post') }}">
+                        <div class="form-group">
+                            <label for="id_ingrediente">Ingrediente *</label>
+                            <select class="form-control" id="id_ingrediente" name="id_ingrediente" required>
+                                <option value="" selected disabled>Seleccione un ingrediente</option>
+                                {% for ingrediente in ingredientes %}
+                                <option value="{{ ingrediente.id_ingrediente }}">{{ ingrediente.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_materia">Materia Prima *</label>
+                            <select class="form-control" id="id_materia" name="id_materia" required>
+                                <option value="" selected disabled>Seleccione una materia prima</option>
+                                {% for materia in materias_primas %}
+                                <option value="{{ materia.id_materia }}">{{ materia.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cantidad_kg">Cantidad (kg) *</label>
+                            <input type="number" step="0.01" min="0.01" class="form-control" id="cantidad_kg" 
+                                   name="cantidad_kg" required value="{{ request.form.cantidad_kg }}">
+                            <small class="form-text text-muted">Ingrese la cantidad en kilogramos</small>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ url_for('ingrediente_materia_prima.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    label {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    }
+    
+    .card-header {
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .form-control:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+    
+    .btn-primary:hover {
+        background-color: #2e59d9;
+        border-color: #2653d4;
+    }
+    
+    .btn-secondary {
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #717384;
+        border-color: #6b6d7d;
+    }
+    
+    select.form-control {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+        padding-right: 2.5rem;
+    }
+</style>
+{% endblock %}

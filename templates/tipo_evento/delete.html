@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Tipo de Evento - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Eliminar Tipo de Evento</h2>
+    <p>¿Estás seguro de que deseas eliminar el tipo de evento con ID {{ tipo.id_tipo_evento }}?</p>
+    <p><strong>Nombre:</strong> {{ tipo.nombre_tipo }}</p>
+    
+    <form method="POST" action="{{ url_for('tipo_evento.delete', id=tipo.id_tipo_evento) }}">
+        <button type="submit" class="btn delete">Confirmar Eliminación</button>
+        <a href="{{ url_for('tipo_evento.index') }}" class="btn">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

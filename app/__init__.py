@@ -48,6 +48,7 @@ def create_app():
             'caracteristicas_nutricionales': ('caracteristicas_nutricionales', '/api/caracteristicas-nutricionales'),
             'condiciones_especiales': ('condiciones_especiales', '/api/condiciones-especiales'),
             'consulta_bromatologica': ('consulta_bromatologica', '/api/consultas-bromatologicas'),
+            'materia_prima': ('materia_prima', '/api/materias-primas'),
             'consulta_ingredientes': ('consulta_ingredientes', '/api/consultas-ingredientes'),
             'departamento': ('departamento', '/api/departamentos'),
             'detalle_racion': ('detalle_racion', '/api/detalles-racion'),
@@ -84,19 +85,20 @@ def create_app():
             bp = getattr(module, f'{bp_name}_bp')
             app.register_blueprint(bp, url_prefix=url_prefix)
             # Garantizar que cada blueprint exponga un endpoint 'index' para su ruta raíz
-            if f'{bp_name}.index' not in app.view_functions:
-                root_rule = url_prefix.rstrip('/') + '/'
+          #  if f'{bp_name}.index' not in app.view_functions:
+           #     root_rule = url_prefix.rstrip('/') + '/'
                 # Buscar un view_func existente para la ruta raíz
-                existing_endpoint = None
-                for rule in app.url_map.iter_rules():
-                    if rule.rule == root_rule and rule.endpoint.startswith(f'{bp_name}.') and 'GET' in rule.methods:
-                        existing_endpoint = rule.endpoint
-                        break
-                if existing_endpoint:
-                    app.add_url_rule(root_rule, endpoint=f'{bp_name}.index', view_func=app.view_functions[existing_endpoint], methods=['GET'])
+                #existing_endpoint = None
+                #for rule in app.url_map.iter_rules():
+                #    if rule.rule == root_rule and rule.endpoint.startswith(f'{bp_name}.') and 'GET' in rule.methods:
+                #        existing_endpoint = rule.endpoint
+                #        break
+                #if existing_endpoint:
+                 #   app.add_url_rule(root_rule, endpoint=f'{bp_name}.index', view_func=app.view_functions[existing_endpoint], methods=['GET'])
 
     return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
+

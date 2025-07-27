@@ -1,9 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from app import db
 from app.models.racion import Racion
+from app.models.animal import Animal
+from app.models.requerimientos_nutricionales import RequerimientosNutricionales
 from app.utils.jwt_utils import token_required
 
-racion_bp = Blueprint('racion', __name__)
+racion_bp = Blueprint('racion', __name__, url_prefix='/racion')
 
 @racion_bp.route('/', methods=['GET'])
 @token_required
@@ -67,4 +70,24 @@ def delete_racion(id):
     racion = Racion.query.get_or_404(id)
     db.session.delete(racion)
     db.session.commit()
-    return jsonify({"message": "Racion deleted"})
+    return jsonify({"message": "Ración eliminada"})
+
+# ==============================================
+# RUTAS WEB
+# ==============================================
+
+@racion_bp.route('/web', methods=['GET'])
+@racion_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    raciones = db.session.query(
+        Racion,
+        Animal.identificacion.label('identificacion_animal'),
+        Animal.nombre.label('nombre_animal')
+    ).join(
+        Animal,
+        Racion.id_animal == Animal.id_animal
+    ).all()
+    
+    return render_template('racion/index.html', 
+                         raciones=raciones)

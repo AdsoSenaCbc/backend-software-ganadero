@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Característica Nutricional - Sistema Ganadero{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-danger text-white">
+                    <h6 class="m-0 font-weight-bold">Confirmar Eliminación</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle fa-4x text-danger mb-4"></i>
+                        <h4>¿Está seguro de eliminar esta característica nutricional?</h4>
+                        <p class="mb-4">Esta acción no se puede deshacer. Se eliminará la siguiente característica nutricional:</p>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body text-left">
+                                <h5 class="card-title">{{ nombre_ingrediente }} - {{ nombre_nutriente }}</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-1"><strong>ID:</strong> {{ caracteristica.id_caracteristica }}</p>
+                                        <p class="mb-1"><strong>Ingrediente:</strong> {{ nombre_ingrediente }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-1"><strong>Nutriente:</strong> {{ nombre_nutriente }}</p>
+                                        <p class="mb-1"><strong>Valor:</strong> {{ "%.2f"|format(caracteristica.valor) }} {{ unidad or '' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> 
+                            <strong>Advertencia:</strong> Esta acción eliminará permanentemente la característica nutricional y no se podrá recuperar.
+                        </div>
+                        
+                        <form method="POST" action="{{ url_for('caracteristicas_nutricionales.delete_web', id=caracteristica.id_caracteristica) }}" class="d-inline">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Confirmar Eliminación
+                            </button>
+                        </form>
+                        
+                        <a href="{{ url_for('caracteristicas_nutricionales.index_web') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    }
+    
+    .card-header {
+        border-top-left-radius: 0.5rem !important;
+        border-top-right-radius: 0.5rem !important;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-danger {
+        background-color: #e74a3b;
+        border-color: #e74a3b;
+    }
+    
+    .btn-danger:hover {
+        background-color: #e02d1b;
+        border-color: #d52a1a;
+    }
+    
+    .btn-secondary {
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #717384;
+        border-color: #6b6d7d;
+    }
+    
+    .alert {
+        border-radius: 0.35rem;
+        margin: 1.5rem 0;
+    }
+    
+    .fa-exclamation-triangle {
+        opacity: 0.8;
+    }
+    
+    .card-body p {
+        margin-bottom: 0.5rem;
+    }
+    
+    .card-title {
+        color: #4e73df;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

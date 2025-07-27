@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Nutriente - Sistema Ganadero{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Eliminar Nutriente</h2>
+        <a href="{{ url_for('nutrientes.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                Confirmar Eliminación
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning" role="alert">
+                <h5 class="alert-heading">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    ¿Está seguro de eliminar este nutriente?
+                </h5>
+                <p class="mb-0">Esta acción no se puede deshacer. Se eliminará el siguiente nutriente:</p>
+            </div>
+            
+            <div class="card mb-4 border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">
+                        <i class="fas fa-seedling me-2"></i>
+                        {{ nutriente.nombre }}
+                    </h5>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>ID:</strong> {{ nutriente.id_nutriente }}</p>
+                            <p class="mb-2"><strong>Unidad:</strong> {{ nutriente.unidad or 'N/A' }}</p>
+                        </div>
+                        {% if nutriente.descripcion %}
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Descripción:</strong></p>
+                            <p class="text-muted">{{ nutriente.descripcion }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>¡Advertencia!</strong> Esta acción es permanente y no se puede deshacer.
+            </div>
+            
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ url_for('nutrientes.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+                <form method="POST" action="{{ url_for('nutrientes.delete_web', id=nutriente.id_nutriente) }}" class="d-inline">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Está seguro de eliminar este nutriente?')">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .card {
+        border: none;
+        border-radius: 0.35rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    }
+    
+    .card-header {
+        border-radius: 0.35rem 0.35rem 0 0 !important;
+        padding: 1rem 1.5rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .alert {
+        border-radius: 0.35rem;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        border-radius: 0.25rem;
+        transition: all 0.15s ease-in-out;
+    }
+    
+    .btn i {
+        margin-right: 0.5rem;
+    }
+    
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    
+    .btn-danger:hover {
+        background-color: #bb2d3b;
+        border-color: #b02a37;
+    }
+    
+    .btn-outline-secondary {
+        color: #6c757d;
+        border-color: #6c757d;
+    }
+    
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+    }
+    
+    .text-danger {
+        color: #dc3545 !important;
+    }
+    
+    .text-muted {
+        color: #6c757d !important;
+    }
+    
+    .fa-exclamation-triangle {
+        color: #ffc107;
+    }
+    
+    .card-body p {
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}

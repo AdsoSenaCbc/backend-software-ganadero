@@ -1,9 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from app import db
 from app.models.detalle_racion_nutricional import DetalleRacionNutricional
+from app.models.racion import Racion
+from app.models.nutrientes import Nutrientes
 from app.utils.jwt_utils import token_required
 
-detalle_racion_nutricional_bp = Blueprint('detalle_racion_nutricional', __name__)
+detalle_racion_nutricional_bp = Blueprint('detalle_racion_nutricional', __name__, url_prefix='/detalle-racion-nutricional')
 
 @detalle_racion_nutricional_bp.route('/', methods=['GET'])
 @token_required
@@ -57,4 +60,27 @@ def delete_detalle_racion_nutricional(id):
     detalle = DetalleRacionNutricional.query.get_or_404(id)
     db.session.delete(detalle)
     db.session.commit()
-    return jsonify({"message": "Detalle racion nutricional deleted"})
+    return jsonify({"message": "Detalle de ración nutricional eliminado"})
+
+# ==============================================
+# RUTAS WEB
+# ==============================================
+
+@detalle_racion_nutricional_bp.route('/web', methods=['GET'])
+@detalle_racion_nutricional_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    detalles = db.session.query(
+        DetalleRacionNutricional,
+        Racion,
+        Nutrientes.nombre.label('nombre_nutriente')
+    ).join(
+        Racion,
+        DetalleRacionNutricional.id_racion == Racion.id_racion
+    ).join(
+        Nutrientes,
+        DetalleRacionNutricional.id_nutriente == Nutrientes.id_nutriente
+    ).all()
+    
+    return render_template('detalle_racion_nutricional/index.html', 
+                         detalles=detalles)

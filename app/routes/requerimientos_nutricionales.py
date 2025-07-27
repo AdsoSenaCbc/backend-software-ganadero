@@ -1,9 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
 from app import db
 from app.models.requerimientos_nutricionales import RequerimientosNutricionales
+from app.models.etapas_productivas import EtapasProductivas
+from app.models.nutrientes import Nutrientes
 from app.utils.jwt_utils import token_required
 
-requerimientos_nutricionales_bp = Blueprint('requerimientos_nutricionales', __name__)
+requerimientos_nutricionales_bp = Blueprint('requerimientos_nutricionales', __name__, url_prefix='/requerimientos-nutricionales')
 
 @requerimientos_nutricionales_bp.route('/', methods=['GET'])
 @token_required
@@ -73,4 +76,27 @@ def delete_requerimiento_nutricional(id):
     requerimiento = RequerimientosNutricionales.query.get_or_404(id)
     db.session.delete(requerimiento)
     db.session.commit()
-    return jsonify({"message": "Requerimiento nutricional deleted"})
+    return jsonify({"message": "Requerimiento nutricional eliminado"})
+
+# ==============================================
+# RUTAS WEB
+# ==============================================
+
+@requerimientos_nutricionales_bp.route('/web', methods=['GET'])
+@requerimientos_nutricionales_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    requerimientos = db.session.query(
+        RequerimientosNutricionales,
+        EtapasProductivas.nombre.label('nombre_etapa'),
+        Nutrientes.nombre.label('nombre_nutriente')
+    ).join(
+        EtapasProductivas, 
+        RequerimientosNutricionales.id_etapa == EtapasProductivas.id_etapa
+    ).join(
+        Nutrientes,
+        RequerimientosNutricionales.id_nutriente == Nutrientes.id_nutriente
+    ).all()
+    
+    return render_template('requerimientos_nutricionales/index.html', 
+                         requerimientos=requerimientos)

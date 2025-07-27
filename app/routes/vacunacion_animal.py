@@ -6,15 +6,16 @@ from app.utils.jwt_utils import token_required
 vacunacion_animal_bp = Blueprint('vacunacion_animal', __name__)
 
 @vacunacion_animal_bp.route('/', methods=['GET'])
+@vacunacion_animal_bp.route('/index', methods=['GET'])
 @token_required
-def get_vacunaciones_animal():
+def index():
     vacunaciones = VacunacionAnimal.query.all()
     return jsonify([{
         "id_vacunacion": v.id_vacunacion,
         "id_animal": v.id_animal,
         "id_vacuna": v.id_vacuna,
         "id_lote": v.id_lote,
-        "fecha_aplicacion": v.fecha_aplicacion.isoformat(),
+        "fecha_aplicacion": v.fecha_aplicacion.isoformat() if v.fecha_aplicacion else None,
         "dosis_aplicada": v.dosis_aplicada,
         "observaciones": v.observaciones
     } for v in vacunaciones])

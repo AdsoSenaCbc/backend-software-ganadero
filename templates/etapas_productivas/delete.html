@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Etapa Productiva - Sistema Ganadero{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-danger text-white">
+                    <h6 class="m-0 font-weight-bold">Confirmar Eliminación</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle fa-4x text-danger mb-4"></i>
+                        <h4>¿Está seguro de eliminar esta etapa productiva?</h4>
+                        <p class="mb-4">Esta acción no se puede deshacer. Se eliminará la siguiente etapa productiva:</p>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body text-left">
+                                <h5 class="card-title">{{ etapa.nombre }}</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-1"><strong>ID:</strong> {{ etapa.id_etapa }}</p>
+                                        <p class="mb-1"><strong>Nombre:</strong> {{ etapa.nombre }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-1"><strong>Descripción:</strong></p>
+                                        <p>{{ etapa.descripcion or 'Sin descripción' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> 
+                            <strong>Advertencia:</strong> Esta acción eliminará permanentemente la etapa productiva y no se podrá recuperar.
+                        </div>
+                        
+                        <form method="POST" action="{{ url_for('etapas_productivas.delete_web', id=etapa.id_etapa) }}" class="d-inline">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> Confirmar Eliminación
+                            </button>
+                        </form>
+                        
+                        <a href="{{ url_for('etapas_productivas.index_web') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    }
+    
+    .card-header {
+        border-top-left-radius: 0.5rem !important;
+        border-top-right-radius: 0.5rem !important;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    
+    .btn-danger {
+        background-color: #e74a3b;
+        border-color: #e74a3b;
+    }
+    
+    .btn-danger:hover {
+        background-color: #e02d1b;
+        border-color: #d52a1a;
+    }
+    
+    .btn-secondary {
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #717384;
+        border-color: #6b6d7d;
+    }
+    
+    .alert {
+        border-radius: 0.35rem;
+        margin: 1.5rem 0;
+    }
+    
+    .fa-exclamation-triangle {
+        opacity: 0.8;
+    }
+    
+    .card-body p {
+        margin-bottom: 0.5rem;
+    }
+    
+    .card-title {
+        color: #4e73df;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

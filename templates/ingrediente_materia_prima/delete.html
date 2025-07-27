@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Relación - Sistema Ganadero{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-danger text-white">
+                    <h6 class="m-0 font-weight-bold">Confirmar Eliminación</h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">¡Advertencia!</h4>
+                        <p>Está a punto de eliminar la siguiente relación entre ingrediente y materia prima. Esta acción no se puede deshacer.</p>
+                        <hr>
+                        <p class="mb-0">Se eliminarán todos los registros asociados a esta relación.</p>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="m-0 font-weight-bold">Detalles de la Relación</h6>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row">
+                                <dt class="col-sm-4">ID de Relación:</dt>
+                                <dd class="col-sm-8">{{ relacion.id_ingrediente }}-{{ relacion.id_materia }}</dd>
+                                
+                                <dt class="col-sm-4">Ingrediente:</dt>
+                                <dd class="col-sm-8">{{ relacion.ingrediente.nombre }}</dd>
+                                
+                                <dt class="col-sm-4">Materia Prima:</dt>
+                                <dd class="col-sm-8">{{ relacion.materia_prima.nombre }}</dd>
+                                
+                                <dt class="col-sm-4">Cantidad (kg):</dt>
+                                <dd class="col-sm-8">{{ "%.2f"|format(relacion.cantidad_kg) if relacion.cantidad_kg else '0.00' }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('ingrediente_materia_prima.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <form method="POST" action="{{ url_for('ingrediente_materia_prima.delete_web', id_ingrediente=relacion.id_ingrediente, id_materia=relacion.id_materia) }}" class="d-inline">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Confirmar Eliminación
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    }
+    
+    .card-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .bg-danger {
+        background-color: #e74a3b !important;
+    }
+    
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+    
+    .alert-heading {
+        color: #721c24;
+    }
+    
+    dt {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    dd {
+        margin-bottom: 0.5rem;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-danger {
+        background-color: #e74a3b;
+        border-color: #e74a3b;
+    }
+    
+    .btn-danger:hover {
+        background-color: #e02d1b;
+        border-color: #d52a1a;
+    }
+    
+    .btn-secondary {
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #717384;
+        border-color: #6b6d7d;
+    }
+</style>
+{% endblock %}

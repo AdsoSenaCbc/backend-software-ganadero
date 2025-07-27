@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Nueva Característica Nutricional - Sistema Ganadero{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Nueva Característica Nutricional</h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('caracteristicas_nutricionales.create_post_web') }}">
+                        <div class="form-group">
+                            <label for="id_ingrediente">Ingrediente *</label>
+                            <select class="form-control" id="id_ingrediente" name="id_ingrediente" required>
+                                <option value="">Seleccione un ingrediente</option>
+                                {% for ingrediente in ingredientes %}
+                                <option value="{{ ingrediente.id_ingrediente }}" {% if request.form.id_ingrediente == ingrediente.id_ingrediente|string %}selected{% endif %}>
+                                    {{ ingrediente.nombre }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="id_nutriente">Nutriente *</label>
+                            <select class="form-control" id="id_nutriente" name="id_nutriente" required>
+                                <option value="">Seleccione un nutriente</option>
+                                {% for nutriente in nutrientes %}
+                                <option value="{{ nutriente.id_nutriente }}" data-unidad="{{ nutriente.unidad or '' }}" 
+                                    {% if request.form.id_nutriente == nutriente.id_nutriente|string %}selected{% endif %}>
+                                    {{ nutriente.nombre }} ({{ nutriente.unidad or 'Sin unidad' }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="valor">Valor *</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" min="0" class="form-control" id="valor" name="valor" 
+                                       value="{{ request.form.valor }}" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="unidad_medida">
+                                        {{ nutrientes[0].unidad if nutrientes and nutrientes[0].unidad else '' }}
+                                    </span>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">Ingrese el valor numérico</small>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ url_for('caracteristicas_nutricionales.index_web') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    label {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    }
+    
+    .card-header {
+        background-color: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .form-control:focus, .custom-select:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+    
+    .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+    
+    .btn-primary:hover {
+        background-color: #2e59d9;
+        border-color: #2653d4;
+    }
+    
+    .btn-secondary {
+        background-color: #858796;
+        border-color: #858796;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #717384;
+        border-color: #6b6d7d;
+    }
+    
+    .input-group-text {
+        min-width: 80px;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Actualizar la unidad de medida cuando se selecciona un nutriente
+        $('#id_nutriente').change(function() {
+            var unidad = $(this).find('option:selected').data('unidad');
+            $('#unidad_medida').text(unidad || '');
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Vacuna - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Eliminar Vacuna</h2>
+    <p>¿Está seguro de que desea eliminar la siguiente vacuna?</p>
+    
+    <div class="delete-details">
+        <p><strong>ID:</strong> {{ vacuna.id_vacuna }}</p>
+        <p><strong>Nombre:</strong> {{ vacuna.nombre }}</p>
+        {% if vacuna.descripcion %}<p><strong>Descripción:</strong> {{ vacuna.descripcion }}</p>{% endif %}
+        {% if vacuna.dosis_recomendada is not none %}
+            <p><strong>Dosis Recomendada:</strong> {{ "%.2f"|format(vacuna.dosis_recomendada) }} ml</p>
+        {% endif %}
+    </div>
+    
+    <div class="alert alert-warning">
+        <strong>¡Advertencia!</strong> Esta acción no se puede deshacer. 
+        Si esta vacuna está siendo utilizada en registros de vacunación, no podrá ser eliminada.
+    </div>
+    
+    <form method="POST" action="{{ url_for('vacuna.delete', id=vacuna.id_vacuna) }}" class="delete-form">
+        <button type="submit" class="btn delete">Confirmar Eliminación</button>
+        <a href="{{ url_for('vacuna.index') }}" class="btn">Cancelar</a>
+    </form>
+</div>
+
+<style>
+.delete-details {
+    background-color: #f8f9fa;
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.delete-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn.delete:hover {
+    background-color: #bb2d3b;
+}
+</style>
+{% endblock %}

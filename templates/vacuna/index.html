@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Lista de Vacunas - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Lista de Vacunas</h2>
+    <a href="{{ url_for('vacuna.create') }}" class="btn">Agregar Vacuna</a>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dosis Recomendada</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vacuna in vacunas %}
+            <tr>
+                <td>{{ vacuna.id_vacuna }}</td>
+                <td>{{ vacuna.nombre }}</td>
+                <td>{{ "%.2f"|format(vacuna.dosis_recomendada) if vacuna.dosis_recomendada is not none else '' }} ml</td>
+                <td>
+                    <a href="{{ url_for('vacuna.update', id=vacuna.id_vacuna) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('vacuna.delete', id=vacuna.id_vacuna) }}" class="btn delete" 
+                       onclick="return confirm('¿Está seguro de que desea eliminar esta vacuna?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

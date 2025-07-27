@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Editar Vacuna - Sistema Ganadero{% endblock %}
+{% block content %}
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { appearance: textfield; -moz-appearance: textfield; }
+</style>
+<div class="form-container">
+    <h2>Editar Vacuna</h2>
+    <form method="POST" action="{{ url_for('vacuna.update', id=vacuna.id_vacuna) }}">
+        <div class="form-group">
+            <label for="id_vacuna">ID de la Vacuna</label>
+            <input type="text" id="id_vacuna" value="{{ vacuna.id_vacuna }}" disabled>
+            <small>El ID no se puede modificar</small>
+        </div>
+        <div class="form-group">
+            <label for="nombre">Nombre de la Vacuna</label>
+            <input type="text" id="nombre" name="nombre" value="{{ vacuna.nombre }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="3">{{ vacuna.descripcion or '' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="dosis_recomendada">Dosis Recomendada</label>
+            <input type="number" id="dosis_recomendada" name="dosis_recomendada" 
+                   value="{{ '%.2f'|format(vacuna.dosis_recomendada) if vacuna.dosis_recomendada is not none else '' }}" 
+                   step="0.01" min="0">
+            <small>Ingrese la dosis recomendada en mililitros (ml)</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{{ url_for('vacuna.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}
