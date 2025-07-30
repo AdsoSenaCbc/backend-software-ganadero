@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify, render_template, redirect, url_fo
 from flask_login import login_required
 from app import db
 from app.models.caracteristicas_nutricionales import CaracteristicasNutricionales
+from app.models.ingrediente import Ingrediente
+from app.models.nutrientes import Nutrientes
 from app.utils.jwt_utils import token_required
 
-caracteristicas_nutricionales_bp = Blueprint('caracteristicas_nutricionales', __name__)
+caracteristicas_nutricionales_bp = Blueprint('caracteristicas_nutricionales', __name__, url_prefix='/caracteristicas_nutricionales')
 
 @caracteristicas_nutricionales_bp.route('/api', methods=['GET'])
 @token_required
@@ -59,6 +61,7 @@ def delete_caracteristica_nutricional(id):
     db.session.delete(caracteristica)
     db.session.commit()
     return jsonify({"message": "Caracteristica nutricional deleted"})
+
 
 # --------------------------
 # HTML CRUD ROUTES

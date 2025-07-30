@@ -68,9 +68,10 @@ def get_razas_api():
 @token_required
 def get_raza_api(id):
     raza = Raza.query.get_or_404(id)
+    r = Raza.query.get_or_404(id)
     return jsonify({
-        "id_raza": raza.id_raza,
-        "nombre": raza.nombre
+        "id_raza": r.id_raza,
+        "nombre": r.nombre
     })
 
 @raza_bp.route('/api/razas', methods=['POST'])
@@ -100,3 +101,51 @@ def delete_raza_api(id):
     db.session.delete(raza)
     db.session.commit()
     return jsonify({"message": "Raza deleted"})
+
+# --------------------------
+# WEB ROUTES
+# --------------------------
+@raza_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    razas = Raza.query.all()
+    return render_template('raza/index.html', razas=razas)
+
+@raza_bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    if request.method == 'POST':
+        data = request.form
+        new_raza = Raza(
+            id_raza=data.get('id_raza'),
+            nombre=data.get('nombre')
+        )
+        db.session.add(new_raza)
+        db.session.commit()
+        flash('Raza creada exitosamente.', 'success')
+        return redirect(url_for('raza.index'))
+    return render_template('raza/create.html')
+
+@raza_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def update(id):
+    raza = Raza.query.get_or_404(id)
+    if request.method == 'POST':
+        data = request.form
+        raza.id_raza = data.get('id_raza', raza.id_raza)
+        raza.nombre = data.get('nombre', raza.nombre)
+        db.session.commit()
+        flash('Raza actualizada exitosamente.', 'success')
+        return redirect(url_for('raza.index'))
+    return render_template('raza/update.html', raza=raza)
+
+@raza_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    raza = Raza.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(raza)
+        db.session.commit()
+        flash('Raza eliminada exitosamente.', 'success')
+        return redirect(url_for('raza.index'))
+    return render_template('raza/delete.html', raza=raza)

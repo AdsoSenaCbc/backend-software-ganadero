@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.detalle_racion import DetalleRacion
+from app.models.racion import Racion
+from app.models.ingrediente import Ingrediente
 from app.utils.jwt_utils import token_required
 
-detalle_racion_bp = Blueprint('detalle_racion', __name__)
+detalle_racion_bp = Blueprint('detalle_racion', __name__, url_prefix='/detalle-racion')
 
 # --------------------------
 # API JSON ENDPOINTS

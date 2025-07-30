@@ -4,7 +4,7 @@ from app.models.lote_vacuna import LoteVacuna
 from app.utils.jwt_utils import token_required
 from flask_login import login_required
 
-lote_vacuna_bp = Blueprint('lote_vacuna', __name__)
+lote_vacuna_bp = Blueprint('lote_vacuna', __name__, url_prefix='/lote-vacuna')
 
 # ------------------- HTML ROUTES -------------------
 @lote_vacuna_bp.route('/', methods=['GET'])
@@ -84,7 +84,7 @@ def create_lote_vacuna_api():
     data = request.get_json()
     new_lote = LoteVacuna(
         codigo_lote=data.get('codigo_lote'),
-        fecha_vencimiento=data.get('fecha_vencimiento'),
+        fecha_vencimiento=datetime.fromisoformat(data.get('fecha_vencimiento')) if data.get('fecha_vencimiento') else None,
         fabricante=data.get('fabricante')
     )
     db.session.add(new_lote)
@@ -97,7 +97,7 @@ def update_lote_vacuna_api(id):
     lote = LoteVacuna.query.get_or_404(id)
     data = request.get_json()
     lote.codigo_lote = data.get('codigo_lote', lote.codigo_lote)
-    lote.fecha_vencimiento = data.get('fecha_vencimiento', lote.fecha_vencimiento)
+    lote.fecha_vencimiento = datetime.fromisoformat(data.get('fecha_vencimiento')) if data.get('fecha_vencimiento') else None
     lote.fabricante = data.get('fabricante', lote.fabricante)
     db.session.commit()
     return jsonify({"message": "Lote vacuna updated"})
@@ -109,3 +109,21 @@ def delete_lote_vacuna_api(id):
     db.session.delete(lote)
     db.session.commit()
     return jsonify({"message": "Lote vacuna deleted"})
+@lote_vacuna_bp.route('/<int:id>/delete', methods=['GET'])
+@login_required
+def delete_confirm(id):
+    lote = LoteVacuna.query.get_or_404(id)
+    return render_template('lote_vacuna/delete.html', lote=lote)
+
+@lote_vacuna_bp.route('/<int:id>/delete', methods=['POST'])
+@login_required
+def delete(id):
+    try:
+        lote = LoteVacuna.query.get_or_404(id)
+        db.session.delete(lote)
+        db.session.commit()
+        flash('Lote de vacuna eliminado exitosamente!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error al eliminar el lote de vacuna: {str(e)}', 'error')
+    return redirect(url_for('lote_vacuna.index'))

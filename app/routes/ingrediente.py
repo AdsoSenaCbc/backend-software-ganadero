@@ -4,7 +4,7 @@ from app import db
 from app.models.ingrediente import Ingrediente
 from app.utils.jwt_utils import token_required
 
-ingrediente_bp = Blueprint('ingrediente', __name__)
+ingrediente_bp = Blueprint('ingrediente', __name__, url_prefix='/ingrediente')
 
 @ingrediente_bp.route('/api', methods=['GET'])
 @token_required

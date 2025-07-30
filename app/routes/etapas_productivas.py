@@ -3,7 +3,7 @@ from app import db
 from app.models.etapas_productivas import EtapasProductivas
 from app.utils.jwt_utils import token_required
 
-etapas_productivas_bp = Blueprint('etapas_productivas', __name__)
+etapas_productivas_bp = Blueprint('etapas_productivas', __name__, url_prefix='/api/etapas-productivas')
 
 # --------------------------
 # API JSON ENDPOINTS

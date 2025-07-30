@@ -69,8 +69,8 @@ def get_especies_api():
 def get_especie_api(id):
     especie = Especie.query.get_or_404(id)
     return jsonify({
-        "id_especie": especie.id_especie,
-        "nombre": especie.nombre
+        "id_especie": e.id_especie,
+        "nombre": e.nombre
     })
 
 @especie_bp.route('/api', methods=['POST'])
@@ -96,7 +96,24 @@ def update_especie_api(id):
 @especie_bp.route('/api/<int:id>', methods=['DELETE'])
 @token_required
 def delete_especie_api(id):
+
     especie = Especie.query.get_or_404(id)
-    db.session.delete(especie)
-    db.session.commit()
-    return jsonify({"message": "Especie deleted"})
+    if request.method == 'POST':
+        data = request.form
+        especie.id_especie = data.get('id_especie', especie.id_especie)
+        especie.nombre = data.get('nombre', especie.nombre)
+        db.session.commit()
+        flash('Especie actualizada exitosamente.', 'success')
+        return redirect(url_for('especie.index'))
+    return render_template('especie/update.html', especie=especie)
+
+@especie_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    especie = Especie.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(especie)
+        db.session.commit()
+        flash('Especie eliminada exitosamente.', 'success')
+        return redirect(url_for('especie.index'))
+    return render_template('especie/delete.html', especie=especie)

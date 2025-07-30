@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.requerimientos_condiciones import RequerimientosCondiciones
+from app.models.requerimientos_nutricionales import RequerimientosNutricionales
+from app.models.condiciones_especiales import CondicionesEspeciales
 from app.utils.jwt_utils import token_required
 
-requerimientos_condiciones_bp = Blueprint('requerimientos_condiciones', __name__)
+requerimientos_condiciones_bp = Blueprint('requerimientos_condiciones', __name__, url_prefix='/requerimientos-condiciones')
 
 # --------------------------
 # API JSON ENDPOINTS

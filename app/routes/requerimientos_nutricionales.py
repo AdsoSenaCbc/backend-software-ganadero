@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.requerimientos_nutricionales import RequerimientosNutricionales
+from app.models.etapas_productivas import EtapasProductivas
+from app.models.nutrientes import Nutrientes
 from app.utils.jwt_utils import token_required
 
-requerimientos_nutricionales_bp = Blueprint('requerimientos_nutricionales', __name__)
+requerimientos_nutricionales_bp = Blueprint('requerimientos_nutricionales', __name__, url_prefix='/requerimientos-nutricionales')
 
 # --------------------------
 # API JSON ENDPOINTS

@@ -107,3 +107,61 @@ def delete_vacuna_api(id):
     db.session.delete(vacuna)
     db.session.commit()
     return jsonify({"message": "Vacuna deleted"})
+
+# --------------------------
+# WEB ROUTES
+# --------------------------
+@vacuna_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    vacunas = Vacuna.query.all()
+    return render_template('vacuna/index.html', vacunas=vacunas)
+
+@vacuna_bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    if request.method == 'POST':
+        data = request.form
+        try:
+            dosis = float(data.get('dosis_recomendada')) if data.get('dosis_recomendada') else None
+            new_vacuna = Vacuna(
+                nombre=data.get('nombre'),
+                descripcion=data.get('descripcion'),
+                dosis_recomendada=dosis
+            )
+            db.session.add(new_vacuna)
+            db.session.commit()
+            flash('Vacuna creada exitosamente.', 'success')
+            return redirect(url_for('vacuna.index'))
+        except ValueError:
+            flash('Error: La dosis debe ser un número válido.', 'error')
+    return render_template('vacuna/create.html')
+
+@vacuna_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def update(id):
+    vacuna = Vacuna.query.get_or_404(id)
+    if request.method == 'POST':
+        data = request.form
+        try:
+            dosis = float(data.get('dosis_recomendada')) if data.get('dosis_recomendada') else None
+            vacuna.nombre = data.get('nombre', vacuna.nombre)
+            vacuna.descripcion = data.get('descripcion', vacuna.descripcion)
+            vacuna.dosis_recomendada = dosis
+            db.session.commit()
+            flash('Vacuna actualizada exitosamente.', 'success')
+            return redirect(url_for('vacuna.index'))
+        except ValueError:
+            flash('Error: La dosis debe ser un número válido.', 'error')
+    return render_template('vacuna/update.html', vacuna=vacuna)
+
+@vacuna_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    vacuna = Vacuna.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(vacuna)
+        db.session.commit()
+        flash('Vacuna eliminada exitosamente.', 'success')
+        return redirect(url_for('vacuna.index'))
+    return render_template('vacuna/delete.html', vacuna=vacuna)

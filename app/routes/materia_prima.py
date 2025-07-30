@@ -4,7 +4,7 @@ from app import db
 from app.models.materia_prima import MateriaPrima
 from app.utils.jwt_utils import token_required
 
-materia_prima_bp = Blueprint('materia_prima', __name__)
+materia_prima_bp = Blueprint('materia_prima', __name__, url_prefix='/materia-prima')
 
 @materia_prima_bp.route('/api', methods=['GET'])
 @token_required

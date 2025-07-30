@@ -4,7 +4,7 @@ from app import db
 from app.models.nutrientes import Nutrientes
 from app.utils.jwt_utils import token_required
 
-nutrientes_bp = Blueprint('nutrientes', __name__)
+nutrientes_bp = Blueprint('nutrientes', __name__, url_prefix='/nutrientes')
 
 @nutrientes_bp.route('/api', methods=['GET'])
 @token_required
@@ -100,3 +100,4 @@ def delete_html(id):
         flash('Nutriente eliminado exitosamente.', 'success')
         return redirect(url_for('nutrientes.index'))
     return render_template('nutrientes/delete.html', n=n)
+

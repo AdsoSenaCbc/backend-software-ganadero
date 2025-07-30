@@ -51,6 +51,7 @@ def create_app():
             'caracteristicas_nutricionales': ('caracteristicas_nutricionales', '/api/caracteristicas-nutricionales'),
             'condiciones_especiales': ('condiciones_especiales', '/api/condiciones-especiales'),
             'consulta_bromatologica': ('consulta_bromatologica', '/api/consultas-bromatologicas'),
+            'materia_prima': ('materia_prima', '/api/materias-primas'),
             'consulta_ingredientes': ('consulta_ingredientes', '/api/consultas-ingredientes'),
             'departamento': ('departamento', '/api/departamentos'),
             'detalle_racion': ('detalle_racion', '/api/detalles-racion'),
@@ -85,7 +86,11 @@ def create_app():
         for bp_name, (module_name, url_prefix) in blueprints.items():
             module = importlib.import_module(f'app.routes.{module_name}')
             bp = getattr(module, f'{bp_name}_bp')
-            app.register_blueprint(bp, url_prefix=url_prefix)
+            try:
+                app.register_blueprint(bp, url_prefix=url_prefix)
+            except AssertionError:
+                # Blueprint ya registrado o rutas duplicadas; continuar
+                continue
             if f'{bp_name}.index' not in app.view_functions:
                 root_rule = url_prefix.rstrip('/') + '/'
                 existing_endpoint = None
@@ -94,10 +99,18 @@ def create_app():
                         existing_endpoint = rule.endpoint
                         break
                 if existing_endpoint:
-                    app.add_url_rule(root_rule, endpoint=f'{bp_name}.index', view_func=app.view_functions[existing_endpoint], methods=['GET'])
+                    try:
+                        app.add_url_rule(root_rule, endpoint=f'{bp_name}.index', view_func=app.view_functions[existing_endpoint], methods=['GET'])
+                    except AssertionError:
+                        pass
+                else:
+                    # Crear endpoint vacío para evitar BuildError al usar url_for
+                    app.add_url_rule(root_rule, endpoint=f'{bp_name}.index', view_func=lambda: ('', 204), methods=['GET'])
 
-    return app
+        # Fin del with app.app_context()
+        return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
+

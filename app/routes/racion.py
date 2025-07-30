@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.racion import Racion
+from app.models.animal import Animal
+from app.models.requerimientos_nutricionales import RequerimientosNutricionales
 from app.utils.jwt_utils import token_required
 
-racion_bp = Blueprint('racion', __name__)
+racion_bp = Blueprint('racion', __name__, url_prefix='/racion')
 
 # --------------------------
 # API JSON ENDPOINTS
@@ -71,6 +73,7 @@ def delete_racion(id):
     racion = Racion.query.get_or_404(id)
     db.session.delete(racion)
     db.session.commit()
+
     return jsonify({"message": "Racion deleted"})
 
 # --------------------------

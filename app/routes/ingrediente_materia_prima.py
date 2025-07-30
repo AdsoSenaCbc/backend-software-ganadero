@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify, render_template, redirect, url_fo
 from flask_login import login_required
 from app import db
 from app.models.ingrediente_materia_prima import IngredienteMateriaPrima
+from app.models.ingrediente import Ingrediente
+from app.models.materia_prima import MateriaPrima
 from app.utils.jwt_utils import token_required
 
-ingrediente_materia_prima_bp = Blueprint('ingrediente_materia_prima', __name__)
+ingrediente_materia_prima_bp = Blueprint('ingrediente_materia_prima', __name__, url_prefix='/ingrediente_materia_prima')
 
 @ingrediente_materia_prima_bp.route('/api', methods=['GET'])
 @token_required
