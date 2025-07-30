@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Consultas de Ingredientes - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Consultas de Ingredientes</h2>
+    <a href="{{ url_for('consulta_ingredientes.create_html') }}" class="btn">Nueva Consulta</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID Consulta</th>
+                <th>ID Ingrediente</th>
+                <th>Resultado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in consultas %}
+            <tr>
+                <td>{{ c.id_consulta }}</td>
+                <td>{{ c.id_ingrediente }}</td>
+                <td>{{ c.resultado }}</td>
+                <td>
+                    <a href="{{ url_for('consulta_ingredientes.update_html', id_consulta=c.id_consulta, id_ingrediente=c.id_ingrediente) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('consulta_ingredientes.delete_html', id_consulta=c.id_consulta, id_ingrediente=c.id_ingrediente) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

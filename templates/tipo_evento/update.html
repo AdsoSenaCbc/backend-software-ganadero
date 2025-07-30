@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Editar Tipo de Evento - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Editar Tipo de Evento</h2>
+<form method="POST" action="{{ url_for('tipo_evento.update_tipo_evento_form', id=tipo.id_tipo_evento) }}">
+    <div class="form-group">
+        <label for="nombre_tipo">Nombre</label>
+        <input type="text" id="nombre_tipo" name="nombre_tipo" value="{{ tipo.nombre_tipo }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('tipo_evento.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

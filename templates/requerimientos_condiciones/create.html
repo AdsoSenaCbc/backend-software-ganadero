@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Crear Relación Requerimiento/Condición - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Relación</h2>
+    <form method="POST" action="{{ url_for('requerimientos_condiciones.create_html') }}">
+        <div class="form-group">
+            <label for="id_requerimiento">ID Requerimiento</label>
+            <input type="number" id="id_requerimiento" name="id_requerimiento" required>
+        </div>
+        <div class="form-group">
+            <label for="id_condicion">ID Condición</label>
+            <input type="number" id="id_condicion" name="id_condicion" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('requerimientos_condiciones.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

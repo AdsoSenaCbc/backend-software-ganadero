@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Relación Ingrediente-Materia Prima{% endblock %}
+{% block content %}
+<div class="container" style="text-align:center;margin-top:3%">
+  <h2>Confirmar Eliminación</h2>
+  <p>¿Estás seguro de que deseas eliminar la relación Ingrediente <strong>{{ r.id_ingrediente }}</strong> - Materia Prima <strong>{{ r.id_materia }}</strong>?</p>
+  <form method="POST" action="{{ url_for('ingrediente_materia_prima.delete_html', id_ingrediente=r.id_ingrediente, id_materia=r.id_materia) }}">
+    <button type="submit" class="btn delete">Eliminar</button>
+    <a href="{{ url_for('ingrediente_materia_prima.index') }}" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

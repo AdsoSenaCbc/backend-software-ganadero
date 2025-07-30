@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Editar Vacuna - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Editar Vacuna</h2>
+<form method="POST" action="{{ url_for('vacuna.update_vacuna_form', id=vacuna.id_vacuna) }}">
+    <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="{{ vacuna.nombre }}" required>
+    </div>
+    <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="3">{{ vacuna.descripcion }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('vacuna.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

@@ -1,63 +1,108 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.vacuna import Vacuna
 from app.utils.jwt_utils import token_required
+from flask_login import login_required
 
 vacuna_bp = Blueprint('vacuna', __name__)
 
+# --------------------------
+# HTML FORM ROUTES
+# --------------------------
 @vacuna_bp.route('/', methods=['GET'])
+@login_required
+def index():
+    vacunas = Vacuna.query.all()
+    return render_template('vacuna/index.html', vacunas=vacunas)
+
+@vacuna_bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create_vacuna_form():
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        descripcion = request.form.get('descripcion')
+        if not nombre:
+            flash('El nombre es obligatorio', 'danger')
+            return redirect(url_for('vacuna.create_vacuna_form'))
+        nueva = Vacuna(nombre=nombre, descripcion=descripcion)
+        db.session.add(nueva)
+        db.session.commit()
+        flash('Vacuna creada correctamente.', 'success')
+        return redirect(url_for('vacuna.index'))
+    return render_template('vacuna/create.html')
+
+@vacuna_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def update_vacuna_form(id):
+    vacuna = Vacuna.query.get_or_404(id)
+    if request.method == 'POST':
+        vacuna.nombre = request.form.get('nombre', vacuna.nombre)
+        vacuna.descripcion = request.form.get('descripcion', vacuna.descripcion)
+        db.session.commit()
+        flash('Vacuna actualizada correctamente.', 'success')
+        return redirect(url_for('vacuna.index'))
+    return render_template('vacuna/update.html', vacuna=vacuna)
+
+@vacuna_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_vacuna_form(id):
+    vacuna = Vacuna.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(vacuna)
+        db.session.commit()
+        flash('Vacuna eliminada correctamente.', 'success')
+        return redirect(url_for('vacuna.index'))
+    return render_template('vacuna/delete.html', vacuna=vacuna)
+
+# --------------------------
+# API JSON ENDPOINTS
+# --------------------------
+
+@vacuna_bp.route('/api/vacunas', methods=['GET'])
 @token_required
-def get_vacunas():
+def get_vacunas_api():
     vacunas = Vacuna.query.all()
     return jsonify([{
         "id_vacuna": v.id_vacuna,
         "nombre": v.nombre,
-        "tipo": v.tipo,
-        "descripcion": v.descripcion,
-        "dosis_recomendada": v.dosis_recomendada
+        "descripcion": v.descripcion
     } for v in vacunas])
 
-@vacuna_bp.route('/<int:id>', methods=['GET'])
+@vacuna_bp.route('/api/<int:id>', methods=['GET'])
 @token_required
-def get_vacuna(id):
+def get_vacuna_api(id):
     vacuna = Vacuna.query.get_or_404(id)
     return jsonify({
         "id_vacuna": vacuna.id_vacuna,
         "nombre": vacuna.nombre,
-        "tipo": vacuna.tipo,
-        "descripcion": vacuna.descripcion,
-        "dosis_recomendada": vacuna.dosis_recomendada
+        "descripcion": vacuna.descripcion
     })
 
-@vacuna_bp.route('/', methods=['POST'])
+@vacuna_bp.route('/api/vacunas', methods=['POST'])
 @token_required
-def create_vacuna():
+def create_vacuna_api():
     data = request.get_json()
     new_vacuna = Vacuna(
         nombre=data.get('nombre'),
-        tipo=data.get('tipo'),
-        descripcion=data.get('descripcion'),
-        dosis_recomendada=data.get('dosis_recomendada')
+        descripcion=data.get('descripcion')
     )
     db.session.add(new_vacuna)
     db.session.commit()
     return jsonify({"message": "Vacuna created", "id": new_vacuna.id_vacuna}), 201
 
-@vacuna_bp.route('/<int:id>', methods=['PUT'])
+@vacuna_bp.route('/api/<int:id>', methods=['PUT'])
 @token_required
-def update_vacuna(id):
+def update_vacuna_api(id):
     vacuna = Vacuna.query.get_or_404(id)
     data = request.get_json()
     vacuna.nombre = data.get('nombre', vacuna.nombre)
-    vacuna.tipo = data.get('tipo', vacuna.tipo)
     vacuna.descripcion = data.get('descripcion', vacuna.descripcion)
-    vacuna.dosis_recomendada = data.get('dosis_recomendada', vacuna.dosis_recomendada)
     db.session.commit()
     return jsonify({"message": "Vacuna updated"})
 
-@vacuna_bp.route('/<int:id>', methods=['DELETE'])
+@vacuna_bp.route('/api/<int:id>', methods=['DELETE'])
 @token_required
-def delete_vacuna(id):
+def delete_vacuna_api(id):
     vacuna = Vacuna.query.get_or_404(id)
     db.session.delete(vacuna)
     db.session.commit()

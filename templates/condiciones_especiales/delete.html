@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Condición Especial - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Condición Especial</h2>
+<p>¿Estás seguro de que deseas eliminar la condición con ID {{ cond.id_condicion }}?</p>
+<form method="POST" action="{{ url_for('condiciones_especiales.delete_html', id=cond.id_condicion) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('condiciones_especiales.index_html') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

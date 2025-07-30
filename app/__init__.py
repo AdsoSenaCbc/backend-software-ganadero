@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_login import LoginManager
+from flask_cors import CORS
 from flask_migrate import Migrate
 
 # Inicialización de extensiones
@@ -18,16 +19,17 @@ def create_app():
                 template_folder=os.path.join(base_dir, '..', 'templates'),
                 static_folder=os.path.join(base_dir, '..', 'static'))
 
-    # Configuración
+
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/sistema_ganadero_database'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['JWT_SECRET_KEY'] = 'tu-clave-secreta-aqui'  # Cambia por una clave segura y única
-    app.config['SECRET_KEY'] = 'otra-clave-secreta'  # Cambia por una clave segura y única
+    app.config['JWT_SECRET_KEY'] = 'tu-clave-secreta-aqui' 
+    app.config['SECRET_KEY'] = 'otra-clave-secreta'  
     app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-    app.config['JWT_COOKIE_SECURE'] = False  # Cambia a True en producción con HTTPS
-    app.config['JWT_ACCESS_CSRF_PROTECT'] = False  # Activa en producción
+    app.config['JWT_COOKIE_SECURE'] = False  
+    app.config['JWT_ACCESS_CSRF_PROTECT'] = False 
 
-    # Inicialización de extensiones
+
+    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "*"}})
     db.init_app(app)
     jwt.init_app(app)
     login_manager.init_app(app)
@@ -43,6 +45,7 @@ def create_app():
         import importlib
         blueprints = {
             'auth': ('auth', '/auth'),
+            'api_auth': ('api_auth', '/api/auth'),
             'dashboard': ('main', '/'),
             'animal': ('animal', '/api/animals'),
             'caracteristicas_nutricionales': ('caracteristicas_nutricionales', '/api/caracteristicas-nutricionales'),
@@ -83,10 +86,8 @@ def create_app():
             module = importlib.import_module(f'app.routes.{module_name}')
             bp = getattr(module, f'{bp_name}_bp')
             app.register_blueprint(bp, url_prefix=url_prefix)
-            # Garantizar que cada blueprint exponga un endpoint 'index' para su ruta raíz
             if f'{bp_name}.index' not in app.view_functions:
                 root_rule = url_prefix.rstrip('/') + '/'
-                # Buscar un view_func existente para la ruta raíz
                 existing_endpoint = None
                 for rule in app.url_map.iter_rules():
                     if rule.rule == root_rule and rule.endpoint.startswith(f'{bp_name}.') and 'GET' in rule.methods:

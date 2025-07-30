@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Especie - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Especie</h2>
+<p>¿Estás seguro de que deseas eliminar la especie con ID {{ especie.id_especie }}?</p>
+<form method="POST" action="{{ url_for('especie.delete_especie_form', id=especie.id_especie) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('especie.index') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

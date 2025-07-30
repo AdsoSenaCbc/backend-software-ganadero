@@ -1,13 +1,17 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.detalle_racion_nutricional import DetalleRacionNutricional
 from app.utils.jwt_utils import token_required
 
 detalle_racion_nutricional_bp = Blueprint('detalle_racion_nutricional', __name__)
 
-@detalle_racion_nutricional_bp.route('/', methods=['GET'])
+# --------------------------
+# API JSON ENDPOINTS
+# --------------------------
+
+@detalle_racion_nutricional_bp.route('/api', methods=['GET'])
 @token_required
-def get_detalle_racion_nutricionales():
+def get_detalles_api():
     detalles = DetalleRacionNutricional.query.all()
     return jsonify([{
         "id_detalle_nut": d.id_detalle_nut,
@@ -16,9 +20,9 @@ def get_detalle_racion_nutricionales():
         "valor_aportado": float(d.valor_aportado)
     } for d in detalles])
 
-@detalle_racion_nutricional_bp.route('/<int:id>', methods=['GET'])
+@detalle_racion_nutricional_bp.route('/api/<int:id>', methods=['GET'])
 @token_required
-def get_detalle_racion_nutricional(id):
+def get_detalle_api(id):
     detalle = DetalleRacionNutricional.query.get_or_404(id)
     return jsonify({
         "id_detalle_nut": detalle.id_detalle_nut,
@@ -27,7 +31,7 @@ def get_detalle_racion_nutricional(id):
         "valor_aportado": float(detalle.valor_aportado)
     })
 
-@detalle_racion_nutricional_bp.route('/', methods=['POST'])
+@detalle_racion_nutricional_bp.route('/api', methods=['POST'])
 @token_required
 def create_detalle_racion_nutricional():
     data = request.get_json()
@@ -40,7 +44,7 @@ def create_detalle_racion_nutricional():
     db.session.commit()
     return jsonify({"message": "Detalle racion nutricional created", "id": new_detalle.id_detalle_nut}), 201
 
-@detalle_racion_nutricional_bp.route('/<int:id>', methods=['PUT'])
+@detalle_racion_nutricional_bp.route('/api/<int:id>', methods=['PUT'])
 @token_required
 def update_detalle_racion_nutricional(id):
     detalle = DetalleRacionNutricional.query.get_or_404(id)
@@ -51,10 +55,62 @@ def update_detalle_racion_nutricional(id):
     db.session.commit()
     return jsonify({"message": "Detalle racion nutricional updated"})
 
-@detalle_racion_nutricional_bp.route('/<int:id>', methods=['DELETE'])
+@detalle_racion_nutricional_bp.route('/api/<int:id>', methods=['DELETE'])
 @token_required
 def delete_detalle_racion_nutricional(id):
     detalle = DetalleRacionNutricional.query.get_or_404(id)
     db.session.delete(detalle)
     db.session.commit()
     return jsonify({"message": "Detalle racion nutricional deleted"})
+
+# --------------------------
+# HTML CRUD ROUTES
+# --------------------------
+from flask_login import login_required
+
+@detalle_racion_nutricional_bp.route('/', methods=['GET'])
+@login_required
+def index_html():
+    detalles = DetalleRacionNutricional.query.all()
+    return render_template('detalle_racion_nutricional/index.html', detalles=detalles)
+
+@detalle_racion_nutricional_bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create_html():
+    if request.method == 'POST':
+        data = request.form
+        nuevo = DetalleRacionNutricional(
+            id_racion=data.get('id_racion'),
+            id_nutriente=data.get('id_nutriente'),
+            valor_aportado=data.get('valor_aportado')
+        )
+        db.session.add(nuevo)
+        db.session.commit()
+        flash('Detalle nutricional creado.', 'success')
+        return redirect(url_for('detalle_racion_nutricional.index_html'))
+    return render_template('detalle_racion_nutricional/create.html')
+
+@detalle_racion_nutricional_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def update_html(id):
+    det = DetalleRacionNutricional.query.get_or_404(id)
+    if request.method == 'POST':
+        data = request.form
+        det.id_racion = data.get('id_racion', det.id_racion)
+        det.id_nutriente = data.get('id_nutriente', det.id_nutriente)
+        det.valor_aportado = data.get('valor_aportado', det.valor_aportado)
+        db.session.commit()
+        flash('Detalle nutricional actualizado.', 'success')
+        return redirect(url_for('detalle_racion_nutricional.index_html'))
+    return render_template('detalle_racion_nutricional/update.html', det=det)
+
+@detalle_racion_nutricional_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_html(id):
+    det = DetalleRacionNutricional.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(det)
+        db.session.commit()
+        flash('Detalle nutricional eliminado.', 'success')
+        return redirect(url_for('detalle_racion_nutricional.index_html'))
+    return render_template('detalle_racion_nutricional/delete.html', det=det)

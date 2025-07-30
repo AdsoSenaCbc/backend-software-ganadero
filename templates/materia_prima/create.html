@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Crear Materia Prima - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+  <h2>Crear Nueva Materia Prima</h2>
+  <form method="POST" action="{{ url_for('materia_prima.create') }}">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <div class="form-group">
+      <label for="fuente">Fuente (opcional)</label>
+      <input type="text" id="fuente" name="fuente">
+    </div>
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{{ url_for('materia_prima.index') }}" class="btn btn-secondary ms-2">Volver</a>
+  </form>
+</div>
+{% endblock %}

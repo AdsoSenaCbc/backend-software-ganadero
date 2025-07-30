@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Nutrientes{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Nutrientes</h2>
+  <a href="{{ url_for('nutrientes.create') }}" class="btn">Agregar Nutriente</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Unidad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for n in nutrientes %}
+      <tr>
+        <td>{{ n.id_nutriente }}</td>
+        <td>{{ n.nombre }}</td>
+        <td>{{ n.unidad }}</td>
+        <td>
+          <a href="{{ url_for('nutrientes.update', id=n.id_nutriente) }}" class="btn">Editar</a>
+          <a href="{{ url_for('nutrientes.delete_html', id=n.id_nutriente) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

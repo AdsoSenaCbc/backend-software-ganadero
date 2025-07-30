@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Materia Prima - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container" style="text-align:center;margin-top:3%">
+  <h2>Confirmar Eliminación</h2>
+  <p>¿Estás seguro de que deseas eliminar la materia prima <strong>{{ m.nombre }}</strong> (ID {{ m.id_materia }})?</p>
+  <form method="POST" action="{{ url_for('materia_prima.delete_html', id=m.id_materia) }}">
+    <button type="submit" class="btn delete">Eliminar</button>
+    <a href="{{ url_for('materia_prima.index') }}" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

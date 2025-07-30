@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Crear Relación Ingrediente-Materia Prima{% endblock %}
+{% block content %}
+<div class="form-container">
+  <h2>Nueva Relación</h2>
+  <form method="POST" action="{{ url_for('ingrediente_materia_prima.create') }}">
+    <div class="form-group">
+      <label for="id_ingrediente">ID Ingrediente</label>
+      <input type="number" id="id_ingrediente" name="id_ingrediente" required style="-moz-appearance:textfield; appearance:textfield;">
+    </div>
+    <div class="form-group">
+      <label for="id_materia">ID Materia Prima</label>
+      <input type="number" id="id_materia" name="id_materia" required style="-moz-appearance:textfield; appearance:textfield;">
+    </div>
+    <div class="form-group">
+      <label for="cantidad_kg">Cantidad (kg)</label>
+      <input type="number" step="0.01" id="cantidad_kg" name="cantidad_kg" style="-moz-appearance:textfield; appearance:textfield;">
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{{ url_for('ingrediente_materia_prima.index') }}" class="btn btn-secondary ms-2">Volver</a>
+  </form>
+</div>
+{% endblock %}

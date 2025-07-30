@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Crear Etapa Productiva - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Nueva Etapa Productiva</h2>
+    <form method="POST" action="{{ url_for('etapas_productivas.create_html') }}">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre de la etapa" required>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="3" placeholder="Describe la etapa"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('etapas_productivas.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

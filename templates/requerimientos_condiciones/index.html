@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Requerimientos - Condiciones - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Relaciones Requerimiento/Condición</h2>
+    <a href="{{ url_for('requerimientos_condiciones.create_html') }}" class="btn">Agregar Relación</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID Requerimiento</th>
+                <th>ID Condición</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in relaciones %}
+            <tr>
+                <td>{{ r.id_requerimiento }}</td>
+                <td>{{ r.id_condicion }}</td>
+                <td>
+                    <a href="{{ url_for('requerimientos_condiciones.update_html', id_requerimiento=r.id_requerimiento, id_condicion=r.id_condicion) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('requerimientos_condiciones.delete_html', id_requerimiento=r.id_requerimiento, id_condicion=r.id_condicion) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

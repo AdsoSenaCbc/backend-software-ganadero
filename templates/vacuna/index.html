@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Lista de Vacunas - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Lista de Vacunas</h2>
+  <a href="{{ url_for('vacuna.create_vacuna_form') }}" class="btn">Agregar Vacuna</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in vacunas %}
+      <tr>
+        <td>{{ v.id_vacuna }}</td>
+        <td>{{ v.nombre }}</td>
+        <td>{{ v.descripcion }}</td>
+        <td>
+          <a href="{{ url_for('vacuna.update_vacuna_form', id=v.id_vacuna) }}" class="btn">Editar</a>
+          <a href="{{ url_for('vacuna.delete_vacuna_form', id=v.id_vacuna) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

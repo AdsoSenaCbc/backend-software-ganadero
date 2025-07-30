@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Detalle Nutricional - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Detalle Nutricional</h2>
+<p>¿Estás seguro de que deseas eliminar el detalle nutricional con ID {{ det.id_detalle_nut }}?</p>
+<form method="POST" action="{{ url_for('detalle_racion_nutricional.delete_html', id=det.id_detalle_nut) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('detalle_racion_nutricional.index_html') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

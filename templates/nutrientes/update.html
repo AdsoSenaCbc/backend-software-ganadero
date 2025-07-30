@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Editar Nutriente{% endblock %}
+{% block content %}
+<div class="form-container">
+  <h2>Editar Nutriente</h2>
+  <form method="POST" action="{{ url_for('nutrientes.update', id=n.id_nutriente) }}">
+    <div class="form-group">
+      <label>ID: {{ n.id_nutriente }}</label>
+    </div>
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" value="{{ n.nombre }}" required>
+    </div>
+    <div class="form-group">
+      <label for="unidad">Unidad</label>
+      <input type="text" id="unidad" name="unidad" value="{{ n.unidad }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('nutrientes.index') }}" class="btn btn-secondary ms-2">Volver</a>
+  </form>
+</div>
+{% endblock %}

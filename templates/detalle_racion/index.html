@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Detalle Raciones - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Detalles de Ración</h2>
+    <a href="{{ url_for('detalle_racion.create_html') }}" class="btn">Agregar Detalle</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ID Ración</th>
+                <th>ID Ingrediente</th>
+                <th>Cantidad (kg)</th>
+                <th>% MS</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in detalles %}
+            <tr>
+                <td>{{ d.id_detalle }}</td>
+                <td>{{ d.id_racion }}</td>
+                <td>{{ d.id_ingrediente }}</td>
+                <td>{{ d.cantidad_kg }}</td>
+                <td>{{ d.porcentaje_ms }}</td>
+                <td>
+                    <a href="{{ url_for('detalle_racion.update_html', id=d.id_detalle) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('detalle_racion.delete_html', id=d.id_detalle) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

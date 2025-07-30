@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Vacunación Animal{% endblock %}
+{% block content %}
+<div class="container" style="text-align:center;margin-top:3%">
+  <h2>Confirmar Eliminación</h2>
+  <p>¿Estás seguro de que deseas eliminar el registro de vacunación del animal <strong>{{ v.id_animal }}</strong> con la vacuna <strong>{{ v.id_vacuna }}</strong>?</p>
+  <form method="POST" action="{{ url_for('vacunacion_animal.delete_form', id_animal=v.id_animal, id_vacuna=v.id_vacuna, fecha=v.fecha_aplicacion.isoformat()) }}">
+    <button type="submit" class="btn delete">Eliminar</button>
+    <a class="btn btn-secondary ms-2" href="{{ url_for('vacunacion_animal.index') }}">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

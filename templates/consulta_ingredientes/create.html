@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Crear Consulta de Ingrediente - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Consulta de Ingrediente</h2>
+    <form method="POST" action="{{ url_for('consulta_ingredientes.create_html') }}">
+        <div class="form-group">
+            <label for="id_consulta">ID Consulta</label>
+            <input type="number" id="id_consulta" name="id_consulta" required>
+        </div>
+        <div class="form-group">
+            <label for="id_ingrediente">ID Ingrediente</label>
+            <input type="number" id="id_ingrediente" name="id_ingrediente" required>
+        </div>
+        <div class="form-group">
+            <label for="resultado">Resultado</label>
+            <textarea id="resultado" name="resultado" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('consulta_ingredientes.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

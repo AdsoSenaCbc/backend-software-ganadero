@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Requerimiento Nutricional - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Requerimiento Nutricional</h2>
+<p>¿Estás seguro de que deseas eliminar el requerimiento con ID {{ req.id_requerimiento }}?</p>
+<form method="POST" action="{{ url_for('requerimientos_nutricionales.delete_html', id=req.id_requerimiento) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('requerimientos_nutricionales.index_html') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

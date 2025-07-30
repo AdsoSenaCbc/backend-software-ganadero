@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Lista de Especies - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Lista de Especies</h2>
+  <a href="{{ url_for('especie.create_especie_form') }}" class="btn">Agregar Especie</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in especies %}
+      <tr>
+        <td>{{ e.id_especie }}</td>
+        <td>{{ e.nombre }}</td>
+        <td>
+          <a href="{{ url_for('especie.update_especie_form', id=e.id_especie) }}" class="btn">Editar</a>
+          <a href="{{ url_for('especie.delete_especie_form', id=e.id_especie) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

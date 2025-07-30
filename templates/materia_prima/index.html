@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Materias Primas - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Lista de Materias Primas</h2>
+  <a href="{{ url_for('materia_prima.create') }}" class="btn">Agregar Materia Prima</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Fuente</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in materias %}
+      <tr>
+        <td>{{ m.id_materia }}</td>
+        <td>{{ m.nombre }}</td>
+        <td>{{ m.fuente or '' }}</td>
+        <td>{{ m.descripcion or '' }}</td>
+        <td>
+          <a href="{{ url_for('materia_prima.update', id=m.id_materia) }}" class="btn">Editar</a>
+          <a href="{{ url_for('materia_prima.delete_html', id=m.id_materia) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

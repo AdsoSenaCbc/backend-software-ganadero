@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Lista de Sexos - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Lista de Sexos</h2>
+  <a href="{{ url_for('sexo.create_sexo_form') }}" class="btn">Agregar Sexo</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in sexos %}
+      <tr>
+        <td>{{ s.id_sexo }}</td>
+        <td>{{ s.nombre }}</td>
+        <td>
+          <a href="{{ url_for('sexo.update_sexo_form', id=s.id_sexo) }}" class="btn">Editar</a>
+          <a href="{{ url_for('sexo.delete_sexo_form', id=s.id_sexo) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

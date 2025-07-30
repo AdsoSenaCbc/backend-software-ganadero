@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Editar Lote Vacuna{% endblock %}
+{% block content %}
+<style>
+.form-container{background:#c8cad4;padding:40px;border-radius:8px;max-width:800px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+</style>
+<div class="container">
+  <div class="form-container">
+<h2 style="text-align:center;color:#1e374d">Editar Lote de Vacuna</h2>
+<form method="POST" action="{{ url_for('lote_vacuna.update_lote_form', id=lote.id_lote) }}">
+  <div class="form-group">
+    <label for="codigo_lote">Código de Lote</label>
+    <input type="text" id="codigo_lote" name="codigo_lote" value="{{ lote.codigo_lote }}" required>
+  </div>
+  <div class="form-group">
+    <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+    <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" value="{{ lote.fecha_vencimiento.strftime('%Y-%m-%d') if lote.fecha_vencimiento else '' }}">
+  </div>
+  <div class="form-group">
+    <label for="fabricante">Fabricante</label>
+    <input type="text" id="fabricante" name="fabricante" value="{{ lote.fabricante }}">
+  </div>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
+  <a class="btn btn-secondary ms-2" href="{{ url_for('lote_vacuna.index') }}">Volver</a>
+</form>
+  </div>
+</div>
+{% endblock %}

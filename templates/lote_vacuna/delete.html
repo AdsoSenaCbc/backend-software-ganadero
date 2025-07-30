@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Lote Vacuna{% endblock %}
+{% block content %}
+<h2>Eliminar Lote de Vacuna</h2>
+<p>¿Seguro que deseas eliminar el lote con código {{ lote.codigo_lote }}?</p>
+<form method="POST" action="{{ url_for('lote_vacuna.delete_lote_form', id=lote.id_lote) }}">
+  <button type="submit" class="btn delete">Confirmar Eliminación</button>
+  <a class="btn" href="{{ url_for('lote_vacuna.index') }}">Cancelar</a>
+</form>
+{% endblock %}

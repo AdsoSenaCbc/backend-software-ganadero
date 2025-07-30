@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Lotes de Vacunas{% endblock %}
+{% block content %}
+<div class="container"></div>
+<h2>Lotes de Vacunas</h2>
+<a href="{{ url_for('lote_vacuna.create_lote_form') }}" class="btn">Agregar Lote</a>
+<table class="table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Código</th>
+      <th>Fecha Vencimiento</th>
+      <th>Fabricante</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for l in lotes %}
+    <tr>
+      <td>{{ l.id_lote }}</td>
+      <td>{{ l.codigo_lote }}</td>
+      <td>{{ l.fecha_vencimiento.strftime('%Y-%m-%d') if l.fecha_vencimiento else '' }}</td>
+      <td>{{ l.fabricante }}</td>
+      <td>
+        <a class="btn" href="{{ url_for('lote_vacuna.update_lote_form', id=l.id_lote) }}">Editar</a>
+        <a class="btn delete" href="{{ url_for('lote_vacuna.delete_lote_form', id=l.id_lote) }}">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Ingredientes - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Lista de Ingredientes</h2>
+  <a href="{{ url_for('ingrediente.create') }}" class="btn">Agregar Ingrediente</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Descripción</th>
+        <th>Costo/kg</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in ingredientes %}
+      <tr>
+        <td>{{ i.id_ingrediente }}</td>
+        <td>{{ i.nombre }}</td>
+        <td>{{ i.tipo or '' }}</td>
+        <td>{{ i.descripcion or '' }}</td>
+        <td>{{ i.costo_kg }}</td>
+        <td>
+          <a href="{{ url_for('ingrediente.update', id=i.id_ingrediente) }}" class="btn">Editar</a>
+          <a href="{{ url_for('ingrediente.delete_html', id=i.id_ingrediente) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

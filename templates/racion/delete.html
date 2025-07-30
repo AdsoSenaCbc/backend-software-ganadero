@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Ración - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Ración</h2>
+<p>¿Estás seguro de que deseas eliminar la ración con ID {{ rac.id_racion }}?</p>
+<form method="POST" action="{{ url_for('racion.delete_html', id=rac.id_racion) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('racion.index_html') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

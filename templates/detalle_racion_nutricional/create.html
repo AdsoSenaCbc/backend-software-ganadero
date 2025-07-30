@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Crear Detalle Nutricional - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Detalle Nutricional</h2>
+    <form method="POST" action="{{ url_for('detalle_racion_nutricional.create_html') }}">
+        <div class="form-group">
+            <label for="id_racion">ID Ración</label>
+            <input type="number" id="id_racion" name="id_racion" required>
+        </div>
+        <div class="form-group">
+            <label for="id_nutriente">ID Nutriente</label>
+            <input type="number" id="id_nutriente" name="id_nutriente" required>
+        </div>
+        <div class="form-group">
+            <label for="valor_aportado">Valor Aportado</label>
+            <input type="number" step="0.0001" id="valor_aportado" name="valor_aportado" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('detalle_racion_nutricional.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

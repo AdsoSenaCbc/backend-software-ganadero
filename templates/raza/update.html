@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Editar Raza - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Editar Raza</h2>
+<form method="POST" action="{{ url_for('raza.update_raza_form', id=raza.id_raza) }}">
+    <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="{{ raza.nombre }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('raza.index') }}" class="btn btn-secondary ms-2">Volver</a>
+</form>
+{% endblock %}

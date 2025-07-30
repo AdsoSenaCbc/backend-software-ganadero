@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Vacuna - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Vacuna</h2>
+<p>¿Estás seguro de que deseas eliminar la vacuna con ID {{ vacuna.id_vacuna }}?</p>
+<form method="POST" action="{{ url_for('vacuna.delete_vacuna_form', id=vacuna.id_vacuna) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('vacuna.index') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

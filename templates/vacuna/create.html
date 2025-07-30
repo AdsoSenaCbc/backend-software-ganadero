@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Crear Vacuna - Sistema Ganadero{% endblock %}
+{% block content %}
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{ -webkit-appearance:none;margin:0; }
+input[type=number]{ appearance:textfield; -moz-appearance:textfield; }
+</style>
+<div class="form-container">
+  <h2>Crear Nueva Vacuna</h2>
+  <form method="POST" action="{{ url_for('vacuna.create_vacuna_form') }}">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{{ url_for('vacuna.index') }}" class="btn btn-secondary ms-2">Volver</a>
+  </form>
+</div>
+{% endblock %}

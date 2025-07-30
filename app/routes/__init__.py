@@ -32,3 +32,4 @@ from .user import user_bp
 from .vacuna import vacuna_bp
 from .vacunacion_animal import vacunacion_animal_bp
 from .auth import auth_bp
+from .api_auth import api_auth_bp

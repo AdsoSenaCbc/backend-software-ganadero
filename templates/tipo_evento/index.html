@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Lista de Tipos de Evento - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Lista de Tipos de Evento</h2>
+  <a href="{{ url_for('tipo_evento.create_tipo_evento_form') }}" class="btn">Agregar Tipo de Evento</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in tipos %}
+      <tr>
+        <td>{{ t.id_tipo_evento }}</td>
+        <td>{{ t.nombre_tipo }}</td>
+        <td>
+          <a href="{{ url_for('tipo_evento.update_tipo_evento_form', id=t.id_tipo_evento) }}" class="btn">Editar</a>
+          <a href="{{ url_for('tipo_evento.delete_tipo_evento_form', id=t.id_tipo_evento) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Etapas Productivas - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Etapas Productivas</h2>
+    <a href="{{ url_for('etapas_productivas.create_html') }}" class="btn">Agregar Etapa</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for etapa in etapas %}
+            <tr>
+                <td>{{ etapa.id_etapa }}</td>
+                <td>{{ etapa.nombre }}</td>
+                <td>{{ etapa.descripcion }}</td>
+                <td>
+                    <a href="{{ url_for('etapas_productivas.update_html', id=etapa.id_etapa) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('etapas_productivas.delete_html', id=etapa.id_etapa) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

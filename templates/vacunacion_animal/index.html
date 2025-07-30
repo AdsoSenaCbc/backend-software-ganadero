@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Vacunaciones de Animales{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Vacunaciones de Animales</h2>
+  <a href="{{ url_for('vacunacion_animal.create_form') }}" class="btn">Registrar Vacunación</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID Animal</th>
+        <th>ID Vacuna</th>
+        <th>Fecha Aplicación</th>
+        <th>ID Lote</th>
+        <th>Observaciones</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in vacunaciones %}
+      <tr>
+        <td>{{ v.id_animal }}</td>
+        <td>{{ v.id_vacuna }}</td>
+        <td>{{ v.fecha_aplicacion.strftime('%Y-%m-%d %H:%M') if v.fecha_aplicacion else '' }}</td>
+        <td>{{ v.id_lote or '' }}</td>
+        <td>{{ v.observaciones or '' }}</td>
+        <td>
+          <a href="{{ url_for('vacunacion_animal.update_form', id_animal=v.id_animal, id_vacuna=v.id_vacuna, fecha=v.fecha_aplicacion.isoformat()) }}" class="btn">Editar</a>
+          <a href="{{ url_for('vacunacion_animal.delete_form', id_animal=v.id_animal, id_vacuna=v.id_vacuna, fecha=v.fecha_aplicacion.isoformat()) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

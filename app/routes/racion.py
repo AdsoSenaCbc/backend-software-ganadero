@@ -1,13 +1,17 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.racion import Racion
 from app.utils.jwt_utils import token_required
 
 racion_bp = Blueprint('racion', __name__)
 
-@racion_bp.route('/', methods=['GET'])
+# --------------------------
+# API JSON ENDPOINTS
+# --------------------------
+
+@racion_bp.route('/api', methods=['GET'])
 @token_required
-def get_raciones():
+def get_raciones_api():
     raciones = Racion.query.all()
     return jsonify([{
         "id_racion": r.id_racion,
@@ -19,9 +23,9 @@ def get_raciones():
         "observaciones": r.observaciones
     } for r in raciones])
 
-@racion_bp.route('/<int:id>', methods=['GET'])
+@racion_bp.route('/api/<int:id>', methods=['GET'])
 @token_required
-def get_racion(id):
+def get_racion_api(id):
     racion = Racion.query.get_or_404(id)
     return jsonify({
         "id_racion": racion.id_racion,
@@ -33,7 +37,7 @@ def get_racion(id):
         "observaciones": racion.observaciones
     })
 
-@racion_bp.route('/', methods=['POST'])
+@racion_bp.route('/api', methods=['POST'])
 @token_required
 def create_racion():
     data = request.get_json()
@@ -48,7 +52,7 @@ def create_racion():
     db.session.commit()
     return jsonify({"message": "Racion created", "id": new_racion.id_racion}), 201
 
-@racion_bp.route('/<int:id>', methods=['PUT'])
+@racion_bp.route('/api/<int:id>', methods=['PUT'])
 @token_required
 def update_racion(id):
     racion = Racion.query.get_or_404(id)
@@ -61,10 +65,66 @@ def update_racion(id):
     db.session.commit()
     return jsonify({"message": "Racion updated"})
 
-@racion_bp.route('/<int:id>', methods=['DELETE'])
+@racion_bp.route('/api/<int:id>', methods=['DELETE'])
 @token_required
 def delete_racion(id):
     racion = Racion.query.get_or_404(id)
     db.session.delete(racion)
     db.session.commit()
     return jsonify({"message": "Racion deleted"})
+
+# --------------------------
+# HTML CRUD ROUTES
+# --------------------------
+from flask_login import login_required
+
+@racion_bp.route('/', methods=['GET'])
+@login_required
+def index_html():
+    raciones = Racion.query.all()
+    return render_template('racion/index.html', raciones=raciones)
+
+@racion_bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create_html():
+    if request.method == 'POST':
+        data = request.form
+        nueva = Racion(
+            id_animal=data.get('id_animal'),
+            id_requerimiento=data.get('id_requerimiento'),
+            ms_total=data.get('ms_total'),
+            calculado_por=data.get('calculado_por'),
+            observaciones=data.get('observaciones')
+        )
+        db.session.add(nueva)
+        db.session.commit()
+        flash('Ración creada.', 'success')
+        return redirect(url_for('racion.index_html'))
+    return render_template('racion/create.html')
+
+@racion_bp.route('/<int:id>/update', methods=['GET', 'POST'])
+@login_required
+def update_html(id):
+    rac = Racion.query.get_or_404(id)
+    if request.method == 'POST':
+        data = request.form
+        rac.id_animal = data.get('id_animal', rac.id_animal)
+        rac.id_requerimiento = data.get('id_requerimiento', rac.id_requerimiento)
+        rac.ms_total = data.get('ms_total', rac.ms_total)
+        rac.calculado_por = data.get('calculado_por', rac.calculado_por)
+        rac.observaciones = data.get('observaciones', rac.observaciones)
+        db.session.commit()
+        flash('Ración actualizada.', 'success')
+        return redirect(url_for('racion.index_html'))
+    return render_template('racion/update.html', rac=rac)
+
+@racion_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete_html(id):
+    rac = Racion.query.get_or_404(id)
+    if request.method == 'POST':
+        db.session.delete(rac)
+        db.session.commit()
+        flash('Ración eliminada.', 'success')
+        return redirect(url_for('racion.index_html'))
+    return render_template('racion/delete.html', rac=rac)

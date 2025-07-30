@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Actualizar Etapa Productiva - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Actualizar Etapa Productiva</h2>
+    <form method="POST" action="{{ url_for('etapas_productivas.update_html', id=etapa.id_etapa) }}">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" value="{{ etapa.nombre }}" required>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="3">{{ etapa.descripcion }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{{ url_for('etapas_productivas.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

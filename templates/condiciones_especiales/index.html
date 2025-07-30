@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Condiciones Especiales - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Condiciones Especiales</h2>
+    <a href="{{ url_for('condiciones_especiales.create_html') }}" class="btn">Agregar Condición</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Ajuste Nutriente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in condiciones %}
+            <tr>
+                <td>{{ c.id_condicion }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.descripcion }}</td>
+                <td>{{ c.ajuste_nutriente }}</td>
+                <td>
+                    <a href="{{ url_for('condiciones_especiales.update_html', id=c.id_condicion) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('condiciones_especiales.delete_html', id=c.id_condicion) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

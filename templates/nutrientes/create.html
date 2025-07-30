@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Crear Nutriente{% endblock %}
+{% block content %}
+<div class="form-container">
+  <h2>Nuevo Nutriente</h2>
+  <form method="POST" action="{{ url_for('nutrientes.create') }}">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required>
+    </div>
+    <div class="form-group">
+      <label for="unidad">Unidad</label>
+      <input type="text" id="unidad" name="unidad" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{{ url_for('nutrientes.index') }}" class="btn btn-secondary ms-2">Volver</a>
+  </form>
+</div>
+{% endblock %}

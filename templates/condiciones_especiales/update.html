@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Actualizar Condición Especial - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Actualizar Condición Especial</h2>
+    <form method="POST" action="{{ url_for('condiciones_especiales.update_html', id=cond.id_condicion) }}">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" value="{{ cond.nombre }}" required>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion">{{ cond.descripcion }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="ajuste_nutriente">Ajuste Nutriente</label>
+            <input type="number" step="0.0001" id="ajuste_nutriente" name="ajuste_nutriente" value="{{ cond.ajuste_nutriente }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{{ url_for('condiciones_especiales.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

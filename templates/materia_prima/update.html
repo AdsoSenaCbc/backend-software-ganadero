@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Editar Materia Prima - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+  <h2>Editar Materia Prima</h2>
+  <form method="POST" action="{{ url_for('materia_prima.update', id=m.id_materia) }}">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" value="{{ m.nombre }}" required>
+    </div>
+    <div class="form-group">
+      <label for="fuente">Fuente (opcional)</label>
+      <input type="text" id="fuente" name="fuente" value="{{ m.fuente or '' }}">
+    </div>
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" rows="3">{{ m.descripcion or '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('materia_prima.index') }}" class="btn btn-secondary ms-2">Volver</a>
+  </form>
+</div>
+{% endblock %}

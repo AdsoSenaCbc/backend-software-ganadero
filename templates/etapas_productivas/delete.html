@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Etapa Productiva - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Etapa Productiva</h2>
+<p>¿Estás seguro de que deseas eliminar la etapa con ID {{ etapa.id_etapa }}?</p>
+<form method="POST" action="{{ url_for('etapas_productivas.delete_html', id=etapa.id_etapa) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('etapas_productivas.index_html') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

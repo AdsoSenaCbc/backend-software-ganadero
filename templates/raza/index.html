@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Lista de Razas - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+  <h2>Lista de Razas</h2>
+  <a href="{{ url_for('raza.create_raza_form') }}" class="btn">Agregar Raza</a>
+  <table class="table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in razas %}
+      <tr>
+        <td>{{ r.id_raza }}</td>
+        <td>{{ r.nombre }}</td>
+        <td>
+          <a href="{{ url_for('raza.update_raza_form', id=r.id_raza) }}" class="btn">Editar</a>
+          <a href="{{ url_for('raza.delete_raza_form', id=r.id_raza) }}" class="btn delete">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

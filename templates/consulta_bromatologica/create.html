@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Crear Consulta Bromatológica - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Consulta Bromatológica</h2>
+    <form method="POST" action="{{ url_for('consulta_bromatologica.create_html') }}">
+        <div class="form-group">
+            <label for="fecha_consulta">Fecha Consulta</label>
+            <input type="datetime-local" id="fecha_consulta" name="fecha_consulta">
+        </div>
+        <div class="form-group">
+            <label for="id_usuario">ID Usuario</label>
+            <input type="number" id="id_usuario" name="id_usuario" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('consulta_bromatologica.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

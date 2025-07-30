@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Crear Requerimiento Nutricional - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Requerimiento Nutricional</h2>
+    <form method="POST" action="{{ url_for('requerimientos_nutricionales.create_html') }}">
+        <div class="form-group">
+            <label for="id_etapa">ID Etapa</label>
+            <input type="number" id="id_etapa" name="id_etapa" required>
+        </div>
+        <div class="form-group">
+            <label for="peso_min">Peso Mínimo (kg)</label>
+            <input type="number" step="0.01" id="peso_min" name="peso_min" required>
+        </div>
+        <div class="form-group">
+            <label for="peso_max">Peso Máximo (kg)</label>
+            <input type="number" step="0.01" id="peso_max" name="peso_max" required>
+        </div>
+        <div class="form-group">
+            <label for="id_nutriente">ID Nutriente</label>
+            <input type="number" id="id_nutriente" name="id_nutriente" required>
+        </div>
+        <div class="form-group">
+            <label for="valor_min">Valor Mínimo</label>
+            <input type="number" step="0.0001" id="valor_min" name="valor_min" required>
+        </div>
+        <div class="form-group">
+            <label for="valor_max">Valor Máximo</label>
+            <input type="number" step="0.0001" id="valor_max" name="valor_max" required>
+        </div>
+        <div class="form-group">
+            <label for="condicion">Condición</label>
+            <input type="text" id="condicion" name="condicion" placeholder="">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('requerimientos_nutricionales.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Consulta Bromatológica - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Consulta Bromatológica</h2>
+<p>¿Estás seguro de que deseas eliminar la consulta con ID {{ cons.id_consulta }}?</p>
+<form method="POST" action="{{ url_for('consulta_bromatologica.delete_html', id=cons.id_consulta) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('consulta_bromatologica.index_html') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Consulta de Ingrediente - Sistema Ganadero{% endblock %}
+{% block content %}
+<h2>Eliminar Consulta de Ingrediente</h2>
+<p>¿Estás seguro de que deseas eliminar la consulta {{ cons.id_consulta }} - {{ cons.id_ingrediente }}?</p>
+<form method="POST" action="{{ url_for('consulta_ingredientes.delete_html', id_consulta=cons.id_consulta, id_ingrediente=cons.id_ingrediente) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('consulta_ingredientes.index_html') }}" class="btn">Cancelar</a>
+</form>
+{% endblock %}

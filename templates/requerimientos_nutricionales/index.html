@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Requerimientos Nutricionales - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Requerimientos Nutricionales</h2>
+    <a href="{{ url_for('requerimientos_nutricionales.create_html') }}" class="btn">Agregar Requerimiento</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Etapa</th>
+                <th>Peso Min</th>
+                <th>Peso Max</th>
+                <th>Nutriente</th>
+                <th>Valor Min</th>
+                <th>Valor Max</th>
+                <th>Condición</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in requerimientos %}
+            <tr>
+                <td>{{ r.id_requerimiento }}</td>
+                <td>{{ r.id_etapa }}</td>
+                <td>{{ r.peso_min }}</td>
+                <td>{{ r.peso_max }}</td>
+                <td>{{ r.id_nutriente }}</td>
+                <td>{{ r.valor_min }}</td>
+                <td>{{ r.valor_max }}</td>
+                <td>{{ r.condicion }}</td>
+                <td>
+                    <a href="{{ url_for('requerimientos_nutricionales.update_html', id=r.id_requerimiento) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('requerimientos_nutricionales.delete_html', id=r.id_requerimiento) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

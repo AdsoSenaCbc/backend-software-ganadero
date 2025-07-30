@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Editar Relación Ingrediente-Materia Prima{% endblock %}
+{% block content %}
+<div class="form-container">
+  <h2>Editar Relación</h2>
+  <form method="POST" action="{{ url_for('ingrediente_materia_prima.update', id_ingrediente=r.id_ingrediente, id_materia=r.id_materia) }}">
+    <div class="form-group">
+      <label>ID Ingrediente: {{ r.id_ingrediente }}</label>
+    </div>
+    <div class="form-group">
+      <label>ID Materia Prima: {{ r.id_materia }}</label>
+    </div>
+    <div class="form-group">
+      <label for="cantidad_kg">Cantidad (kg)</label>
+      <input type="number" step="0.01" id="cantidad_kg" name="cantidad_kg" value="{{ r.cantidad_kg }}" style="-moz-appearance:textfield; appearance:textfield;">
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a href="{{ url_for('ingrediente_materia_prima.index') }}" class="btn btn-secondary ms-2">Volver</a>
+  </form>
+</div>
+{% endblock %}
