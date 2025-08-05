@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Crear Nacimiento - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Nacimiento</h2>
+    <form method="POST" action="{{ url_for('nacimiento.create_html') }}">
+        <div class="form-group">
+            <label for="id_cria">Cría</label>
+            <select id="id_cria" name="id_cria" class="form-select" required>
+                <option value="" disabled selected>Seleccione cría</option>
+                {% for a in animals %}
+                    <option value="{{ a.id_animal }}">{{ a.identificador_unico }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_madre">Madre</label>
+            <select id="id_madre" name="id_madre" class="form-select" required>
+                <option value="" disabled selected>Seleccione madre</option>
+                {% for a in animals %}
+                    <option value="{{ a.id_animal }}">{{ a.identificador_unico }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_padre">Padre</label>
+            <select id="id_padre" name="id_padre" class="form-select" required>
+                <option value="" disabled selected>Seleccione padre</option>
+                {% for a in animals %}
+                    <option value="{{ a.id_animal }}">{{ a.identificador_unico }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fecha_nacimiento">Fecha Nacimiento</label>
+            <input type="datetime-local" id="fecha_nacimiento" name="fecha_nacimiento" required>
+        </div>
+        <div class="form-group">
+            <label for="peso_nacimiento">Peso Nacimiento (kg)</label>
+            <input type="number" step="any" id="peso_nacimiento" name="peso_nacimiento" required onwheel="this.blur()">
+        </div>
+        <div class="form-group">
+            <label for="tipo_parto">Tipo Parto</label>
+            <input type="text" id="tipo_parto" name="tipo_parto" required>
+        </div>
+        <div class="form-group">
+            <label for="complicaciones">Complicaciones</label>
+            <textarea id="complicaciones" name="complicaciones" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('nacimiento.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

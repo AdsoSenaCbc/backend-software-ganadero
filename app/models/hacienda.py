@@ -13,4 +13,6 @@ class Hacienda(db.Model):
 
     departamento = db.relationship('Departamento', back_populates='haciendas')
     municipio = db.relationship('Municipio', back_populates='haciendas')
-    usuario = db.relationship('Usuario', backref='haciendas')  # Corregí 'User' a 'Usuario' para que coincida con el modelo
+    usuario = db.relationship('Usuario', backref='haciendas')
+    # Relación con Concentrados
+  # Corregí 'User' a 'Usuario' para que coincida con el modelo

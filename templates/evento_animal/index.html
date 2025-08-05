@@ -7,9 +7,9 @@
     <table class="table-striped">
         <thead>
             <tr>
-                <th>ID Animal</th>
+                <th>Animal</th>
                 <th>ID Evento</th>
-                <th>ID Tipo Evento</th>
+                <th>Tipo Evento</th>
                 <th>Fecha</th>
                 <th>Valor</th>
                 <th>Observaciones</th>
@@ -19,9 +19,9 @@
         <tbody>
             {% for e in eventos %}
             <tr>
-                <td>{{ e.id_animal }}</td>
+                <td>{{ e.animal.nombre if e.animal else e.id_animal }}</td>
                 <td>{{ e.id_evento }}</td>
-                <td>{{ e.id_tipo_evento }}</td>
+                <td>{{ e.tipo_evento.nombre_tipo if e.tipo_evento else e.id_tipo_evento }}</td>
                 <td>{{ e.fecha_evento.strftime('%Y-%m-%d %H:%M') }}</td>
                 <td>{{ e.valor }}</td>
                 <td>{{ e.observaciones }}</td>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Actualizar Historial Animal - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Actualizar Historial Animal</h2>
+    <form method="POST" action="{{ url_for('historial_animal.update_html', id=hist.id_historial) }}">
+        <div class="form-group">
+            <label for="id_animal">Animal</label>
+            <select id="id_animal" name="id_animal" class="form-select" required>
+                {% for a in animals %}
+                    <option value="{{ a.id_animal }}" {% if a.id_animal == hist.id_animal %}selected{% endif %}>{{ a.identificador_unico }} - {{ a.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="id_hacienda">Hacienda</label>
+            <select id="id_hacienda" name="id_hacienda" class="form-select" required>
+                {% for h in haciendas %}
+                    <option value="{{ h.id_hacienda }}" {% if h.id_hacienda == hist.id_hacienda %}selected{% endif %}>{{ h.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fecha_ingreso">Fecha Ingreso</label>
+            <input type="datetime-local" id="fecha_ingreso" name="fecha_ingreso" value="{{ hist.fecha_ingreso|replace(' ', 'T') }}" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha_salida">Fecha Salida</label>
+            <input type="datetime-local" id="fecha_salida" name="fecha_salida" value="{{ hist.fecha_salida|replace(' ', 'T') if hist.fecha_salida }}">
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" rows="3">{{ hist.observaciones }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{{ url_for('historial_animal.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

@@ -14,27 +14,57 @@
         </div>
         <div class="form-group">
             <label for="id_hacienda">Hacienda</label>
-            <input type="number" id="id_hacienda" name="id_hacienda" required>
+            <select id="id_hacienda" name="id_hacienda" class="form-select" required>
+                <option value="" disabled selected>Seleccione hacienda</option>
+                {% for h in haciendas %}
+                    <option value="{{ h.id_hacienda }}">{{ h.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="id_raza">Raza</label>
-            <input type="number" id="id_raza" name="id_raza" required>
+            <select id="id_raza" name="id_raza" class="form-select" required>
+                <option value="" disabled selected>Seleccione raza</option>
+                {% for r in razas %}
+                    <option value="{{ r.id_raza }}">{{ r.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="id_sexo">Sexo</label>
-            <input type="number" id="id_sexo" name="id_sexo" required>
+            <select id="id_sexo" name="id_sexo" class="form-select" required>
+                <option value="" disabled selected>Seleccione sexo</option>
+                {% for s in sexos %}
+                    <option value="{{ s.id_sexo }}">{{ s.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="id_especie">Especie</label>
-            <input type="number" id="id_especie" name="id_especie" required>
+            <select id="id_especie" name="id_especie" class="form-select" required>
+                <option value="" disabled selected>Seleccione especie</option>
+                {% for e in especies %}
+                    <option value="{{ e.id_especie }}">{{ e.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="id_estado">Estado</label>
-            <input type="number" id="id_estado" name="id_estado" required>
+            <select id="id_estado" name="id_estado" class="form-select" required>
+                <option value="" disabled selected>Seleccione estado</option>
+                {% for est in estados %}
+                    <option value="{{ est.id_estado }}">{{ est.nombre_estado }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="id_etapa">Etapa</label>
-            <input type="number" id="id_etapa" name="id_etapa" required>
+            <select id="id_etapa" name="id_etapa" class="form-select" required>
+                <option value="" disabled selected>Seleccione etapa</option>
+                {% for et in etapas %}
+                    <option value="{{ et.id_etapa }}">{{ et.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="peso">Peso (kg)</label>

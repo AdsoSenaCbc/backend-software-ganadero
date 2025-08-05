@@ -80,7 +80,9 @@ def create_html():
         db.session.commit()
         flash('Relación creada.', 'success')
         return redirect(url_for('requerimientos_condiciones.index_html'))
-    return render_template('requerimientos_condiciones/create.html')
+    requerimientos = RequerimientosNutricionales.query.all()
+    condiciones = CondicionesEspeciales.query.all()
+    return render_template('requerimientos_condiciones/create.html', requerimientos=requerimientos, condiciones=condiciones)
 
 @requerimientos_condiciones_bp.route('/<int:id_requerimiento>/<int:id_condicion>/delete', methods=['GET', 'POST'])
 @login_required
@@ -105,4 +107,6 @@ def update_html(id_requerimiento, id_condicion):
         db.session.commit()
         flash('Relación actualizada.', 'success')
         return redirect(url_for('requerimientos_condiciones.index_html'))
-    return render_template('requerimientos_condiciones/update.html', rel=rel)
+    requerimientos = RequerimientosNutricionales.query.all()
+    condiciones = CondicionesEspeciales.query.all()
+    return render_template('requerimientos_condiciones/update.html', rel=rel, requerimientos=requerimientos, condiciones=condiciones)

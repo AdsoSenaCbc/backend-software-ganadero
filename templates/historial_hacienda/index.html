@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Historial Hacienda - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Historial Hacienda</h2>
+    <a href="{{ url_for('historial_hacienda.create_html') }}" class="btn">Nuevo Historial</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hacienda</th>
+                <th>Fecha</th>
+                <th>Existencia Animales</th>
+                <th>Área (ha)</th>
+                <th>Estado</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h in historiales %}
+            <tr>
+                <td>{{ h.id_historial }}</td>
+                <td>{% set hac = haciendas_lookup.get(h.id_hacienda) %}{{ hac.nombre if hac else h.id_hacienda }}</td>
+                <td>{{ h.fecha }}</td>
+                <td>{{ h.existencia_animales }}</td>
+                <td>{{ h.area }}</td>
+                <td>{{ h.estado }}</td>
+                <td>{{ h.observaciones }}</td>
+                <td>
+                    <a href="{{ url_for('historial_hacienda.update_html', id=h.id_historial) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('historial_hacienda.delete_html', id=h.id_historial) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

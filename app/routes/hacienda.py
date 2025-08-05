@@ -63,7 +63,15 @@ def create():
         db.session.commit()
         flash('Hacienda creada exitosamente.', 'success')
         return redirect(url_for('hacienda.index'))
-    return render_template('hacienda/create.html')
+        
+    # GET: cargar listas para selects
+    from app.models.departamento import Departamento
+    from app.models.municipio import Municipio
+    from app.models.usuario import Usuario
+    departamentos = Departamento.query.all()
+    municipios = Municipio.query.all()
+    usuarios = Usuario.query.all()
+    return render_template('hacienda/create.html', departamentos=departamentos, municipios=municipios, usuarios=usuarios)
 
 
 @hacienda_bp.route('/<int:id>/update', methods=['GET', 'POST'])
@@ -82,7 +90,14 @@ def update(id):
         db.session.commit()
         flash('Hacienda actualizada exitosamente.', 'success')
         return redirect(url_for('hacienda.index'))
-    return render_template('hacienda/update.html', hacienda=hacienda)
+    # GET: cargar selects
+    from app.models.departamento import Departamento
+    from app.models.municipio import Municipio
+    from app.models.usuario import Usuario
+    departamentos = Departamento.query.all()
+    municipios = Municipio.query.all()
+    usuarios = Usuario.query.all()
+    return render_template('hacienda/update.html', hacienda=hacienda, departamentos=departamentos, municipios=municipios, usuarios=usuarios)
 
 
 @hacienda_bp.route('/<int:id>/delete', methods=['GET', 'POST'])

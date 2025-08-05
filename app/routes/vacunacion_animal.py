@@ -31,7 +31,14 @@ def create_form():
         db.session.commit()
         flash('Vacunación registrada', 'success')
         return redirect(url_for('vacunacion_animal.index'))
-    return render_template('vacunacion_animal/create.html')
+    # GET: cargar listas
+    from app.models.animal import Animal
+    from app.models.vacuna import Vacuna
+    from app.models.lote_vacuna import LoteVacuna
+    animals = Animal.query.all()
+    vacunas = Vacuna.query.all()
+    lotes = LoteVacuna.query.all()
+    return render_template('vacunacion_animal/create.html', animals=animals, vacunas=vacunas, lotes=lotes)
 
 @vacunacion_animal_bp.route('/<int:id_animal>/<int:id_vacuna>/<string:fecha>/update', methods=['GET', 'POST'])
 @login_required
@@ -45,7 +52,9 @@ def update_form(id_animal, id_vacuna, fecha):
         db.session.commit()
         flash('Vacunación actualizada', 'success')
         return redirect(url_for('vacunacion_animal.index'))
-    return render_template('vacunacion_animal/update.html', v=vacunacion)
+    from app.models.lote_vacuna import LoteVacuna
+    lotes = LoteVacuna.query.all()
+    return render_template('vacunacion_animal/update.html', v=vacunacion, lotes=lotes)
 
 @vacunacion_animal_bp.route('/<int:id_animal>/<int:id_vacuna>/<string:fecha>/delete', methods=['GET', 'POST'])
 @login_required

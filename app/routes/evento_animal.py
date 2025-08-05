@@ -33,7 +33,12 @@ def create_evento():
         db.session.commit()
         flash('Evento creado correctamente.', 'success')
         return redirect(url_for('evento_animal.index'))
-    return render_template('evento_animal/create.html')
+    # GET: cargar listas para selects
+    from app.models.animal import Animal
+    from app.models.tipo_evento import TipoEvento
+    animals = Animal.query.all()
+    tipos_evento = TipoEvento.query.all()
+    return render_template('evento_animal/create.html', animals=animals, tipos_evento=tipos_evento)
 
 @evento_animal_bp.route('/<int:id_animal>/<int:id_evento>/update', methods=['GET', 'POST'])
 @login_required
@@ -47,7 +52,9 @@ def update_evento(id_animal, id_evento):
         db.session.commit()
         flash('Evento actualizado correctamente.', 'success')
         return redirect(url_for('evento_animal.index'))
-    return render_template('evento_animal/update.html', evento=evento)
+    from app.models.tipo_evento import TipoEvento
+    tipos_evento = TipoEvento.query.all()
+    return render_template('evento_animal/update.html', evento=evento, tipos_evento=tipos_evento)
 
 @evento_animal_bp.route('/<int:id_animal>/<int:id_evento>/delete', methods=['GET', 'POST'])
 @login_required

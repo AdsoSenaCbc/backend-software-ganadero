@@ -5,8 +5,12 @@
     <h2>Actualizar Requerimiento Nutricional</h2>
     <form method="POST" action="{{ url_for('requerimientos_nutricionales.update_html', id=req.id_requerimiento) }}">
         <div class="form-group">
-            <label for="id_etapa">ID Etapa</label>
-            <input type="number" id="id_etapa" name="id_etapa" value="{{ req.id_etapa }}" required>
+            <label for="id_etapa">Etapa</label>
+            <select id="id_etapa" name="id_etapa" class="form-select" required>
+                {% for e in etapas %}
+                    <option value="{{ e.id_etapa }}" {% if e.id_etapa == req.id_etapa %}selected{% endif %}>{{ e.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="peso_min">Peso Mínimo (kg)</label>
@@ -17,8 +21,12 @@
             <input type="number" step="0.01" id="peso_max" name="peso_max" value="{{ req.peso_max }}" required>
         </div>
         <div class="form-group">
-            <label for="id_nutriente">ID Nutriente</label>
-            <input type="number" id="id_nutriente" name="id_nutriente" value="{{ req.id_nutriente }}" required>
+            <label for="id_nutriente">Nutriente</label>
+            <select id="id_nutriente" name="id_nutriente" class="form-select" required>
+                {% for n in nutrientes %}
+                    <option value="{{ n.id_nutriente }}" {% if n.id_nutriente == req.id_nutriente %}selected{% endif %}>{{ n.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="valor_min">Valor Mínimo</label>

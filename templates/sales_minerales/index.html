@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Sales Minerales - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Sales Minerales</h2>
+    <a href="{{ url_for('sales_minerales.create_html') }}" class="btn">Nueva Sal Mineral</a>
+    <table class="table-striped mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Composición</th>
+                <th>Contenido principal (%)</th>
+                <th>Uso principal</th>
+                <th>Costo/kg</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sales_minerales %}
+            <tr>
+                <td>{{ s.id_sale_mineral }}</td>
+                <td>{{ s.nombre }}</td>
+                <td>{{ s.composicion }}</td>
+                <td>{{ s.contenido_principal }}</td>
+                <td>{{ s.uso_principal }}</td>
+                <td>{{ s.costo_kg }}</td>
+                <td>
+                    <a href="{{ url_for('sales_minerales.update_html', id=s.id_sale_mineral) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('sales_minerales.delete_html', id=s.id_sale_mineral) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

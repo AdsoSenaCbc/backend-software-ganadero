@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.consulta_ingredientes import ConsultaIngredientes
+from app.models.consulta_bromatologica import ConsultaBromatologica
+from app.models.ingrediente import Ingrediente
 from app.utils.jwt_utils import token_required
 
 consulta_ingredientes_bp = Blueprint('consulta_ingredientes', __name__)
@@ -68,7 +70,9 @@ from flask_login import login_required
 @login_required
 def index_html():
     consultas = ConsultaIngredientes.query.all()
-    return render_template('consulta_ingredientes/index.html', consultas=consultas)
+    consultas_lookup = {c.id_consulta: c for c in ConsultaBromatologica.query.all()}
+    ingredientes_lookup = {i.id_ingrediente: i for i in Ingrediente.query.all()}
+    return render_template('consulta_ingredientes/index.html', consultas=consultas, consultas_lookup=consultas_lookup, ingredientes_lookup=ingredientes_lookup)
 
 @consulta_ingredientes_bp.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -84,7 +88,9 @@ def create_html():
         db.session.commit()
         flash('Consulta ingrediente creada.', 'success')
         return redirect(url_for('consulta_ingredientes.index_html'))
-    return render_template('consulta_ingredientes/create.html')
+    consultas_list = ConsultaBromatologica.query.all()
+    ingredientes_list = Ingrediente.query.all()
+    return render_template('consulta_ingredientes/create.html', consultas=consultas_list, ingredientes=ingredientes_list)
 
 @consulta_ingredientes_bp.route('/<int:id_consulta>/<int:id_ingrediente>/update', methods=['GET', 'POST'])
 @login_required
@@ -96,7 +102,9 @@ def update_html(id_consulta, id_ingrediente):
         db.session.commit()
         flash('Consulta ingrediente actualizada.', 'success')
         return redirect(url_for('consulta_ingredientes.index_html'))
-    return render_template('consulta_ingredientes/update.html', cons=cons)
+    consultas_list = ConsultaBromatologica.query.all()
+    ingredientes_list = Ingrediente.query.all()
+    return render_template('consulta_ingredientes/update.html', cons=cons, consultas=consultas_list, ingredientes=ingredientes_list)
 
 @consulta_ingredientes_bp.route('/<int:id_consulta>/<int:id_ingrediente>/delete', methods=['GET', 'POST'])
 @login_required

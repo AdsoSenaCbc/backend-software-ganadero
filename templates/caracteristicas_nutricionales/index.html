@@ -8,8 +8,8 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>ID Ingrediente</th>
-        <th>ID Nutriente</th>
+        <th>Ingrediente</th>
+        <th>Nutriente</th>
         <th>Valor</th>
         <th>Acciones</th>
       </tr>
@@ -18,12 +18,14 @@
       {% for c in caracteristicas %}
       <tr>
         <td>{{ c.id_caracteristica }}</td>
-        <td>{{ c.id_ingrediente }}</td>
-        <td>{{ c.id_nutriente }}</td>
+        <td>{{ c.ingrediente.nombre if c.ingrediente else c.id_ingrediente }}</td>
+        <td>{{ c.nutriente.nombre if c.nutriente else c.id_nutriente }}</td>
         <td>{{ c.valor }}</td>
         <td>
-          <a href="{{ url_for('caracteristicas_nutricionales.update_html', id=c.id_caracteristica) }}" class="btn">Editar</a>
-          <a href="{{ url_for('caracteristicas_nutricionales.delete_html', id=c.id_caracteristica) }}" class="btn delete">Eliminar</a>
+          <div class="action-buttons">
+            <a href="{{ url_for('caracteristicas_nutricionales.update_html', id=c.id_caracteristica) }}" class="btn edit-btn">Editar</a>
+            <a href="{{ url_for('caracteristicas_nutricionales.delete_html', id=c.id_caracteristica) }}" class="btn delete">Eliminar</a>
+          </div>
         </td>
       </tr>
       {% endfor %}

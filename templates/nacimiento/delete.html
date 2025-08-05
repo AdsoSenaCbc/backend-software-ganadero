@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Nacimiento - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Eliminar Nacimiento</h2>
+    <p>¿Está seguro de que desea eliminar el registro de nacimiento #{{ nac.id_nacimiento }}?</p>
+    <form method="POST" action="{{ url_for('nacimiento.delete_html', id=nac.id_nacimiento) }}">
+        <button type="submit" class="btn delete">Eliminar</button>
+        <a href="{{ url_for('nacimiento.index_html') }}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Crear Concentrado - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Concentrado</h2>
+    <form method="POST" action="{{ url_for('concentrados.create_html') }}">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="tipo">Tipo</label>
+            <input type="text" id="tipo" name="tipo">
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="costo_kg">Costo por kg</label>
+            <input type="number" id="costo_kg" name="costo_kg" step="0.01">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('concentrados.index') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

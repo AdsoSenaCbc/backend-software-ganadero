@@ -384,6 +384,129 @@ html{scroll-behavior:smooth;}
     }
 }
 
+/* ===== Premium Enhancements ===== */
+
+/* Form elements */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--btn-bg);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Select arrows consistent across browsers */
+select.form-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%233498db" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><polygon points="5,7 10,12 15,7"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 0.65rem;
+    padding-right: 2rem;
+}
+
+/* Table styling */
+.table-striped {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-striped thead {
+    background: linear-gradient(90deg, var(--navbar-bg), #3c556d);
+    color: #fff;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #f2f6fa;
+}
+
+.table-striped tbody tr:hover {
+    background-color: #eaf1f7;
+}
+
+.table-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.table-actions .btn {
+    flex: none;
+    min-width: 90px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    flex: 1 1 45%;
+    margin: 0;
+    text-align: center;
+}
+
+/* Delete buttons */
+.btn.delete,
+button.delete,
+.btn.delete-btn,
+button.delete-btn {
+    background-color: var(--alert-error);
+}
+
+.btn.delete:hover,
+button.delete:hover,
+.btn.delete-btn:hover,
+button.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Delete confirmation cards */
+.confirm-card {
+    max-width: 480px;
+    margin: 2rem auto;
+    background-color: var(--card-bg);
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    padding: 2rem 2.5rem;
+    text-align: center;
+}
+
+.confirm-card p {
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Action buttons container */
+.action-buttons{
+    display:flex;
+    gap:0.5rem;
+}
+
+/* Edit button distinct color */
+.edit-btn{
+    background-color: var(--btn-bg);
+}
+.edit-btn:hover{
+    background-color: var(--btn-hover);
+}
+
+/* Table action buttons spacing (fallback older markup) */
+.table-striped td .btn {
+    margin-right: 0.35rem;
+}
+
 /* Hide sidebar when not active on mobile */
 @media (max-width: 768px) {
     .sidebar {

@@ -5,12 +5,20 @@
     <h2>Actualizar Detalle de Ración</h2>
     <form method="POST" action="{{ url_for('detalle_racion.update_html', id=det.id_detalle) }}">
         <div class="form-group">
-            <label for="id_racion">ID Ración</label>
-            <input type="number" id="id_racion" name="id_racion" value="{{ det.id_racion }}" required>
+            <label for="id_racion">Ración</label>
+            <select id="id_racion" name="id_racion" class="form-select" required>
+                {% for r in raciones %}
+                    <option value="{{ r.id_racion }}" {% if r.id_racion == det.id_racion %}selected{% endif %}>Ración {{ r.id_racion }} - Animal {{ r.animal.nombre if r.animal else r.id_animal }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
-            <label for="id_ingrediente">ID Ingrediente</label>
-            <input type="number" id="id_ingrediente" name="id_ingrediente" value="{{ det.id_ingrediente }}" required>
+            <label for="id_ingrediente">Ingrediente</label>
+            <select id="id_ingrediente" name="id_ingrediente" class="form-select" required>
+                {% for ing in ingredientes %}
+                    <option value="{{ ing.id_ingrediente }}" {% if ing.id_ingrediente == det.id_ingrediente %}selected{% endif %}>{{ ing.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="cantidad_kg">Cantidad (kg)</label>

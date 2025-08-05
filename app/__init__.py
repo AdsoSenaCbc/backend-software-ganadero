@@ -53,6 +53,8 @@ def create_app():
             'consulta_bromatologica': ('consulta_bromatologica', '/api/consultas-bromatologicas'),
             'materia_prima': ('materia_prima', '/api/materias-primas'),
             'consulta_ingredientes': ('consulta_ingredientes', '/api/consultas-ingredientes'),
+            'concentrados': ('concentrados', '/api/concentrados'),
+            'sales_minerales': ('sales_minerales', '/api/sales-minerales'),
             'departamento': ('departamento', '/api/departamentos'),
             'detalle_racion': ('detalle_racion', '/api/detalles-racion'),
             'detalle_racion_nutricional': ('detalle_racion_nutricional', '/api/detalles-racion-nutricional'),

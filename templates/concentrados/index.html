@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Concentrados - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Concentrados</h2>
+    <a href="{{ url_for('concentrados.create_html') }}" class="btn">Nuevo Concentrado</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th>Costo/kg</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in concentrados %}
+            <tr>
+                <td>{{ c.id_concentrado }}</td>
+                <td>{{ c.nombre }}</td>
+                <td>{{ c.tipo }}</td>
+                <td>{{ c.descripcion }}</td>
+                <td>{{ c.costo_kg }}</td>
+                <td>
+                    <a href="{{ url_for('concentrados.update_html', id=c.id_concentrado) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('concentrados.delete_html', id=c.id_concentrado) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

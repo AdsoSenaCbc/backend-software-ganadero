@@ -5,12 +5,22 @@
     <h2>Crear Relación</h2>
     <form method="POST" action="{{ url_for('requerimientos_condiciones.create_html') }}">
         <div class="form-group">
-            <label for="id_requerimiento">ID Requerimiento</label>
-            <input type="number" id="id_requerimiento" name="id_requerimiento" required>
+            <label for="id_requerimiento">Requerimiento</label>
+            <select id="id_requerimiento" name="id_requerimiento" class="form-select" required>
+                <option value="" disabled selected>Seleccione requerimiento</option>
+                {% for req in requerimientos %}
+                    <option value="{{ req.id_requerimiento }}">Etapa {{ req.etapa.nombre }} (ID {{ req.id_requerimiento }})</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
-            <label for="id_condicion">ID Condición</label>
-            <input type="number" id="id_condicion" name="id_condicion" required>
+            <label for="id_condicion">Condición</label>
+            <select id="id_condicion" name="id_condicion" class="form-select" required>
+                <option value="" disabled selected>Seleccione condición</option>
+                {% for c in condiciones %}
+                    <option value="{{ c.id_condicion }}">{{ c.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
         <a href="{{ url_for('requerimientos_condiciones.index_html') }}" class="btn btn-secondary ms-2">Volver</a>

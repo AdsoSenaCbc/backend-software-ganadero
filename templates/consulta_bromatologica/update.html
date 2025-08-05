@@ -9,8 +9,12 @@
             <input type="datetime-local" id="fecha_consulta" name="fecha_consulta" value="{{ cons.fecha_consulta|replace(' ', 'T') }}">
         </div>
         <div class="form-group">
-            <label for="id_usuario">ID Usuario</label>
-            <input type="number" id="id_usuario" name="id_usuario" value="{{ cons.id_usuario }}" required>
+            <label for="id_usuario">Usuario</label>
+            <select id="id_usuario" name="id_usuario" class="form-select" required>
+                {% for u in usuarios %}
+                    <option value="{{ u.id_usuario }}" {% if u.id_usuario == cons.id_usuario %}selected{% endif %}>{{ u.nombres }} {{ u.apellidos }} (ID {{ u.id_usuario }})</option>
+                {% endfor %}
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         <a href="{{ url_for('consulta_bromatologica.index_html') }}" class="btn btn-secondary ms-2">Volver</a>

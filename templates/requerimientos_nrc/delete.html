@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Requerimiento NRC - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Eliminar Requerimiento NRC</h2>
+    <p>¿Está seguro de que desea eliminar el requerimiento NRC #{{ req.id }}?</p>
+    <form method="POST" action="{{ url_for('requerimientos_nrc.delete_html', id=req.id) }}">
+        <button type="submit" class="btn delete">Eliminar</button>
+        <a href="{{ url_for('requerimientos_nrc.index_html') }}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

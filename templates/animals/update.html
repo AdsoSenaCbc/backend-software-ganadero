@@ -11,22 +11,46 @@
     <input type="text" id="nombre" name="nombre" value="{{ animal.nombre }}">
 
     <label for="id_hacienda">Hacienda:</label>
-    <input type="number" id="id_hacienda" name="id_hacienda" value="{{ animal.id_hacienda }}" required>
+    <select id="id_hacienda" name="id_hacienda" class="form-select" required>
+        {% for h in haciendas %}
+            <option value="{{ h.id_hacienda }}" {% if h.id_hacienda == animal.id_hacienda %}selected{% endif %}>{{ h.nombre }}</option>
+        {% endfor %}
+    </select>
 
     <label for="id_raza">Raza:</label>
-    <input type="number" id="id_raza" name="id_raza" value="{{ animal.id_raza }}" required>
+    <select id="id_raza" name="id_raza" class="form-select" required>
+        {% for r in razas %}
+            <option value="{{ r.id_raza }}" {% if r.id_raza == animal.id_raza %}selected{% endif %}>{{ r.nombre }}</option>
+        {% endfor %}
+    </select>
 
     <label for="id_sexo">Sexo:</label>
-    <input type="number" id="id_sexo" name="id_sexo" value="{{ animal.id_sexo }}" required>
+    <select id="id_sexo" name="id_sexo" class="form-select" required>
+        {% for s in sexos %}
+            <option value="{{ s.id_sexo }}" {% if s.id_sexo == animal.id_sexo %}selected{% endif %}>{{ s.nombre }}</option>
+        {% endfor %}
+    </select>
 
     <label for="id_especie">Especie:</label>
-    <input type="number" id="id_especie" name="id_especie" value="{{ animal.id_especie }}" required>
+    <select id="id_especie" name="id_especie" class="form-select" required>
+        {% for e in especies %}
+            <option value="{{ e.id_especie }}" {% if e.id_especie == animal.id_especie %}selected{% endif %}>{{ e.nombre }}</option>
+        {% endfor %}
+    </select>
 
     <label for="id_estado">Estado:</label>
-    <input type="number" id="id_estado" name="id_estado" value="{{ animal.id_estado }}" required>
+    <select id="id_estado" name="id_estado" class="form-select" required>
+        {% for est in estados %}
+            <option value="{{ est.id_estado }}" {% if est.id_estado == animal.id_estado %}selected{% endif %}>{{ est.nombre_estado }}</option>
+        {% endfor %}
+    </select>
 
     <label for="id_etapa">Etapa:</label>
-    <input type="number" id="id_etapa" name="id_etapa" value="{{ animal.id_etapa }}" required>
+    <select id="id_etapa" name="id_etapa" class="form-select" required>
+        {% for et in etapas %}
+            <option value="{{ et.id_etapa }}" {% if et.id_etapa == animal.id_etapa %}selected{% endif %}>{{ et.nombre }}</option>
+        {% endfor %}
+    </select>
 
     <label for="peso">Peso (kg):</label>
     <input type="number" step="0.01" id="peso" name="peso" value="{{ animal.peso }}">

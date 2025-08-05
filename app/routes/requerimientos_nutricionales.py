@@ -110,7 +110,9 @@ def create_html():
         db.session.commit()
         flash('Requerimiento nutricional creado.', 'success')
         return redirect(url_for('requerimientos_nutricionales.index_html'))
-    return render_template('requerimientos_nutricionales/create.html')
+    etapas = EtapasProductivas.query.all()
+    nutrientes = Nutrientes.query.all()
+    return render_template('requerimientos_nutricionales/create.html', etapas=etapas, nutrientes=nutrientes)
 
 @requerimientos_nutricionales_bp.route('/<int:id>/update', methods=['GET', 'POST'])
 @login_required
@@ -128,7 +130,9 @@ def update_html(id):
         db.session.commit()
         flash('Requerimiento nutricional actualizado.', 'success')
         return redirect(url_for('requerimientos_nutricionales.index_html'))
-    return render_template('requerimientos_nutricionales/update.html', req=req)
+    etapas = EtapasProductivas.query.all()
+    nutrientes = Nutrientes.query.all()
+    return render_template('requerimientos_nutricionales/update.html', req=req, etapas=etapas, nutrientes=nutrientes)
 
 @requerimientos_nutricionales_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
 @login_required

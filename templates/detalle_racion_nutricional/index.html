@@ -8,8 +8,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>ID Ración</th>
-                <th>ID Nutriente</th>
+                <th>Ración</th>
+                <th>Nutriente</th>
                 <th>Valor Aportado</th>
                 <th>Acciones</th>
             </tr>
@@ -18,10 +18,10 @@
             {% for d in detalles %}
             <tr>
                 <td>{{ d.id_detalle_nut }}</td>
-                <td>{{ d.id_racion }}</td>
-                <td>{{ d.id_nutriente }}</td>
+                <td>{% set rac=raciones_lookup.get(d.id_racion) %}Ración {{ d.id_racion }} - Animal {{ rac.animal.nombre if rac and rac.animal else d.id_racion }}</td>
+                <td>{% set nut=nutrientes_lookup.get(d.id_nutriente) %}{{ nut.nombre if nut else d.id_nutriente }}</td>
                 <td>{{ d.valor_aportado }}</td>
-                <td>
+                <td class="table-actions">
                     <a href="{{ url_for('detalle_racion_nutricional.update_html', id=d.id_detalle_nut) }}" class="btn">Editar</a>
                     <a href="{{ url_for('detalle_racion_nutricional.delete_html', id=d.id_detalle_nut) }}" class="btn delete">Eliminar</a>
                 </td>

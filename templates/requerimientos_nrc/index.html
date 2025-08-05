@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Requerimientos NRC - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Requerimientos NRC</h2>
+    <a href="{{ url_for('requerimientos_nrc.create_html') }}" class="btn">Nuevo Requerimiento</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Etapa</th>
+                <th>Peso (kg)</th>
+                <th>Prod. Leche (kg)</th>
+                <th>Grasa Leche (%)</th>
+                <th>EM</th>
+                <th>PC</th>
+                <th>MS</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in requerimientos %}
+            <tr>
+                <td>{{ r.id }}</td>
+                <td>{{ etapas_lookup.get(r.etapa, r.etapa) }}</td>
+                <td>{{ r.peso }}</td>
+                <td>{{ r.produccion_leche }}</td>
+                <td>{{ r.grasa_leche }}</td>
+                <td>{{ r.em }}</td>
+                <td>{{ r.pc }}</td>
+                <td>{{ r.ms }}</td>
+                <td>{{ r.observaciones }}</td>
+                <td>
+                    <a href="{{ url_for('requerimientos_nrc.update_html', id=r.id) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('requerimientos_nrc.delete_html', id=r.id) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

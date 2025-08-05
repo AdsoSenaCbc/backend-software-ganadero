@@ -21,6 +21,7 @@ class Usuario(db.Model, UserMixin):
 
     rol = db.relationship('RolUsuario', backref='usuarios')
 
+
     # API de contraseña legible: atributo write-only 'password'
     @property
     def password(self):

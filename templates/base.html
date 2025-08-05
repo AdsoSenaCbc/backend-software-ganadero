@@ -7,15 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/crud.css') }}">
 </head>
 <body>
     <header class="site-header d-flex align-items-center">
         <button id="sidebarToggle" class="icon-btn me-3"><i class="fas fa-bars"></i></button>
         <nav class="d-flex align-items-center gap-4 ms-auto">
             <a href="{{ url_for('dashboard.index') }}" class="site-link text-white">Dashboard</a>
+           
             
         </nav>
         {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.logout') }}" id="logoutLink" class="site-link text-white">Cerrar Sesión</a>
         {% else %}
         <a href="{{ url_for('auth.login') }}" class="site-link text-white">Iniciar Sesión</a>
         <a href="{{ url_for('auth.register') }}" class="site-link text-white">Registrarse</a>
@@ -47,11 +50,16 @@
                 <li><a href="{{ url_for('animal.index') }}"><i class="fas fa-cow"></i> Animales</a></li>
                 <li><a href="{{ url_for('tipo_evento.index') }}"><i class="fas fa-calendar-alt"></i> Tipos de Evento</a></li>
                 <li><a href="{{ url_for('evento_animal.index') }}"><i class="fas fa-calendar-alt"></i> Eventos de Animal</a></li>
+                <li><a href="{{ url_for('historial_animal.index') }}"><i class="fas fa-calendar-alt"></i> Historial Animal</a></li>
+                <li><a href="{{ url_for('historial_hacienda.index') }}"><i class="fas fa-calendar-alt"></i> Historial Hacienda</a></li>
+                <li><a href="{{ url_for('nacimiento.index') }}"><i class="fas fa-calendar-alt"></i> Nacimientos</a></li>
                 <li><a href="{{ url_for('vacuna.index') }}"><i class="fas fa-vaccine"></i> Vacunas</a></li>
                 <li><a href="{{ url_for('lote_vacuna.index') }}"><i class="fas fa-boxes"></i> Lotes Vacunas</a></li>
                 <li><a href="{{ url_for('vacunacion_animal.index') }}"><i class="fas fa-vaccine"></i> Vacunación Animal</a></li>
                 <li><a href="{{ url_for('materia_prima.index') }}"><i class="fas fa-seedling"></i> Materias Primas</a></li>
                 <li><a href="{{ url_for('ingrediente.index') }}"><i class="fas fa-utensils"></i> Ingredientes</a></li>
+                <li><a href="{{ url_for('concentrados.index') }}"><i class="fas fa-utensils"></i> Concentrados</a></li>
+                <li><a href="{{ url_for('sales_minerales.index') }}"><i class="fas fa-utensils"></i> Sales Minerales</a></li>
                 <li><a href="{{ url_for('ingrediente_materia_prima.index') }}"><i class="fas fa-link"></i> Ingrediente-Materia Prima</a></li>
                 <li><a href="{{ url_for('nutrientes.index') }}"><i class="fas fa-seedling"></i> Nutrientes</a></li>
                 <li><a href="{{ url_for('caracteristicas_nutricionales.index') }}"><i class="fas fa-seedling"></i> Características Nutricionales</a></li>
@@ -59,6 +67,7 @@
                 <li><a href="{{ url_for('requerimientos_nutricionales.index') }}"><i class="fas fa-chart-pie"></i> Requerimientos Nutricionales</a></li>
                 <li><a href="{{ url_for('condiciones_especiales.index') }}"><i class="fas fa-heartbeat"></i> Condiciones Especiales</a></li>
                 <li><a href="{{ url_for('requerimientos_condiciones.index') }}"><i class="fas fa-chart-pie"></i> Requerimientos Condiciones</a></li>
+                <li><a href="{{ url_for('requerimientos_nrc.index') }}"><i class="fas fa-chart-pie"></i> Requerimientos NRC</a></li>
                 <li><a href="{{ url_for('racion.index') }}"><i class="fas fa-balance-scale"></i> Raciones</a></li>
                 <li><a href="{{ url_for('detalle_racion.index') }}"><i class="fas fa-list-ol"></i> Detalle Ración</a></li>
                 <li><a href="{{ url_for('detalle_racion_nutricional.index') }}"><i class="fas fa-chart-line"></i> Detalle Ración Nutricional</a></li>
@@ -82,5 +91,30 @@
     </div><!-- .dashboard -->
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const logoutLink = document.getElementById('logoutLink');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: '¿Cerrar sesión?',
+                        text: 'Se cerrará su sesión actual.',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, salir',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = logoutLink.getAttribute('href');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

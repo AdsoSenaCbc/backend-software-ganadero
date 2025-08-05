@@ -12,20 +12,35 @@ input[type=number]{ appearance:textfield; -moz-appearance:textfield; }
     <h2 style="text-align:center;color:#1e374d">Registrar Vacunación</h2>
     <form method="POST" action="{{ url_for('vacunacion_animal.create_form') }}">
       <div class="form-group">
-        <label for="id_animal">ID Animal</label>
-        <input type="number" id="id_animal" name="id_animal" required>
+        <label for="id_animal">Animal</label>
+        <select id="id_animal" name="id_animal" class="form-select" required>
+          <option value="" disabled selected>Seleccione animal</option>
+          {% for a in animals %}
+            <option value="{{ a.id_animal }}">{{ a.identificador_unico }} - {{ a.nombre }}</option>
+          {% endfor %}
+        </select>
       </div>
       <div class="form-group">
-        <label for="id_vacuna">ID Vacuna</label>
-        <input type="number" id="id_vacuna" name="id_vacuna" required>
+        <label for="id_vacuna">Vacuna</label>
+        <select id="id_vacuna" name="id_vacuna" class="form-select" required>
+          <option value="" disabled selected>Seleccione vacuna</option>
+          {% for vac in vacunas %}
+            <option value="{{ vac.id_vacuna }}">{{ vac.nombre }}</option>
+          {% endfor %}
+        </select>
       </div>
       <div class="form-group">
         <label for="fecha_aplicacion">Fecha de Aplicación</label>
         <input type="datetime-local" id="fecha_aplicacion" name="fecha_aplicacion" required>
       </div>
       <div class="form-group">
-        <label for="id_lote">ID Lote (opcional)</label>
-        <input type="number" id="id_lote" name="id_lote">
+        <label for="id_lote">Lote (opcional)</label>
+        <select id="id_lote" name="id_lote" class="form-select">
+          <option value="" selected>Sin lote</option>
+          {% for l in lotes %}
+            <option value="{{ l.id_lote }}">{{ l.codigo_lote }}</option>
+          {% endfor %}
+        </select>
       </div>
       <div class="form-group">
         <label for="observaciones">Observaciones</label>

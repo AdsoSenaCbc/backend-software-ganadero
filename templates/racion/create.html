@@ -5,20 +5,35 @@
     <h2>Crear Ración</h2>
     <form method="POST" action="{{ url_for('racion.create_html') }}">
         <div class="form-group">
-            <label for="id_animal">ID Animal</label>
-            <input type="number" id="id_animal" name="id_animal" required>
+            <label for="id_animal">Animal</label>
+            <select id="id_animal" name="id_animal" class="form-select" required>
+                <option value="" disabled selected>Seleccione animal</option>
+                {% for a in animales %}
+                    <option value="{{ a.id_animal }}">{{ a.nombre if a.nombre else (a.identificador_unico if a.identificador_unico else a.id_animal) }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
-            <label for="id_requerimiento">ID Requerimiento</label>
-            <input type="number" id="id_requerimiento" name="id_requerimiento" required>
+            <label for="id_requerimiento">Requerimiento</label>
+            <select id="id_requerimiento" name="id_requerimiento" class="form-select" required>
+                <option value="" disabled selected>Seleccione requerimiento</option>
+                {% for req in requerimientos %}
+                    <option value="{{ req.id_requerimiento }}">Etapa {{ req.etapa.nombre }} (ID {{ req.id_requerimiento }})</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="ms_total">MS Total</label>
             <input type="number" step="0.01" id="ms_total" name="ms_total">
         </div>
         <div class="form-group">
-            <label for="calculado_por">Calculado Por (ID Usuario)</label>
-            <input type="number" id="calculado_por" name="calculado_por">
+            <label for="calculado_por">Calculado Por</label>
+            <select id="calculado_por" name="calculado_por" class="form-select">
+                <option value="" disabled selected>Seleccione usuario</option>
+                {% for u in usuarios %}
+                    <option value="{{ u.id_usuario }}">{{ u.nombres }} {{ u.apellidos }} (ID {{ u.id_usuario }})</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="observaciones">Observaciones</label>

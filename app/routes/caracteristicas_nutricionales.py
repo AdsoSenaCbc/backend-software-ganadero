@@ -86,7 +86,10 @@ def create_html():
         db.session.commit()
         flash('Característica nutricional creada.', 'success')
         return redirect(url_for('caracteristicas_nutricionales.index_html'))
-    return render_template('caracteristicas_nutricionales/create.html')
+    # GET: cargar listas
+    ingredientes = Ingrediente.query.all()
+    nutrientes = Nutrientes.query.all()
+    return render_template('caracteristicas_nutricionales/create.html', ingredientes=ingredientes, nutrientes=nutrientes)
 
 @caracteristicas_nutricionales_bp.route('/<int:id>/update', methods=['GET', 'POST'])
 @login_required
@@ -100,7 +103,9 @@ def update_html(id):
         db.session.commit()
         flash('Característica nutricional actualizada.', 'success')
         return redirect(url_for('caracteristicas_nutricionales.index_html'))
-    return render_template('caracteristicas_nutricionales/update.html', c=c)
+    ingredientes = Ingrediente.query.all()
+    nutrientes = Nutrientes.query.all()
+    return render_template('caracteristicas_nutricionales/update.html', c=c, ingredientes=ingredientes, nutrientes=nutrientes)
 
 @caracteristicas_nutricionales_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
 @login_required

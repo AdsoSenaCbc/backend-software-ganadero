@@ -5,12 +5,22 @@
   <h2>Nueva Relación</h2>
   <form method="POST" action="{{ url_for('ingrediente_materia_prima.create') }}">
     <div class="form-group">
-      <label for="id_ingrediente">ID Ingrediente</label>
-      <input type="number" id="id_ingrediente" name="id_ingrediente" required style="-moz-appearance:textfield; appearance:textfield;">
+      <label for="id_ingrediente">Ingrediente</label>
+      <select id="id_ingrediente" name="id_ingrediente" class="form-select" required>
+        <option value="" disabled selected>Seleccione ingrediente</option>
+        {% for ing in ingredientes %}
+          <option value="{{ ing.id_ingrediente }}">{{ ing.nombre }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div class="form-group">
-      <label for="id_materia">ID Materia Prima</label>
-      <input type="number" id="id_materia" name="id_materia" required style="-moz-appearance:textfield; appearance:textfield;">
+      <label for="id_materia">Materia Prima</label>
+      <select id="id_materia" name="id_materia" class="form-select" required>
+        <option value="" disabled selected>Seleccione materia prima</option>
+        {% for m in materias %}
+          <option value="{{ m.id_materia }}">{{ m.nombre }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div class="form-group">
       <label for="cantidad_kg">Cantidad (kg)</label>

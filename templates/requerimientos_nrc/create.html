@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Crear Requerimiento NRC - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Crear Requerimiento NRC</h2>
+    <form method="POST" action="{{ url_for('requerimientos_nrc.create_html') }}">
+        <div class="form-group">
+            <label for="etapa">Etapa</label>
+            <select id="etapa" name="etapa" class="form-select" required>
+                <option value="" disabled selected>Seleccione etapa</option>
+                {% for e in etapas %}
+                    <option value="{{ e.id_etapa }}">{{ e.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" step="any" id="peso" name="peso" required onwheel="this.blur()">
+        </div>
+        <div class="form-group">
+            <label for="produccion_leche">Producción Leche (kg)</label>
+            <input type="number" step="any" id="produccion_leche" name="produccion_leche" onwheel="this.blur()">
+        </div>
+        <div class="form-group">
+            <label for="grasa_leche">Grasa Leche (%)</label>
+            <input type="number" step="any" id="grasa_leche" name="grasa_leche" onwheel="this.blur()">
+        </div>
+        <div class="form-group">
+            <label for="em">EM</label>
+            <input type="number" step="any" id="em" name="em" onwheel="this.blur()">
+        </div>
+        <div class="form-group">
+            <label for="pc">PC</label>
+            <input type="number" step="any" id="pc" name="pc" onwheel="this.blur()">
+        </div>
+        <div class="form-group">
+            <label for="ms">MS</label>
+            <input type="number" step="any" id="ms" name="ms" onwheel="this.blur()">
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ url_for('requerimientos_nrc.index_html') }}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

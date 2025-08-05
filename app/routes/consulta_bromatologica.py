@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from app import db
 from app.models.consulta_bromatologica import ConsultaBromatologica
+from app.models.usuario import Usuario
 from app.utils.jwt_utils import token_required
 
 consulta_bromatologica_bp = Blueprint('consulta_bromatologica', __name__)
@@ -66,7 +67,8 @@ from flask_login import login_required
 @login_required
 def index_html():
     consultas = ConsultaBromatologica.query.all()
-    return render_template('consulta_bromatologica/index.html', consultas=consultas)
+    usuarios_lookup = {u.id_usuario: u for u in Usuario.query.all()}
+    return render_template('consulta_bromatologica/index.html', consultas=consultas, usuarios_lookup=usuarios_lookup)
 
 @consulta_bromatologica_bp.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -81,7 +83,8 @@ def create_html():
         db.session.commit()
         flash('Consulta creada.', 'success')
         return redirect(url_for('consulta_bromatologica.index_html'))
-    return render_template('consulta_bromatologica/create.html')
+    usuarios = Usuario.query.all()
+    return render_template('consulta_bromatologica/create.html', usuarios=usuarios)
 
 @consulta_bromatologica_bp.route('/<int:id>/update', methods=['GET', 'POST'])
 @login_required
@@ -97,7 +100,8 @@ def update_html(id):
         db.session.commit()
         flash('Consulta actualizada.', 'success')
         return redirect(url_for('consulta_bromatologica.index_html'))
-    return render_template('consulta_bromatologica/update.html', cons=cons)
+    usuarios = Usuario.query.all()
+    return render_template('consulta_bromatologica/update.html', cons=cons, usuarios=usuarios)
 
 @consulta_bromatologica_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
 @login_required

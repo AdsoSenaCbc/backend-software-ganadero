@@ -5,12 +5,20 @@
     <h2>Actualizar Relación</h2>
     <form method="POST" action="{{ url_for('requerimientos_condiciones.update_html', id_requerimiento=rel.id_requerimiento, id_condicion=rel.id_condicion) }}">
         <div class="form-group">
-            <label for="id_requerimiento">ID Requerimiento</label>
-            <input type="number" id="id_requerimiento" name="id_requerimiento" value="{{ rel.id_requerimiento }}" required>
+            <label for="id_requerimiento">Requerimiento</label>
+            <select id="id_requerimiento" name="id_requerimiento" class="form-select" required>
+                {% for req in requerimientos %}
+                    <option value="{{ req.id_requerimiento }}" {% if req.id_requerimiento == rel.id_requerimiento %}selected{% endif %}>Etapa {{ req.etapa.nombre }} (ID {{ req.id_requerimiento }})</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
-            <label for="id_condicion">ID Condición</label>
-            <input type="number" id="id_condicion" name="id_condicion" value="{{ rel.id_condicion }}" required>
+            <label for="id_condicion">Condición</label>
+            <select id="id_condicion" name="id_condicion" class="form-select" required>
+                {% for c in condiciones %}
+                    <option value="{{ c.id_condicion }}" {% if c.id_condicion == rel.id_condicion %}selected{% endif %}>{{ c.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         <a href="{{ url_for('requerimientos_condiciones.index_html') }}" class="btn btn-secondary ms-2">Volver</a>

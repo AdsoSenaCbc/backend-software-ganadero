@@ -27,15 +27,17 @@
                 <td>{{ animal.identificador_unico }}</td>
                 <td>{{ animal.nombre }}</td>
                 <td>{{ animal.peso }}</td>
-                <td>{{ animal.id_raza }}</td>
-                <td>{{ animal.id_sexo }}</td>
-                <td>{{ animal.id_especie }}</td>
-                <td>{{ animal.id_estado }}</td>
-                <td>{{ animal.id_hacienda }}</td>
-                <td>{{ animal.id_etapa }}</td>
+                <td>{{ animal.raza.nombre if animal.raza else animal.id_raza }}</td>
+                <td>{{ animal.sexo.nombre if animal.sexo else animal.id_sexo }}</td>
+                <td>{{ animal.especie.nombre if animal.especie else animal.id_especie }}</td>
+                <td>{{ animal.estado.nombre_estado if animal.estado else animal.id_estado }}</td>
+                <td>{{ animal.hacienda.nombre if animal.hacienda else animal.id_hacienda }}</td>
+                <td>{{ animal.etapa.nombre if animal.etapa else animal.id_etapa }}</td>
                 <td>
-                    <a href="{{ url_for('animal.update', id=animal.id_animal) }}" class="btn">Editar</a>
-                    <a href="{{ url_for('animal.delete', id=animal.id_animal) }}" class="btn delete">Eliminar</a>
+                    <div class="action-buttons">
+                        <a href="{{ url_for('animal.update', id=animal.id_animal) }}" class="btn edit-btn">Editar</a>
+                        <a href="{{ url_for('animal.delete', id=animal.id_animal) }}" class="btn delete">Eliminar</a>
+                    </div>
                 </td>
             </tr>
             {% endfor %}

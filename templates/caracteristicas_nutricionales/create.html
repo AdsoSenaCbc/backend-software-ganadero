@@ -5,12 +5,22 @@
   <h2>Nueva Característica Nutricional</h2>
   <form method="POST" action="{{ url_for('caracteristicas_nutricionales.create_html') }}">
     <div class="form-group">
-      <label for="id_ingrediente">ID Ingrediente</label>
-      <input type="number" id="id_ingrediente" name="id_ingrediente" required style="appearance:textfield;-moz-appearance:textfield;">
+      <label for="id_ingrediente">Ingrediente</label>
+      <select id="id_ingrediente" name="id_ingrediente" class="form-select" required>
+        <option value="" disabled selected>Seleccione ingrediente</option>
+        {% for ing in ingredientes %}
+          <option value="{{ ing.id_ingrediente }}">{{ ing.nombre }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div class="form-group">
-      <label for="id_nutriente">ID Nutriente</label>
-      <input type="number" id="id_nutriente" name="id_nutriente" required style="appearance:textfield;-moz-appearance:textfield;">
+      <label for="id_nutriente">Nutriente</label>
+      <select id="id_nutriente" name="id_nutriente" class="form-select" required>
+        <option value="" disabled selected>Seleccione nutriente</option>
+        {% for nut in nutrientes %}
+          <option value="{{ nut.id_nutriente }}">{{ nut.nombre }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div class="form-group">
       <label for="valor">Valor</label>

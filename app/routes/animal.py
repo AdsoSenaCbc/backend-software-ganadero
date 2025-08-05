@@ -69,7 +69,21 @@ def create():
         db.session.commit()
         flash('Animal creado exitosamente.', 'success')
         return redirect(url_for('animal.index'))
-    return render_template('animals/create.html')
+    # GET: cargar listas para selects
+    from app.models.hacienda import Hacienda
+    from app.models.raza import Raza
+    from app.models.sexo import Sexo
+    from app.models.especie import Especie
+    from app.models.estado_animal import EstadoAnimal
+    from app.models.etapas_productivas import EtapasProductivas
+
+    haciendas = Hacienda.query.all()
+    razas = Raza.query.all()
+    sexos = Sexo.query.all()
+    especies = Especie.query.all()
+    estados = EstadoAnimal.query.all()
+    etapas = EtapasProductivas.query.all()
+    return render_template('animals/create.html', haciendas=haciendas, razas=razas, sexos=sexos, especies=especies, estados=estados, etapas=etapas)
 
 @animal_bp.route('/<int:id>/update', methods=['GET', 'POST'])
 @login_required
@@ -91,7 +105,21 @@ def update(id):
         db.session.commit()
         flash('Animal actualizado exitosamente.', 'success')
         return redirect(url_for('animal.index'))
-    return render_template('animals/update.html', animal=animal)
+    # GET: cargar listas para selects
+    from app.models.hacienda import Hacienda
+    from app.models.raza import Raza
+    from app.models.sexo import Sexo
+    from app.models.especie import Especie
+    from app.models.estado_animal import EstadoAnimal
+    from app.models.etapas_productivas import EtapasProductivas
+
+    haciendas = Hacienda.query.all()
+    razas = Raza.query.all()
+    sexos = Sexo.query.all()
+    especies = Especie.query.all()
+    estados = EstadoAnimal.query.all()
+    etapas = EtapasProductivas.query.all()
+    return render_template('animals/update.html', animal=animal, haciendas=haciendas, razas=razas, sexos=sexos, especies=especies, estados=estados, etapas=etapas)
 
 @animal_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
 @login_required

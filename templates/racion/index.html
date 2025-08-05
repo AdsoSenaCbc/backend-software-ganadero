@@ -21,11 +21,11 @@
             {% for r in raciones %}
             <tr>
                 <td>{{ r.id_racion }}</td>
-                <td>{{ r.id_animal }}</td>
-                <td>{{ r.id_requerimiento }}</td>
+                <td>{% set animal=animales_lookup.get(r.id_animal) %}{{ (animal.nombre if animal and animal.nombre else (animal.identificador_unico if animal else r.id_animal)) }}</td>
+                <td>{% set req=requerimientos_lookup.get(r.id_requerimiento) %}{{ req.etapa.nombre if req and req.etapa else r.id_requerimiento }}</td>
                 <td>{{ r.fecha_calculo }}</td>
                 <td>{{ r.ms_total }}</td>
-                <td>{{ r.calculado_por }}</td>
+                <td>{% set usr=usuarios_lookup.get(r.calculado_por|int) %}{{ usr.nombres ~ ' ' ~ usr.apellidos if usr else r.calculado_por }}</td>
                 <td>{{ r.observaciones }}</td>
                 <td>
                     <a href="{{ url_for('racion.update_html', id=r.id_racion) }}" class="btn">Editar</a>

@@ -74,7 +74,9 @@ from flask_login import login_required
 @login_required
 def index_html():
     detalles = DetalleRacionNutricional.query.all()
-    return render_template('detalle_racion_nutricional/index.html', detalles=detalles)
+    raciones_lookup = {r.id_racion: r for r in Racion.query.all()}
+    nutrientes_lookup = {n.id_nutriente: n for n in Nutrientes.query.all()}
+    return render_template('detalle_racion_nutricional/index.html', detalles=detalles, raciones_lookup=raciones_lookup, nutrientes_lookup=nutrientes_lookup)
 
 @detalle_racion_nutricional_bp.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -90,7 +92,9 @@ def create_html():
         db.session.commit()
         flash('Detalle nutricional creado.', 'success')
         return redirect(url_for('detalle_racion_nutricional.index_html'))
-    return render_template('detalle_racion_nutricional/create.html')
+    raciones = Racion.query.all()
+    nutrientes = Nutrientes.query.all()
+    return render_template('detalle_racion_nutricional/create.html', raciones=raciones, nutrientes=nutrientes)
 
 @detalle_racion_nutricional_bp.route('/<int:id>/update', methods=['GET', 'POST'])
 @login_required
@@ -104,7 +108,9 @@ def update_html(id):
         db.session.commit()
         flash('Detalle nutricional actualizado.', 'success')
         return redirect(url_for('detalle_racion_nutricional.index_html'))
-    return render_template('detalle_racion_nutricional/update.html', det=det)
+    raciones = Racion.query.all()
+    nutrientes = Nutrientes.query.all()
+    return render_template('detalle_racion_nutricional/update.html', det=det, raciones=raciones, nutrientes=nutrientes)
 
 @detalle_racion_nutricional_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
 @login_required

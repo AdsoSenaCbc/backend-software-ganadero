@@ -81,7 +81,10 @@ def create():
         db.session.commit()
         flash('Relación creada exitosamente.', 'success')
         return redirect(url_for('ingrediente_materia_prima.index'))
-    return render_template('ingrediente_materia_prima/create.html')
+    # GET: cargar listas para selects
+    ingredientes = Ingrediente.query.all()
+    materias = MateriaPrima.query.all()
+    return render_template('ingrediente_materia_prima/create.html', ingredientes=ingredientes, materias=materias)
 
 @ingrediente_materia_prima_bp.route('/<int:id_ingrediente>/<int:id_materia>/update', methods=['GET', 'POST'])
 @login_required
@@ -89,11 +92,15 @@ def update(id_ingrediente, id_materia):
     rel = IngredienteMateriaPrima.query.get_or_404((id_ingrediente, id_materia))
     if request.method == 'POST':
         data = request.form
+        rel.id_ingrediente = data.get('id_ingrediente', rel.id_ingrediente)
+        rel.id_materia = data.get('id_materia', rel.id_materia)
         rel.cantidad_kg = data.get('cantidad_kg', rel.cantidad_kg)
         db.session.commit()
         flash('Relación actualizada exitosamente.', 'success')
         return redirect(url_for('ingrediente_materia_prima.index'))
-    return render_template('ingrediente_materia_prima/update.html', r=rel)
+    ingredientes = Ingrediente.query.all()
+    materias = MateriaPrima.query.all()
+    return render_template('ingrediente_materia_prima/update.html', r=rel, ingredientes=ingredientes, materias=materias)
 
 @ingrediente_materia_prima_bp.route('/<int:id_ingrediente>/<int:id_materia>/delete', methods=['GET', 'POST'])
 @login_required

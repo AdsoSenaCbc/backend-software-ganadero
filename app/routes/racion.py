@@ -85,7 +85,11 @@ from flask_login import login_required
 @login_required
 def index_html():
     raciones = Racion.query.all()
-    return render_template('racion/index.html', raciones=raciones)
+    animales_lookup = {a.id_animal: a for a in Animal.query.all()}
+    requerimientos_lookup = {r.id_requerimiento: r for r in RequerimientosNutricionales.query.all()}
+    from app.models.usuario import Usuario
+    usuarios_lookup = {u.id_usuario: u for u in Usuario.query.all()}
+    return render_template('racion/index.html', raciones=raciones, animales_lookup=animales_lookup, requerimientos_lookup=requerimientos_lookup, usuarios_lookup=usuarios_lookup)
 
 @racion_bp.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -103,7 +107,11 @@ def create_html():
         db.session.commit()
         flash('Ración creada.', 'success')
         return redirect(url_for('racion.index_html'))
-    return render_template('racion/create.html')
+    animales = Animal.query.all()
+    requerimientos = RequerimientosNutricionales.query.all()
+    from app.models.usuario import Usuario
+    usuarios = Usuario.query.all()
+    return render_template('racion/create.html', animales=animales, requerimientos=requerimientos, usuarios=usuarios)
 
 @racion_bp.route('/<int:id>/update', methods=['GET', 'POST'])
 @login_required
@@ -119,7 +127,11 @@ def update_html(id):
         db.session.commit()
         flash('Ración actualizada.', 'success')
         return redirect(url_for('racion.index_html'))
-    return render_template('racion/update.html', rac=rac)
+    animales = Animal.query.all()
+    requerimientos = RequerimientosNutricionales.query.all()
+    from app.models.usuario import Usuario
+    usuarios = Usuario.query.all()
+    return render_template('racion/update.html', rac=rac, animales=animales, requerimientos=requerimientos, usuarios=usuarios)
 
 @racion_bp.route('/<int:id>/delete', methods=['GET', 'POST'])
 @login_required

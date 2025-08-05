@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Historial Hacienda - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Eliminar Historial Hacienda</h2>
+    <p>¿Está seguro de que desea eliminar el historial #{{ hist.id_historial }}?</p>
+    <form method="POST" action="{{ url_for('historial_hacienda.delete_html', id=hist.id_historial) }}">
+        <button type="submit" class="btn delete">Eliminar</button>
+        <a href="{{ url_for('historial_hacienda.index_html') }}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

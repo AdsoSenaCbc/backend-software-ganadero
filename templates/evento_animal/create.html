@@ -10,16 +10,26 @@ input[type=number] { appearance: textfield; -moz-appearance: textfield; }
     <h2>Crear Nuevo Evento</h2>
     <form method="POST" action="{{ url_for('evento_animal.create_evento') }}">
         <div class="form-group">
-            <label for="id_animal">ID Animal</label>
-            <input type="number" id="id_animal" name="id_animal" required>
+            <label for="id_animal">Animal</label>
+            <select id="id_animal" name="id_animal" class="form-select" required>
+                <option value="" disabled selected>Seleccione animal</option>
+                {% for a in animals %}
+                    <option value="{{ a.id_animal }}">{{ a.identificador_unico }} - {{ a.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="id_evento">ID Evento</label>
             <input type="number" id="id_evento" name="id_evento" required>
         </div>
         <div class="form-group">
-            <label for="id_tipo_evento">ID Tipo Evento</label>
-            <input type="number" id="id_tipo_evento" name="id_tipo_evento" required>
+            <label for="id_tipo_evento">Tipo de Evento</label>
+            <select id="id_tipo_evento" name="id_tipo_evento" class="form-select" required>
+                <option value="" disabled selected>Seleccione tipo</option>
+                {% for t in tipos_evento %}
+                    <option value="{{ t.id_tipo_evento }}">{{ t.nombre_tipo }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="valor">Valor (opcional)</label>

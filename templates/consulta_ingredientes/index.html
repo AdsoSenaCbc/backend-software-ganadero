@@ -7,8 +7,8 @@
     <table class="table-striped">
         <thead>
             <tr>
-                <th>ID Consulta</th>
-                <th>ID Ingrediente</th>
+                <th>Consulta</th>
+                <th>Ingrediente</th>
                 <th>Resultado</th>
                 <th>Acciones</th>
             </tr>
@@ -16,8 +16,8 @@
         <tbody>
             {% for c in consultas %}
             <tr>
-                <td>{{ c.id_consulta }}</td>
-                <td>{{ c.id_ingrediente }}</td>
+                <td>{% set con = consultas_lookup.get(c.id_consulta) %}Consulta {{ c.id_consulta }}{% if con %} - {{ con.fecha_consulta }}{% endif %}</td>
+                <td>{% set ing = ingredientes_lookup.get(c.id_ingrediente) %}{{ ing.nombre if ing else c.id_ingrediente }}</td>
                 <td>{{ c.resultado }}</td>
                 <td>
                     <a href="{{ url_for('consulta_ingredientes.update_html', id_consulta=c.id_consulta, id_ingrediente=c.id_ingrediente) }}" class="btn">Editar</a>

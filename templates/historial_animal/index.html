@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Historial Animal - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Historial Animal</h2>
+    <a href="{{ url_for('historial_animal.create_html') }}" class="btn">Nuevo Historial</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Animal</th>
+                <th>Hacienda</th>
+                <th>Fecha Ingreso</th>
+                <th>Fecha Salida</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for h in historiales %}
+            <tr>
+                <td>{{ h.id_historial }}</td>
+                <td>{% set a = animals_lookup.get(h.id_animal) %}{{ a.identificador_unico if a else h.id_animal }}</td>
+                <td>{% set hac = haciendas_lookup.get(h.id_hacienda) %}{{ hac.nombre if hac else h.id_hacienda }}</td>
+                <td>{{ h.fecha_ingreso }}</td>
+                <td>{{ h.fecha_salida or '' }}</td>
+                <td>{{ h.observaciones }}</td>
+                <td>
+                    <a href="{{ url_for('historial_animal.update_html', id=h.id_historial) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('historial_animal.delete_html', id=h.id_historial) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

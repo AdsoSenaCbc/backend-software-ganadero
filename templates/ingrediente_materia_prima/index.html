@@ -7,8 +7,8 @@
   <table class="table-striped">
     <thead>
       <tr>
-        <th>ID Ingrediente</th>
-        <th>ID Materia Prima</th>
+        <th>Ingrediente</th>
+        <th>Materia Prima</th>
         <th>Cantidad (kg)</th>
         <th>Acciones</th>
       </tr>
@@ -16,12 +16,14 @@
     <tbody>
       {% for r in relaciones %}
       <tr>
-        <td>{{ r.id_ingrediente }}</td>
-        <td>{{ r.id_materia }}</td>
+        <td>{{ r.ingrediente.nombre }}</td>
+        <td>{{ r.materia_prima.nombre }}</td>
         <td>{{ r.cantidad_kg }}</td>
         <td>
-          <a href="{{ url_for('ingrediente_materia_prima.update', id_ingrediente=r.id_ingrediente, id_materia=r.id_materia) }}" class="btn">Editar</a>
-          <a href="{{ url_for('ingrediente_materia_prima.delete_html', id_ingrediente=r.id_ingrediente, id_materia=r.id_materia) }}" class="btn delete">Eliminar</a>
+          <div class="action-buttons">
+            <a href="{{ url_for('ingrediente_materia_prima.update', id_ingrediente=r.id_ingrediente, id_materia=r.id_materia) }}" class="btn edit-btn">Editar</a>
+            <a href="{{ url_for('ingrediente_materia_prima.delete_html', id_ingrediente=r.id_ingrediente, id_materia=r.id_materia) }}" class="btn delete">Eliminar</a>
+          </div>
         </td>
       </tr>
       {% endfor %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Concentrado - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="card shadow-sm p-4 mt-4" style="max-width: 600px; margin: 0 auto;"></div>
+<h2>Eliminar Concentrado</h2>
+<p>¿Estás seguro de que deseas eliminar el concentrado {{ conc.id_concentrado }} ({{ conc.nombre }})?</p>
+<form method="POST" action="{{ url_for('concentrados.delete_html', id=conc.id_concentrado) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('concentrados.index') }}" class="btn">Cancelar</a>
+</form>
+</div>
+{% endblock %}

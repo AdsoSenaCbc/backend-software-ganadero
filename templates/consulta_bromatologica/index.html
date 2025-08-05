@@ -9,7 +9,7 @@
             <tr>
                 <th>ID</th>
                 <th>Fecha</th>
-                <th>ID Usuario</th>
+                <th>Usuario</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -18,8 +18,8 @@
             <tr>
                 <td>{{ c.id_consulta }}</td>
                 <td>{{ c.fecha_consulta }}</td>
-                <td>{{ c.id_usuario }}</td>
-                <td>
+                <td>{% set usr=usuarios_lookup.get(c.id_usuario) %}{{ usr.nombres ~ ' ' ~ usr.apellidos if usr else c.id_usuario }}</td>
+                <td class="table-actions">
                     <a href="{{ url_for('consulta_bromatologica.update_html', id=c.id_consulta) }}" class="btn">Editar</a>
                     <a href="{{ url_for('consulta_bromatologica.delete_html', id=c.id_consulta) }}" class="btn delete">Eliminar</a>
                 </td>

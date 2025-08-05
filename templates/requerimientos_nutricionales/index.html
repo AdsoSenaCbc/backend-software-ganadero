@@ -22,16 +22,18 @@
             {% for r in requerimientos %}
             <tr>
                 <td>{{ r.id_requerimiento }}</td>
-                <td>{{ r.id_etapa }}</td>
+                <td>{{ r.etapa.nombre if r.etapa else r.id_etapa }}</td>
                 <td>{{ r.peso_min }}</td>
                 <td>{{ r.peso_max }}</td>
-                <td>{{ r.id_nutriente }}</td>
+                <td>{{ r.nutriente.nombre if r.nutriente else '' }}</td>
                 <td>{{ r.valor_min }}</td>
                 <td>{{ r.valor_max }}</td>
                 <td>{{ r.condicion }}</td>
                 <td>
-                    <a href="{{ url_for('requerimientos_nutricionales.update_html', id=r.id_requerimiento) }}" class="btn">Editar</a>
-                    <a href="{{ url_for('requerimientos_nutricionales.delete_html', id=r.id_requerimiento) }}" class="btn delete">Eliminar</a>
+                    <div class="action-buttons">
+                        <a href="{{ url_for('requerimientos_nutricionales.update_html', id=r.id_requerimiento) }}" class="btn edit-btn">Editar</a>
+                        <a href="{{ url_for('requerimientos_nutricionales.delete_html', id=r.id_requerimiento) }}" class="btn delete">Eliminar</a>
+                    </div>
                 </td>
             </tr>
             {% endfor %}

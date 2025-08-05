@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Nacimientos - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Nacimientos</h2>
+    <a href="{{ url_for('nacimiento.create_html') }}" class="btn">Nuevo Nacimiento</a>
+    <table class="table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cría</th>
+                <th>Madre</th>
+                <th>Padre</th>
+                <th>Fecha</th>
+                <th>Peso (kg)</th>
+                <th>Tipo Parto</th>
+                <th>Complicaciones</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in nacimientos %}
+            <tr>
+                <td>{{ n.id_nacimiento }}</td>
+                <td>{{ animals_lookup.get(n.id_cria).identificador_unico if animals_lookup.get(n.id_cria) else n.id_cria }}</td>
+                <td>{{ animals_lookup.get(n.id_madre).identificador_unico if animals_lookup.get(n.id_madre) else n.id_madre }}</td>
+                <td>{{ animals_lookup.get(n.id_padre).identificador_unico if animals_lookup.get(n.id_padre) else n.id_padre }}</td>
+                <td>{{ n.fecha_nacimiento }}</td>
+                <td>{{ n.peso_nacimiento }}</td>
+                <td>{{ n.tipo_parto }}</td>
+                <td>{{ n.complicaciones }}</td>
+                <td>{{ n.observaciones }}</td>
+                <td>
+                    <a href="{{ url_for('nacimiento.update_html', id=n.id_nacimiento) }}" class="btn">Editar</a>
+                    <a href="{{ url_for('nacimiento.delete_html', id=n.id_nacimiento) }}" class="btn delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

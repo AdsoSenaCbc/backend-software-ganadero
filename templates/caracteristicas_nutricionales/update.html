@@ -8,12 +8,20 @@
       <label>ID: {{ c.id_caracteristica }}</label>
     </div>
     <div class="form-group">
-      <label for="id_ingrediente">ID Ingrediente</label>
-      <input type="number" id="id_ingrediente" name="id_ingrediente" value="{{ c.id_ingrediente }}" required style="appearance:textfield;-moz-appearance:textfield;">
+      <label for="id_ingrediente">Ingrediente</label>
+      <select id="id_ingrediente" name="id_ingrediente" class="form-select" required>
+        {% for ing in ingredientes %}
+          <option value="{{ ing.id_ingrediente }}" {% if ing.id_ingrediente == c.id_ingrediente %}selected{% endif %}>{{ ing.nombre }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div class="form-group">
-      <label for="id_nutriente">ID Nutriente</label>
-      <input type="number" id="id_nutriente" name="id_nutriente" value="{{ c.id_nutriente }}" required style="appearance:textfield;-moz-appearance:textfield;">
+      <label for="id_nutriente">Nutriente</label>
+      <select id="id_nutriente" name="id_nutriente" class="form-select" required>
+        {% for nut in nutrientes %}
+          <option value="{{ nut.id_nutriente }}" {% if nut.id_nutriente == c.id_nutriente %}selected{% endif %}>{{ nut.nombre }}</option>
+        {% endfor %}
+      </select>
     </div>
     <div class="form-group">
       <label for="valor">Valor</label>

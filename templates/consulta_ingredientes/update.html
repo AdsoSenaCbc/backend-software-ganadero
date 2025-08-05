@@ -5,12 +5,20 @@
     <h2>Actualizar Consulta de Ingrediente</h2>
     <form method="POST" action="{{ url_for('consulta_ingredientes.update_html', id_consulta=cons.id_consulta, id_ingrediente=cons.id_ingrediente) }}">
         <div class="form-group">
-            <label for="id_consulta">ID Consulta</label>
-            <input type="number" id="id_consulta" name="id_consulta" value="{{ cons.id_consulta }}" readonly>
+            <label for="id_consulta">Consulta</label>
+            <select id="id_consulta" name="id_consulta" class="form-select" disabled>
+                {% for con in consultas %}
+                    <option value="{{ con.id_consulta }}" {% if con.id_consulta == cons.id_consulta %}selected{% endif %}>Consulta {{ con.id_consulta }} - {{ con.fecha_consulta }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
-            <label for="id_ingrediente">ID Ingrediente</label>
-            <input type="number" id="id_ingrediente" name="id_ingrediente" value="{{ cons.id_ingrediente }}" readonly>
+            <label for="id_ingrediente">Ingrediente</label>
+            <select id="id_ingrediente" name="id_ingrediente" class="form-select" disabled>
+                {% for ing in ingredientes %}
+                    <option value="{{ ing.id_ingrediente }}" {% if ing.id_ingrediente == cons.id_ingrediente %}selected{% endif %}>{{ ing.nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
             <label for="resultado">Resultado</label>

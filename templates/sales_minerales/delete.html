@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Eliminar Sal Mineral - Sistema Ganadero{% endblock %}
+{% block content %}
+<div class="card shadow-sm p-4 mt-4" style="max-width: 600px; margin: 0 auto;">
+  <h2>Eliminar Sal Mineral</h2>
+  <p>¿Estás seguro de que deseas eliminar la sal mineral {{ sale.id_sale_mineral }} ({{ sale.nombre }})?</p>
+  <form method="POST" action="{{ url_for('sales_minerales.delete_html', id=sale.id_sale_mineral) }}">
+    <button type="submit" class="btn delete">Confirmar Eliminación</button>
+    <a href="{{ url_for('sales_minerales.index') }}" class="btn">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

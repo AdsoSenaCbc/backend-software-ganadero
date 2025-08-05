@@ -7,19 +7,21 @@
     <table class="table-striped">
         <thead>
             <tr>
-                <th>ID Requerimiento</th>
-                <th>ID Condición</th>
+                <th>Requerimiento</th>
+                <th>Condición</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             {% for r in relaciones %}
             <tr>
-                <td>{{ r.id_requerimiento }}</td>
-                <td>{{ r.id_condicion }}</td>
+                <td>{{ r.requerimiento.etapa.nombre if r.requerimiento and r.requerimiento.etapa else r.id_requerimiento }}</td>
+                <td>{{ r.condicion.nombre if r.condicion else r.id_condicion }}</td>
                 <td>
-                    <a href="{{ url_for('requerimientos_condiciones.update_html', id_requerimiento=r.id_requerimiento, id_condicion=r.id_condicion) }}" class="btn">Editar</a>
-                    <a href="{{ url_for('requerimientos_condiciones.delete_html', id_requerimiento=r.id_requerimiento, id_condicion=r.id_condicion) }}" class="btn delete">Eliminar</a>
+                    <div class="action-buttons">
+                        <a href="{{ url_for('requerimientos_condiciones.update_html', id_requerimiento=r.id_requerimiento, id_condicion=r.id_condicion) }}" class="btn edit-btn">Editar</a>
+                        <a href="{{ url_for('requerimientos_condiciones.delete_html', id_requerimiento=r.id_requerimiento, id_condicion=r.id_condicion) }}" class="btn delete-btn">Eliminar</a>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
