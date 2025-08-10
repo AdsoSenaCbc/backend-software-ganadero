@@ -24,8 +24,11 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JWT_SECRET_KEY'] = 'tu-clave-secreta-aqui' 
     app.config['SECRET_KEY'] = 'otra-clave-secreta'  
-    app.config['JWT_TOKEN_LOCATION'] = ['cookies']
-    app.config['JWT_COOKIE_SECURE'] = False  
+    app.config['JWT_TOKEN_LOCATION'] = ['headers', 'cookies']
+
+    # Habilitar CORS para los endpoints API y permitir envío de credenciales (token)
+    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+    app.config['JWT_COOKIE_SECURE'] = False  # cookies solo si se usan  
     app.config['JWT_ACCESS_CSRF_PROTECT'] = False 
 
 
@@ -55,12 +58,13 @@ def create_app():
             'consulta_ingredientes': ('consulta_ingredientes', '/api/consultas-ingredientes'),
             'concentrados': ('concentrados', '/api/concentrados'),
             'sales_minerales': ('sales_minerales', '/api/sales-minerales'),
-            'departamento': ('departamento', '/api/departamentos'),
+            'departamento': ('departamento', '/api/departamentos'),  # Corrección aquí
             'detalle_racion': ('detalle_racion', '/api/detalles-racion'),
             'detalle_racion_nutricional': ('detalle_racion_nutricional', '/api/detalles-racion-nutricional'),
             'especie': ('especie', '/api/especies'),
             'estado_animal': ('estado_animal', '/api/estados-animal'),
             'etapas_productivas': ('etapas_productivas', '/api/etapas-productivas'),
+            'animal': ('animal', '/api/animals'),
             'evento_animal': ('evento_animal', '/api/eventos-animal'),
             'hacienda': ('hacienda', '/api/haciendas'),
             'historial_animal': ('historial_animal', '/api/historiales-animal'),
@@ -69,7 +73,7 @@ def create_app():
             'ingrediente_materia_prima': ('ingrediente_materia_prima', '/api/ingredientes-materia-prima'),
             'lote_vacuna': ('lote_vacuna', '/api/lotes-vacuna'),
             'materia_prima': ('materia_prima', '/api/materias-prima'),
-            'municipio': ('municipio', '/api/municipios'),
+            'municipio': ('municipio', '/api/municipios'),  # Corrección aquí
             'nacimiento': ('nacimiento', '/api/nacimientos'),
             'nutrientes': ('nutrientes', '/api/nutrientes'),
             'racion': ('racion', '/api/raciones'),
@@ -115,4 +119,3 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
-

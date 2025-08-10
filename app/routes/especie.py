@@ -55,7 +55,7 @@ def delete_especie_form(id):
 # --------------------------
 # API JSON ENDPOINTS
 # --------------------------
-@especie_bp.route('/api/especies', methods=['GET'])
+@especie_bp.route('/', methods=['GET'])
 @token_required
 def get_especies_api():
     especies = Especie.query.all()
@@ -64,7 +64,14 @@ def get_especies_api():
         "nombre": e.nombre
     } for e in especies])
 
-@especie_bp.route('/api/<int:id>', methods=['GET'])
+# Alias lista para frontend
+@especie_bp.route('/list', methods=['GET'])
+@token_required
+def list_especies_api():
+    """Devuelve todas las especies (alias)."""
+    return get_especies_api()
+
+@especie_bp.route('/<int:id>', methods=['GET'])
 @token_required
 def get_especie_api(id):
     especie = Especie.query.get_or_404(id)
@@ -73,7 +80,7 @@ def get_especie_api(id):
         "nombre": e.nombre
     })
 
-@especie_bp.route('/api', methods=['POST'])
+@especie_bp.route('/', methods=['POST'])
 @token_required
 def create_especie_api():
     data = request.get_json()
@@ -84,7 +91,7 @@ def create_especie_api():
     db.session.commit()
     return jsonify({"message": "Especie created", "id": new_especie.id_especie}), 201
 
-@especie_bp.route('/api/<int:id>', methods=['PUT'])
+@especie_bp.route('/<int:id>', methods=['PUT'])
 @token_required
 def update_especie_api(id):
     especie = Especie.query.get_or_404(id)
@@ -93,7 +100,7 @@ def update_especie_api(id):
     db.session.commit()
     return jsonify({"message": "Especie updated"})
 
-@especie_bp.route('/api/<int:id>', methods=['DELETE'])
+@especie_bp.route('/<int:id>', methods=['DELETE'])
 @token_required
 def delete_especie_api(id):
 

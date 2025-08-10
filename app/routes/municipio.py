@@ -59,6 +59,18 @@ def delete_municipio(id):
 
 # --------------------------
 # API JSON ENDPOINTS
+# Ruta pública con prefijo /api/municipios/
+@municipio_bp.route('/', methods=['GET'])
+@token_required
+def list_municipios_public():
+    return get_municipios_api()
+
+# Endpoint específico para el frontend React
+@municipio_bp.route('/list', methods=['GET'])
+@token_required
+def api_list_municipios():
+    return get_municipios_api()
+
 # --------------------------
 @municipio_bp.route('/api', methods=['GET'])
 @token_required

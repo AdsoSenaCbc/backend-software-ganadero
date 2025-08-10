@@ -55,7 +55,7 @@ def delete_sexo_form(id):
 # --------------------------
 # API JSON ENDPOINTS
 # --------------------------
-@sexo_bp.route('/api/sexos', methods=['GET'])
+@sexo_bp.route('/', methods=['GET'])
 @token_required
 def get_sexos_api():
     sexos = Sexo.query.all()
@@ -66,7 +66,7 @@ def get_sexos_api():
         } for s in sexos
     ])
 
-@sexo_bp.route('/api/<int:id>', methods=['GET'])
+@sexo_bp.route('/<int:id>', methods=['GET'])
 @token_required
 def get_sexo_api(id):
     sexo = Sexo.query.get_or_404(id)
@@ -75,7 +75,7 @@ def get_sexo_api(id):
         "nombre": s.nombre,
     })
 
-@sexo_bp.route('/api', methods=['POST'])
+@sexo_bp.route('/', methods=['POST'])
 @token_required
 def create_sexo_api():
     data = request.get_json()
@@ -86,7 +86,7 @@ def create_sexo_api():
     db.session.commit()
     return jsonify({"message": "Sexo created", "id": new_sexo.id_sexo}), 201
 
-@sexo_bp.route('/api/<int:id>', methods=['PUT'])
+@sexo_bp.route('/<int:id>', methods=['PUT'])
 @token_required
 def update_sexo_api(id):
     sexo = Sexo.query.get_or_404(id)
@@ -95,17 +95,21 @@ def update_sexo_api(id):
     db.session.commit()
     return jsonify({"message": "Sexo updated"})
 
-@sexo_bp.route('/api/<int:id>', methods=['DELETE'])
+# Alias para lista con sufijo /list para consumo de frontend
+@sexo_bp.route('/list', methods=['GET'])
+@token_required
+def list_sexos_api():
+    """Devuelve la misma lista que get_sexos_api"""
+    return get_sexos_api()
+
+@sexo_bp.route('/<int:id>', methods=['DELETE'])
 @token_required
 def delete_sexo_api(id):
     sexo = Sexo.query.get_or_404(id)
-    if request.method == 'POST':
-        data = request.form
-        sexo.id_sexo = data.get('id_sexo', sexo.id_sexo)
-        sexo.nombre = data.get('nombre', sexo.nombre)
-        db.session.commit()
-        flash('Sexo actualizado exitosamente.', 'success')
-        return redirect(url_for('sexo.index'))
+    db.session.delete(sexo)
+    db.session.commit()
+    return jsonify({"message": "Sexo deleted"})
+
     return render_template('sexo/update.html', sexo=sexo)
 
 @sexo_bp.route('/<int:id>/delete', methods=['GET', 'POST'])

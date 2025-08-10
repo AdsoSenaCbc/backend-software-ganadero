@@ -19,6 +19,13 @@ def get_etapas_api():
         "descripcion": e.descripcion
     } for e in etapas])
 
+# Alias lista para frontend
+@etapas_productivas_bp.route('/list', methods=['GET'])
+@token_required
+def list_etapas_api():
+    """Devuelve todas las etapas productivas (alias)."""
+    return get_etapas_api()
+
 @etapas_productivas_bp.route('/api/<int:id>', methods=['GET'])
 @token_required
 def get_etapa_api(id):

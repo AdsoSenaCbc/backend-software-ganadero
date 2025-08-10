@@ -7,6 +7,32 @@ from flask_login import login_required
 user_bp = Blueprint('user', __name__)
 
 # --------------------------
+# API JSON ENDPOINTS
+# --------------------------
+@user_bp.route('/api', methods=['GET'])
+@token_required
+def get_users_api():
+    users = Usuario.query.all()
+    return jsonify([
+        {
+            "id_usuario": u.id_usuario,
+            "nombres": u.nombres,
+            "apellidos": u.apellidos
+        } for u in users
+    ])
+
+@user_bp.route('/', methods=['GET'])
+@token_required
+def list_users_public():
+    return get_users_api()
+
+# Endpoint específico para el frontend React
+@user_bp.route('/list', methods=['GET'])
+@token_required
+def api_list_users():
+    return get_users_api()
+
+# --------------------------
 # HTML FORM ROUTES
 # --------------------------
 @user_bp.route('/', methods=['GET'])

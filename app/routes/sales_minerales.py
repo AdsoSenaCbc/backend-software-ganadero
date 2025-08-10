@@ -27,7 +27,7 @@ def get_sale_api(id):
 @token_required
 def create_sale_api():
     data = request.get_json()
-    nuevo = SalesMinerales(nombre=data.get('nombre'), composicion=data.get('composicion'), contenido_principal=data.get('contenido_principal'), uso_principal=data.get('uso_principal'), costo_kg=data.get('costo_kg'))
+    nuevo = SalesMinerales(nombre=data.get('nombre'), uso_principal=data.get('uso_principal'), costo_kg=data.get('costo_kg'))
     db.session.add(nuevo)
     db.session.commit()
     return jsonify({"message": "Sal mineral creada", "id": nuevo.id_sale_mineral}), 201
@@ -38,8 +38,6 @@ def update_sale_api(id):
     s = SalesMinerales.query.get_or_404(id)
     data = request.get_json()
     s.nombre = data.get('nombre', s.nombre)
-    s.composicion = data.get('composicion', s.composicion)
-    s.contenido_principal = data.get('contenido_principal', s.contenido_principal)
     s.uso_principal = data.get('uso_principal', s.uso_principal)
     s.costo_kg = data.get('costo_kg', s.costo_kg)
     db.session.commit()
@@ -79,8 +77,6 @@ def create_html():
         data = request.form
         nuevo = SalesMinerales(
             nombre=data.get('nombre'),
-            composicion=data.get('composicion'),
-            contenido_principal=data.get('contenido_principal'),
             uso_principal=data.get('uso_principal'),
             costo_kg=data.get('costo_kg')
         )
@@ -100,8 +96,6 @@ def update_html(id):
     if request.method == 'POST':
         data = request.form
         sale.nombre = data.get('nombre', sale.nombre)
-        sale.composicion = data.get('composicion', sale.composicion)
-        sale.contenido_principal = data.get('contenido_principal', sale.contenido_principal)
         sale.uso_principal = data.get('uso_principal', sale.uso_principal)
         sale.costo_kg = data.get('costo_kg', sale.costo_kg)
         db.session.commit()

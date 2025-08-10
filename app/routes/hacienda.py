@@ -9,14 +9,51 @@ hacienda_bp = Blueprint('hacienda', __name__)
 # API JSON ENDPOINTS
 # --------------------------
 
-@hacienda_bp.route('/api', methods=['GET'])
+# API: Lista de haciendas
+@hacienda_bp.route('/', methods=['GET'])
 @token_required
 def get_haciendas_api():
     """Retorna la lista de haciendas en formato JSON"""
     haciendas = Hacienda.query.all()
     return jsonify([{"id": h.id_hacienda, "nombre": h.nombre} for h in haciendas])
 
-@hacienda_bp.route('/api/<int:id>', methods=['GET'])
+@hacienda_bp.route('/', methods=['POST'])
+@token_required
+def create_hacienda_api():
+    """Crea una nueva hacienda a partir de JSON"""
+    data = request.get_json()
+    if not data or 'nombre' not in data:
+        return jsonify({"error": "Datos incompletos"}), 400
+
+    nueva = Hacienda(
+        nombre=data.get('nombre'),
+        tel_contacto=data.get('tel_contacto'),
+        ubicacion=data.get('ubicacion'),
+        descripcion=data.get('descripcion'),
+        id_departamento=data.get('id_departamento'),
+        id_municipio=data.get('id_municipio'),
+        id_usuario=data.get('id_usuario'),
+    )
+    db.session.add(nueva)
+    db.session.commit()
+    return jsonify({"message": "Hacienda creada", "id": nueva.id_hacienda}), 201
+
+# Alias lista para selects
+@hacienda_bp.route('/list', methods=['GET'])
+@token_required
+def list_haciendas_api():
+    return get_haciendas_api()
+
+@hacienda_bp.route('/<int:id>', methods=['DELETE'])
+@token_required
+def delete_hacienda_api(id):
+    """Elimina una hacienda"""
+    hacienda = Hacienda.query.get_or_404(id)
+    db.session.delete(hacienda)
+    db.session.commit()
+    return jsonify({"message": "Hacienda eliminada"}), 200
+
+@hacienda_bp.route('/<int:id>', methods=['GET'])
 @token_required
 def get_hacienda_api(id):
     """Retorna una sola hacienda en formato JSON"""
@@ -110,15 +147,3 @@ def delete(id):
         flash('Hacienda eliminada exitosamente.', 'success')
         return redirect(url_for('hacienda.index'))
     return render_template('hacienda/delete.html', hacienda=hacienda)
-
-@hacienda_bp.route('/', methods=['GET'])
-@token_required
-def get_haciendas():
-    haciendas = Hacienda.query.all()
-    return jsonify([{"id": h.id_hacienda, "nombre": h.nombre} for h in haciendas])
-
-@hacienda_bp.route('/<int:id>', methods=['GET'])
-@token_required
-def get_hacienda(id):
-    hacienda = Hacienda.query.get_or_404(id)
-    return jsonify({"id": hacienda.id_hacienda, "nombre": hacienda.nombre})

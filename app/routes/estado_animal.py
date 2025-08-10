@@ -57,7 +57,7 @@ def delete_estado(id):
 # API JSON ENDPOINTS
 # --------------------------
 
-@estado_animal_bp.route('/api', methods=['GET'])
+@estado_animal_bp.route('/', methods=['GET'])
 @token_required
 def get_estados_api():
     estados = EstadoAnimal.query.all()
@@ -66,7 +66,7 @@ def get_estados_api():
         "nombre_estado": e.nombre_estado
     } for e in estados])
 
-@estado_animal_bp.route('/api/<int:id>', methods=['GET'])
+@estado_animal_bp.route('/<int:id>', methods=['GET'])
 @token_required
 def get_estado_api(id):
     estado = EstadoAnimal.query.get_or_404(id)
@@ -75,7 +75,7 @@ def get_estado_api(id):
         "nombre_estado": estado.nombre_estado
     })
 
-@estado_animal_bp.route('/api', methods=['POST'])
+@estado_animal_bp.route('/', methods=['POST'])
 @token_required
 def create_estado_api():
     data = request.get_json()
@@ -86,7 +86,7 @@ def create_estado_api():
     db.session.commit()
     return jsonify({"message": "Estado animal created", "id": new_estado.id_estado}), 201
 
-@estado_animal_bp.route('/api/<int:id>', methods=['PUT'])
+@estado_animal_bp.route('/<int:id>', methods=['PUT'])
 @token_required
 def update_estado_api(id):
     estado = EstadoAnimal.query.get_or_404(id)
@@ -95,10 +95,19 @@ def update_estado_api(id):
     db.session.commit()
     return jsonify({"message": "Estado animal updated"})
 
-@estado_animal_bp.route('/api/<int:id>', methods=['DELETE'])
+@estado_animal_bp.route('/<int:id>', methods=['DELETE'])
 @token_required
 def delete_estado_api(id):
     estado = EstadoAnimal.query.get_or_404(id)
     db.session.delete(estado)
     db.session.commit()
     return jsonify({"message": "Estado animal deleted"})
+
+# --------------------------
+# Alias lista para frontend
+# --------------------------
+@estado_animal_bp.route('/list', methods=['GET'])
+@token_required
+def list_estados_api():
+    """Devuelve los estados animales (alias)."""
+    return get_estados_api()

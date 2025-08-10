@@ -9,7 +9,9 @@ animal_bp = Blueprint('animal', __name__)
 # --------------------------
 # API JSON ENDPOINTS
 # --------------------------
-@animal_bp.route('/api', methods=['GET'])
+# API: lista de animales
+# Lista de animales
+@animal_bp.route('/', methods=['GET'])
 @token_required
 def get_animals_api():
     animals = Animal.query.all()
@@ -22,7 +24,29 @@ def get_animals_api():
         } for a in animals
     ])
 
-@animal_bp.route('/api/<int:id>', methods=['GET'])
+# Crear un animal
+@animal_bp.route('/', methods=['POST'])
+@token_required
+def create_animal_api():
+    """Crea un animal vía JSON body."""
+    data = request.get_json()
+    new_animal = Animal(
+        identificador_unico=data.get('identificador_unico'),
+        nombre=data.get('nombre'),
+        id_hacienda=data.get('id_hacienda'),
+        id_raza=data.get('id_raza'),
+        id_sexo=data.get('id_sexo'),
+        id_especie=data.get('id_especie'),
+        id_estado=data.get('id_estado'),
+        id_etapa=data.get('id_etapa'),
+        peso=data.get('peso'),
+        observaciones=data.get('observaciones')
+    )
+    db.session.add(new_animal)
+    db.session.commit()
+    return jsonify({"message": "Animal created", "id": new_animal.id_animal}), 201
+
+@animal_bp.route('/<int:id>', methods=['GET'])
 @token_required
 def get_animal_api(id):
     a = Animal.query.get_or_404(id)
@@ -132,3 +156,12 @@ def delete(id):
         flash('Animal eliminado exitosamente.', 'success')
         return redirect(url_for('animal.index'))
     return render_template('animals/delete.html', animal=animal)
+
+@animal_bp.route('/<int:id>', methods=['DELETE'])
+@token_required
+def delete_animal_api(id):
+    """Elimina un animal existente."""
+    animal = Animal.query.get_or_404(id)
+    db.session.delete(animal)
+    db.session.commit()
+    return jsonify({"message": "Animal deleted"})

@@ -102,6 +102,13 @@ def delete_raza_api(id):
     db.session.commit()
     return jsonify({"message": "Raza deleted"})
 
+# Alias para lista con sufijo /list para consumo de frontend
+@raza_bp.route('/list', methods=['GET'])
+@token_required
+def list_razas_api():
+    """Devuelve la misma lista que get_razas_api, alias para comodidad del frontend"""
+    return get_razas_api()
+
 # --------------------------
 # WEB ROUTES
 # --------------------------

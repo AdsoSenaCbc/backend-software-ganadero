@@ -8,6 +8,19 @@ departamento_bp = Blueprint('departamento', __name__)
 
 # --------------------------
 # API JSON ENDPOINTS
+# Ruta pública con prefijo /api/departamentos/
+# Ruta API pública: /departamento/api/departamentos/
+@departamento_bp.route('/', methods=['GET'])
+@token_required
+def list_departamentos_public():
+    return get_departamentos_api()
+
+# Endpoint específico para el frontend React
+@departamento_bp.route('/list', methods=['GET'])
+@token_required
+def api_list_departamentos():
+    return get_departamentos_api()
+
 # --------------------------
 @departamento_bp.route('/api', methods=['GET'])
 @token_required
